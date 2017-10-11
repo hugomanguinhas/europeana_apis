@@ -1,0 +1,214 @@
+<section>
+<p>The REST API allows you not only to search on and retrieve metadata, but gives you also powerful features based on technical metadata. Technical metadata is metadata which is extracted from media files which reside in records, such as the width and height of an image. These features give you the possibility to search for and filter on Europeana records by media information, for instance to only search for records which have extra large images, high-quality audio files, or which images match a particular colour. These features were developed as part of the Content Re-use Framework within the <a href="http://pro.europeana.eu/europeana-creative/">Europeana Creative</a> project.</p>
+
+<p>The media search features as described on this page are part of the existing <a href="/api/search/#request">search API</a>, <a href="/api/data-fields/#technical-metadata-facets">search facets</a> and the <a href="/api/record/#response">record API response</a>.</p>
+
+<h3>Background information</h3>
+
+<p>Europeana extracts technical metadata from all media URL's within all the Europeana records (present within the edm:isShownBy and edm:hasView fields) in specific time intervals to verify whether all links still resolve and to extract technical metadata from these media files. This information is then made available for search and included in the record API. This information is updated on a continuous basis.</p>
+
+<h4>Cardinality</h4>
+
+<p>A Europeana metadata record can contain a reference to zero, one or more media files. When a search is made on a technical metadata property or facet (such as image size), a record is returned if one of the media files present in the record match the search query.</p>
+
+<h3>Search</h3>
+
+<p>The <a href="/api/search/#request">search API</a> allows searching on the following media parameters:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 88px;">Parameter</th>
+			<th style="width: 93px;">Datatype</th>
+			<th style="width: 701px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 88px;">media</td>
+			<td style="width: 93px;">Boolean</td>
+			<td style="width: 701px;">Filter by records where an URL to the full media file is present in the edm:isShownBy or edm:hasView metadata and is resolvable.</td>
+		</tr>
+		<tr>
+			<td style="width: 88px;">thumbnail</td>
+			<td style="width: 93px;">Boolean</td>
+			<td style="width: 701px;">Filter by records where a thumbnail image has been generated for any of the WebResource media resources (thumbnail available in the edmPreview field).</td>
+		</tr>
+		<tr>
+			<td style="width: 88px;">colourpalette</td>
+			<td style="width: 93px;">String</td>
+			<td style="width: 701px;">Filter by images where one of the colours of an image matches the provided colour code. You can provide this parameter multiple times, the search will then do an 'AND' search on all the provided colours. See <a href="/api/search/#colour-palette">colour palette</a>.</td>
+		</tr>
+	</tbody>
+</table>
+<a name="facets"></a>
+
+<h4>Facets</h4>
+
+<p>The <a href="/api/search/">Search API</a> returns a list of media-related facets to tell more about the distribution of media information on the search results. The facets also can be included in search queries to allow for very specific media searches such as querying on image size or audio duration.</p>
+
+<p>The following facets are available in the facets profile in search and can be searched on as well:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 187px;">Facet name</th>
+			<th style="width: 87px;">Datatype</th>
+			<th style="width: 115px;">Media type</th>
+			<th style="width: 487px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 187px;">MEDIA</td>
+			<td style="width: 87px;">boolean</td>
+			<td style="width: 115px;"></td>
+			<td style="width: 487px;">To indicate whether an URL to the full media file is present in the edm:isShownBy or edm:hasView metadata and is resolvable.</td>
+		</tr>
+		<tr>
+			<td style="width: 187px;">MIME_TYPE</td>
+			<td style="width: 87px;">string</td>
+			<td style="width: 115px;"></td>
+			<td style="width: 487px;">Mime-type of the file, e.g. image/jpeg</td>
+		</tr>
+		<tr>
+			<td style="width: 187px;">IMAGE_SIZE</td>
+			<td style="width: 87px;">string</td>
+			<td style="width: 115px;">Image</td>
+			<td style="width: 487px;">Size in megapixels of an image, values: small (&lt; 0.5MP), medium (0.5-1MP), large (1-4MP) and extra_large (&gt; 4MP)</td>
+		</tr>
+		<tr>
+			<td style="width: 187px;">IMAGE_COLOUR</td>
+			<td style="width: 87px;">boolean</td>
+			<td style="width: 115px;">Image</td>
+			<td style="width: 487px;">Lists 'true' for colour images. An alias to this facet is IMAGE_COLOR. For greyscale images, provide 'false'.</td>
+		</tr>
+		<tr>
+			<td style="width: 187px;">COLOURPALETTE</td>
+			<td style="width: 87px;">string</td>
+			<td style="width: 115px;">Image</td>
+			<td style="width: 487px;">The most dominant colours present in images, expressed in HEX-colour codes. See <a href="/api/search/#colour-palette">colour palette</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 187px;">IMAGE_ASPECTRATIO</td>
+			<td style="width: 87px;">string</td>
+			<td style="width: 115px;">Image</td>
+			<td style="width: 487px;">Portrait or landscape.</td>
+		</tr>
+		<tr>
+			<td style="width: 187px;">VIDEO_HD</td>
+			<td style="width: 87px;">boolean</td>
+			<td style="width: 115px;">Video</td>
+			<td style="width: 487px;">Lists 'true' for videos that have a resolution higher than 576p.</td>
+		</tr>
+		<tr>
+			<td style="width: 187px;">VIDEO_DURATION</td>
+			<td style="width: 87px;">string</td>
+			<td style="width: 115px;">Video</td>
+			<td style="width: 487px;">Duration of the video, values: short (&lt; 4 minutes), medium (4-20 minutes) and long (&gt; 20 minutes).</td>
+		</tr>
+		<tr>
+			<td style="width: 187px;">SOUND_HQ</td>
+			<td style="width: 87px;">boolean</td>
+			<td style="width: 115px;">Sound</td>
+			<td style="width: 487px;">Lists 'true' for sound files where the bit depth is 16 or higher or if the file format is a lossless file type (ALAC, FLAC, APE, SHN, WAV, WMA, AIFF &amp; DSD). Note that 'false' does not work for this facet.</td>
+		</tr>
+		<tr>
+			<td style="width: 187px;">SOUND_DURATION</td>
+			<td style="width: 87px;">string</td>
+			<td style="width: 115px;">Sound</td>
+			<td style="width: 487px;">Duration of the sound file, values: very_short (&lt; 30 seconds), short (30 seconds - 3 minutes), medium (3-6 minutes) and long (&gt; 6 minutes).</td>
+		</tr>
+		<tr>
+			<td style="width: 187px;">TEXT_FULLTEXT</td>
+			<td style="width: 87px;">boolean</td>
+			<td style="width: 115px;">Text</td>
+			<td style="width: 487px;">Lists 'true' for text media types which are searchable, e.g. a PDF with text.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Sample use-case: large openly licensed images of paintings</h3>
+
+<p>The following section will help you build a simple application based on the media search and retrieval capabilities of the REST API. For this use-case we will construct API queries to retrieve openly licensed large and extra large images of paintings, display their thumbnails on a page and then display part of their technical metadata on a separate page for the image. This section will provide guidance on how to use the API in order to fulfil this use-case.</p>
+
+<h4>Retrieving large and extra large images</h4>
+
+<p>We will start with the search query to retrieve the records. For this, we use the following:</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=what:painting&amp;media=true&amp;qf=IMAGE_SIZE:large&amp;qf=IMAGE_SIZE:extra_large&amp;reusability=open</p>
+</blockquote>
+To breakdown the search query:
+
+<ul>
+	<li>wskey=xxxx - API authentication, replace xxxx with your API key.</li>
+	<li>query=what:painting - Search for records where the subject is a painting.</li>
+	<li>media=true - Records where there is a link to a media file present in the metadata and where this links resolves to a working media file. Note that this parameter is not actually needed when you do a query for any of the media facets, which already imply the value of this parameter.</li>
+	<li>qf=IMAGE_SIZE:large - Records where an image is present of a large size (1-4MP).</li>
+	<li>qf=IMAGE_SIZE:extra_large - Records where an image is present of an extra large size (&gt;4 MP), note that the qf parameter can be included more than once and in this case equals to an 'OR' query.</li>
+	<li>reusability=open - Ensure that only openly licensed media is present in the search results.</li>
+</ul>
+<a href="/api/console/?function=search&amp;query=what:painting&amp;media=true&amp;qf=IMAGE_SIZE:large&amp;qf=IMAGE_SIZE:extra_large&amp;reusability=open">Test on API Console</a>
+
+<h4>Show search results as thumbnails</h4>
+
+<p>Now that we have the search query, we need to use its output to render thumbnails of images on a page. First, note that we did not include any sample as for pagination, you need to apply this yourselves. For this you can use the 'rows' and 'start' parameters in the search API. To render thumbnails of the images in the search results, you need the following information from the search response:</p>
+
+<ul>
+	<li>id - The identifier of the record.</li>
+	<li>title - The title of the record.</li>
+	<li>edmPreview - The URL to the thumbnail image of the main media file.</li>
+</ul>
+
+<p>With this information, you can build a page which shows the thumbnail (edmPreview), along with a title (title) and with a link to a separate page which at minimum should contain the identifier of the record (id). Next, we will help you create that separate page.</p>
+
+<h4>Show the large image with its technical metadata</h4>
+
+<p>If a user clicks on a thumbnail from the search results, next thing you want is to display a large (or extra large) images along with its technical metadata. For this, you need to retrieve the record information from the record API. An example query to the record API would be:</p>
+
+<blockquote>
+<p>/record/90402/BK_1978_399.json?wskey=xxxx</p>
+</blockquote>
+
+<p>As you can see, the only parameter - aside from your API key, is the record identifier. In order to then display the (extra) large images and information from the technical metadata, you need to parse the record API response as follows:</p>
+
+<ul>
+	<li>Use the URL from the "edmIsShownBy" field in the "aggregations" class as the URL of the image file. This field only appears once.</li>
+	<li>Iterate through the "webResources" in the same "aggregations" class until you find the WebResource element which URL ("about") corresponds with the "edmIsShownBy". In here, the technical metadata is present.</li>
+	<li>Then, render the technical metadata you want to display, for instance the "ebucoreWidth" and "ebucoreHeight" (width x height in pixels).</li>
+</ul>
+
+<h3>Other examples</h3>
+
+<p>Find all records that match the query ‘Paris’ which are openly licensed and have large images:</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=Paris&amp;reusability=open&amp;qf=IMAGE_SIZE:large</p>
+</blockquote>
+<a href="/api/console/?function=search&amp;query=Paris&amp;reusability=open&amp;qf=IMAGE_SIZE:large">Test on API Console</a>
+
+<p>Find all records that match the query Paris which have a thumbnail image, are of mime type image/jpeg and have an aspect ratio of 'landscape':</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=Paris&amp;thumbnail=true&amp;qf=MIME_TYPE:image%2Fjpeg&amp;qf=IMAGE_ASPECTRATIO:landscape</p>
+</blockquote>
+<a href="/api/console/?function=search&amp;query=Paris&amp;thumbnail=true&amp;qf=MIME_TYPE:image%2Fjpeg&amp;qf=IMAGE_ASPECTRATIO:landscape">Test on API Console</a>
+
+<p>Find all records where the subject is opera and where the results are sound files with a long duration:</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=what:opera&amp;qf=SOUND_DURATION:long</p>
+</blockquote>
+
+<p></p>
+<a href="/api/console/?function=search&amp;query=what:opera&amp;qf=SOUND_DURATION:long">Test on API Console</a>
+
+<p>Find all records where one of the images has a (dominant) red colour:</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=*:*&amp;colourpalette=%23FF0000</p>
+</blockquote>
+
+<p></p>
+<a href="/api/console/?function=search&amp;query=*:*&amp;colourpalette=%23FF0000">Test on API Console</a></section>

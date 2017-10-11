@@ -1,0 +1,1001 @@
+<section>
+<p>Search for records and media in the Europeana collections.</p>
+
+<blockquote>
+<p>https://www.europeana.eu/api/v2/search.json</p>
+</blockquote>
+
+<h2>Request</h2>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 168px;">Parameter</th>
+			<th style="width: 95px;">Datatype</th>
+			<th style="width: 619px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 168px;">query</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">The search term(s). See <a href="/api/query/">Query Syntax</a> for information on forming complex queries and examples.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">profile</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Profile parameter controls the format and richness of the response. See the possible values of the <a href="#profile-parameter">profile parameter</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">qf</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Facet filtering query. This parameter can be defined more than once. See <a href="/api/query/">Query Syntax</a> page for more information.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">reusability</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Filter by copyright status. Possible values are open, restricted or permission, see <a href="#reusability-parameter">reusability parameters</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">media</td>
+			<td style="width: 95px;">Boolean</td>
+			<td style="width: 619px;">Filter by records where an URL to the full media file is present in the edm:isShownBy or edm:hasView metadata and is resolvable.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">thumbnail</td>
+			<td style="width: 95px;">Boolean</td>
+			<td style="width: 619px;">Filter by records where a thumbnail image has been generated for any of the WebResource media resources (thumbnail available in the edmPreview field).</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">landingpage</td>
+			<td style="width: 95px;">Boolean</td>
+			<td style="width: 619px;">Filter by records where the link to the original object on the providers website (edm:isShownAt) is present and verified to be working.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">colourpalette</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Filter by images where one of the colours of an image matches the provided colour code. You can provide this parameter multiple times, the search will then do an 'AND' search on all the provided colours. See <a href="#colour-palette">colour palette</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">sort</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Sort records by certain fields, currently only timestamp_created and timestamp_update are supported. Use: field+sort_order, example: &amp;sort=timestamp_update+desc</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">rows</td>
+			<td style="width: 95px;">Number</td>
+			<td style="width: 619px;">The number of records to return. Maximum is 100. Defaults to 12. See <a href="#pagination">pagination</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">start</td>
+			<td style="width: 95px;">Number</td>
+			<td style="width: 619px;">The item in the search results to start with when using cursor-based pagination. The first item is 1. Defaults to 1. See <a href="#pagination">pagination</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">cursor</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Cursor mark from where to start the search result set when using deep pagination. Set to * to start cursor-based pagination. See <a href="#pagination">pagination</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">callback</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Name of a client side <a href="/api/getting-started/#callback-function">callback function</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">facet</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Name of an individual facet. See <a href="#individual-facets">individual facets</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">f.[facet name].facet.limit</td>
+			<td style="width: 95px;">Number</td>
+			<td style="width: 619px;">Number of values an individual facet should contain. The [facet name] part should be replaced with one of the the facet names you specified in `facet` parameter. See <a href="#individual-facets">individual facets</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">f.[facet name].facet.offset</td>
+			<td style="width: 95px;">Number</td>
+			<td style="width: 619px;">The offset of the first value in an individual facet. The [facet name] part should be replaced with one of the the facet names you specified in `facet` parameter. See <a href="#individual-facets">individual facets</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Conduct a search for all openly licensed records with a direct link to the full media file:</p>
+
+<blockquote>
+<p>&amp;query=Paris&amp;reusability=open&amp;media=true</p>
+</blockquote>
+<a href="/api/console/?function=search&amp;query=Paris&amp;reusability=open&amp;media=true">Test on API Console</a>
+
+<p></p>
+
+<h3 id="colour-palette">Colour palette</h3>
+From all records with images, the six most prominent colours are extracted. These colours are then mapped to one of the 120 colours that can be found in the listing <a href="http://www.w3.org/TR/css3-color/#svg-color">here</a>. To search for records where one of the images matches a particular colour you can use the colour palette parameter, you can provide it multiple times. You need to provide a Hex rgb code as value, such as #8A2BE2 or #FFE4C4.
+
+<p></p>
+
+<h3 id="profile-parameter">Profile parameter</h3>
+
+<p>We have two profile types: one to control which fields of the record should be in the result, and the other to control other data elements of the result.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 99px;">Value</th>
+			<th style="width: 789px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 99px;">minimal</td>
+			<td style="width: 789px;">Returns minimal set of metadata. See <a href="/api/search/#metadata-sets">metadata sets</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 99px;">standard</td>
+			<td style="width: 789px;">Returns a broader set of metadata. See <a href="/api/search/#metadata-sets">metadata sets</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 99px;">rich</td>
+			<td style="width: 789px;">Returns the broadest set of metadata. See <a href="/api/search/#metadata-sets">metadata sets</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 99px;">facets</td>
+			<td style="width: 789px;">Information about <a href="/api/search/#facets">facets</a> is added. For the records the Standard profile is used.</td>
+		</tr>
+		<tr>
+			<td style="width: 99px;">breadcrumbs</td>
+			<td style="width: 789px;">information about the query is added in the form of <a href="/api/search/#breadcrumb/">breadcrumbs</a>. Facets are added as well; for the records the Standard profile is used.</td>
+		</tr>
+		<tr>
+			<td style="width: 99px;">params</td>
+			<td style="width: 789px;">The header of the response will contain a params key, which lists the requested and default parameters of the API call.</td>
+		</tr>
+		<tr>
+			<td style="width: 99px;">portal</td>
+			<td style="width: 789px;">`standard`, `facets`, and `breadcrumb` combined, plus additional fields over `standard` metadata set. See <a href="/api/search/#metadata-sets">metadata sets</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Include the broadest set of metadata in the search response:</p>
+
+<blockquote>
+<p>&amp;query=Paris&amp;profile=rich</p>
+</blockquote>
+<a href="/api/console/?function=search&amp;query=Paris&amp;profile=rich">Test on API Console</a>
+
+<p></p>
+
+<h3 id="reusability-parameter">Reusability parameter</h3>
+
+<p>The possible values of the reusability parameters.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 95px;">Value</th>
+			<th style="width: 757px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 95px;">open</td>
+			<td style="width: 757px;">The records are freely reusable. The licenses in this category are <a href="http://creativecommons.org/publicdomain/mark/1.0/">PD</a>, <a href="http://creativecommons.org/publicdomain/mark/">NOC</a>, <a href="http://creativecommons.org/publicdomain/zero/1.0/">CC ZERO</a>, <a href="http://creativecommons.org/licenses/by/">CC BY</a>, <a href="http://creativecommons.org/licenses/by-sa/">CC BY-SA</a></td>
+		</tr>
+		<tr>
+			<td style="width: 95px;">restricted</td>
+			<td style="width: 757px;">The records are reusable, but with restrictions. The licenses in this category are <a href="http://creativecommons.org/licenses/by-nc-sa/">CC BY-NC-SA</a>, <a href="http://creativecommons.org/licenses/by-nc-nd/">CC BY-NC-ND</a>, <a href="http://www.europeana.eu/rights/out-of-copyright-non-commercial/">CC OOC-NC</a></td>
+		</tr>
+		<tr>
+			<td style="width: 95px;">permission</td>
+			<td style="width: 757px;">You can reuse the records only with explicit permission.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Search only for freely reusable records:</p>
+
+<blockquote>
+<p>&amp;query=Paris&amp;reusability=open</p>
+</blockquote>
+<a href="/api/console/?function=search&amp;query=Paris&amp;reusability=open">Test on API Console</a>
+
+<p></p>
+
+<h3 id="pagination">Pagination</h3>
+
+<p>The Europeana REST API offers two ways of paginating through the result set. First, there is basic pagination, for smaller or user-facing browsing applications, who can iterate over the first 1000 results with the start parameter. For larger and/or harvesting applications, the API offers the capability to use cursor-based pagination, which allows you to quickly iterate over the entire result set.</p>
+
+<table style="width: 902px;">
+	<thead>
+		<tr>
+			<th style="width: 117px;">Pagination</th>
+			<th style="width: 385px;">Capabilities</th>
+			<th style="width: 380px;">Implementation</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 117px;">Basic</td>
+			<td style="width: 385px;">Allows to go to a specific offset/page (start=X).<br />
+			Limited to the first 1000 results (start + rows).</td>
+			<td style="width: 380px;">Use the start parameter to set the search result offset, default value is 1.</td>
+		</tr>
+		<tr>
+			<td style="width: 117px;">Cursor-based</td>
+			<td style="width: 385px;">Quickly iterate over the entire result set.<br />
+			Does not allow you to go to a specific offset.<br />
+			Cannot be used in conjunction with the start parameter.<br />
+			Based on <a href="https://cwiki.apache.org/confluence/display/solr/Pagination+of+Results">Solr Cursor Pagination</a>.</td>
+			<td style="width: 380px;">Set the cursor parameter to * to start cursor-based pagination at page 1.<br />
+			Take the nextCursor value from the response and pass it to the cursor parameter to paginate to the next page (you will need to urlescape the key).<br />
+			When the nextCursor value is not returned anymore, you have reached the end of the search result set.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p></p>
+
+<h2>Response</h2>
+
+<p>For the common data fields returned by both search and object response, see Getting started guide's <a href="/api/getting-started/#response">response</a> section.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 108px;">Field</th>
+			<th style="width: 140px;">Datatype</th>
+			<th style="width: 634px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 108px;">itemsCount</td>
+			<td style="width: 140px;">Number</td>
+			<td style="width: 634px;">The number of retrieved records</td>
+		</tr>
+		<tr>
+			<td style="width: 108px;">totalResults</td>
+			<td style="width: 140px;">Number</td>
+			<td style="width: 634px;">The total number of results</td>
+		</tr>
+		<tr>
+			<td style="width: 108px;">nextCursor</td>
+			<td style="width: 140px;">String</td>
+			<td style="width: 634px;">Encoded string to pass along to the cursor to navigate to the next page in the search result set. See <a href="#pagination">Pagination</a>.</td>
+		</tr>
+		<tr>
+			<td style="width: 108px;">items</td>
+			<td style="width: 140px;">Array (<a href="#item">Item</a>)</td>
+			<td style="width: 634px;">This is a collection of search results. Each item is represented by a summary of the metadata record. The actual content is dependent of the profile parameter.</td>
+		</tr>
+		<tr>
+			<td style="width: 108px;">facets</td>
+			<td style="width: 140px;">Array (<a href="#facet">Facet</a>)</td>
+			<td style="width: 634px;">A collection of facets that describe the resultant dataset.</td>
+		</tr>
+		<tr>
+			<td style="width: 108px;">breadcrumbs</td>
+			<td style="width: 140px;">Array (<a href="#breadcrumb">Breadcrumb</a>)</td>
+			<td style="width: 634px;">A collection of search queries that were applied in this call.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Example of a search response in JSON with the portal profile:</p>
+
+<pre>
+<code>{
+"apikey": "XXX",
+"action": "search.json",
+"success": true,
+"requestNumber": 999,
+"itemsCount": 24,
+"totalResults": 343,
+"items": [],
+"breadCrumbs": [],
+"facets": []
+}
+</code></pre>
+
+<h3 id="item">item</h3>
+
+<p>Each item is a search result and is represented by a summary of its metadata record. The actual content depends of the profile parameter, see <a href="/api/search/#metadata-sets">metadata sets</a>.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>europeanaCompleteness</td>
+			<td>Number</td>
+			<td>A number from 1 to 10 that is an internal measure of the metadata quality. It is based on the availability of mandatory and optional schema fields.</td>
+		</tr>
+		<tr>
+			<td>dataProvider</td>
+			<td>Array (String)</td>
+			<td>The names of Europeana Data Providers who provided the object.</td>
+		</tr>
+		<tr>
+			<td>europeanaCollectionName</td>
+			<td>Array (String)</td>
+			<td>The names of the Europeana collections that contain the item</td>
+		</tr>
+		<tr>
+			<td>id</td>
+			<td>String</td>
+			<td>The Europeana ID of the record.</td>
+		</tr>
+		<tr>
+			<td>guid</td>
+			<td>String</td>
+			<td>A link to the object page on the Europeana portal to be used by client applications.</td>
+		</tr>
+		<tr>
+			<td>link</td>
+			<td>String</td>
+			<td>A link to the API object call. This link should be used to retrieve the full metadata object.</td>
+		</tr>
+		<tr>
+			<td>provider</td>
+			<td>String</td>
+			<td>The name or identifier of the provider of the object.</td>
+		</tr>
+		<tr>
+			<td>rights</td>
+			<td>Array (String)</td>
+			<td>A collection of URLs referring to the object rights.</td>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td>String</td>
+			<td>The type of the provided object (TEXT, VIDEO, SOUND, IMAGE, 3D)</td>
+		</tr>
+		<tr>
+			<td>dcCreator</td>
+			<td>Array (String)</td>
+			<td>A collection entities primarily responsible for making the resource.</td>
+		</tr>
+		<tr>
+			<td>edmConceptLabel</td>
+			<td>String</td>
+			<td>The label of the SKOS Concept of the record. Find more in <a href="http://pro.europeana.eu/documents/900548/bb6b51df-ad11-4a78-8d8a-44cc41810f22">EDM definition</a></td>
+		</tr>
+		<tr>
+			<td>edmPreview</td>
+			<td>String</td>
+			<td>A link to the representation of the object on Europeana.</td>
+		</tr>
+		<tr>
+			<td>edmTimespanLabel</td>
+			<td>String</td>
+			<td>The label of EDM Time Span object of the record. Find more in <a href="http://pro.europeana.eu/documents/900548/bb6b51df-ad11-4a78-8d8a-44cc41810f22">EDM Definition</a></td>
+		</tr>
+		<tr>
+			<td>language</td>
+			<td>Array (String)</td>
+			<td>Languages assigned to the resource with reference to the Provider. Usually, this field contains the languages of the metadata of the record.</td>
+		</tr>
+		<tr>
+			<td>title</td>
+			<td>Array (String)</td>
+			<td>The main and alternative titles of the item.</td>
+		</tr>
+		<tr>
+			<td>year</td>
+			<td>Array (String)</td>
+			<td>A point of time associated with an event in the life of the original analog or born digital object. Find more in <a href="http://pro.europeana.eu/documents/900548/bb6b51df-ad11-4a78-8d8a-44cc41810f22">EDM definition</a></td>
+		</tr>
+		<tr>
+			<td>edmIsShownAt</td>
+			<td>Array (String)</td>
+			<td>The URL of a web view of the object in full information context.</td>
+		</tr>
+		<tr>
+			<td>edmPlaceLatitude</td>
+			<td>Array (String)</td>
+			<td>The latitude of a spatial thing (decimal degrees).</td>
+		</tr>
+		<tr>
+			<td>edmPlaceLongitude</td>
+			<td>Array (String)</td>
+			<td>The longitude of a spatial thing (decimal degrees).</td>
+		</tr>
+		<tr>
+			<td>score</td>
+			<td>Number</td>
+			<td>The relevancy score calculated by the search engine. Depends of the query.</td>
+		</tr>
+		<tr>
+			<td>edmConceptTerm</td>
+			<td>Array (String)</td>
+			<td>A SKOS Concept.</td>
+		</tr>
+		<tr>
+			<td>edmConceptPrefLabel</td>
+			<td></td>
+			<td>The preferred form of the name of the concept.</td>
+		</tr>
+		<tr>
+			<td>edmConceptBroaderTerm</td>
+			<td>Array (String)</td>
+			<td>The identifier of a broader concept in the same thesaurus or controlled vocabulary</td>
+		</tr>
+		<tr>
+			<td>edmConceptBroaderLabel</td>
+			<td></td>
+			<td>A human readable name of a broader concept.</td>
+		</tr>
+		<tr>
+			<td>edmTimespanBegin</td>
+			<td>Array (String)</td>
+			<td>The date the timespan started.</td>
+		</tr>
+		<tr>
+			<td>edmTimespanEnd</td>
+			<td>Array (String)</td>
+			<td>The date the timespan finished.</td>
+		</tr>
+		<tr>
+			<td>edmTimespanBroaderTerm</td>
+			<td>Array (String)</td>
+			<td>ts_dcterms_isPartOf</td>
+		</tr>
+		<tr>
+			<td>edmTimespanBroaderLabel</td>
+			<td>edm:TimeSpan/dcterms:isPartOf</td>
+			<td>ts_dcterms_isPartOf</td>
+		</tr>
+		<tr>
+			<td>ugc</td>
+			<td>Array (Boolean)</td>
+			<td>Whether or not the record includeshas user generated contents in the record</td>
+		</tr>
+		<tr>
+			<td>country</td>
+			<td>Array (String)</td>
+			<td>The name of the country in which the Provider is based or “Europe” in the case of Europe-wide projects.</td>
+		</tr>
+		<tr>
+			<td>edmPlaceBroaderTerm</td>
+			<td>Array (String)</td>
+			<td>pl_dcterms_isPartOf</td>
+		</tr>
+		<tr>
+			<td>edmPlaceAltLabel</td>
+			<td></td>
+			<td>Alternative forms of the name of the place.</td>
+		</tr>
+		<tr>
+			<td>dctermsIsPartOf</td>
+			<td>Array (String)</td>
+			<td>A related resource in which the described resource is physically or logically included.</td>
+		</tr>
+		<tr>
+			<td>dctermsSpatial</td>
+			<td>Array (String)</td>
+			<td>Spatial characteristics of the resource.</td>
+		</tr>
+		<tr>
+			<td>edmPlace</td>
+			<td>Array (String)</td>
+			<td>The URI of an EDM Place object.</td>
+		</tr>
+		<tr>
+			<td>edmTimespan</td>
+			<td>Array (String)</td>
+			<td>The URI of an EDM Timespan object.</td>
+		</tr>
+		<tr>
+			<td>edmAgent</td>
+			<td>Array (String)</td>
+			<td>The URI of an EDM Agent object</td>
+		</tr>
+		<tr>
+			<td>edmAgentLabel</td>
+			<td></td>
+			<td>Name of the agent.</td>
+		</tr>
+		<tr>
+			<td>dcContributor</td>
+			<td>Array (String)</td>
+			<td>An entity responsible for making contributions to the resource.</td>
+		</tr>
+		<tr>
+			<td>isShownBy</td>
+			<td>Array (String)</td>
+			<td>The URL of a web view of the object.</td>
+		</tr>
+		<tr>
+			<td>dcDescription</td>
+			<td>Array (String)</td>
+			<td>A description of the resource.</td>
+		</tr>
+		<tr>
+			<td>edmLandingPage</td>
+			<td>Array (String)</td>
+			<td>This property captures the relation between an aggregation representing a cultural heritage object and the Web resource representing that object on the provider’s web site.</td>
+		</tr>
+		<tr>
+			<td>timestamp_created_epoch</td>
+			<td>Number</td>
+			<td>UNIX timestamp of the date when record were created</td>
+		</tr>
+		<tr>
+			<td>timestamp_update_epoch</td>
+			<td>Number</td>
+			<td>UNIX timestamp of the date when record were last updated</td>
+		</tr>
+		<tr>
+			<td>timestamp_created</td>
+			<td>String</td>
+			<td><a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format of the date when record were created</td>
+		</tr>
+		<tr>
+			<td>timestamp_update</td>
+			<td>String</td>
+			<td><a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format of the date when record were last updated</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="breadcrumb">breadcrumb</h3>
+
+<p>A collection of search queries that were applied in this call.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 62px;">Field</th>
+			<th style="width: 89px;">Datatype</th>
+			<th style="width: 423px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 62px;">display</td>
+			<td style="width: 89px;">String</td>
+			<td style="width: 423px;">Human-readable description of the search</td>
+		</tr>
+		<tr>
+			<td style="width: 62px;">param</td>
+			<td style="width: 89px;">String</td>
+			<td style="width: 423px;">The search parameter name (**query** or **qf**)</td>
+		</tr>
+		<tr>
+			<td style="width: 62px;">value</td>
+			<td style="width: 89px;">String</td>
+			<td style="width: 423px;">The search parameter value</td>
+		</tr>
+		<tr>
+			<td style="width: 62px;">href</td>
+			<td style="width: 89px;">String</td>
+			<td style="width: 423px;">The search part of the URL which can be reused in further calls</td>
+		</tr>
+		<tr>
+			<td style="width: 62px;">last</td>
+			<td style="width: 89px;">Boolean</td>
+			<td style="width: 423px;">Boolean value indicating whether the current breadcrumb is the last one</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>facet</h3>
+
+<p>A collection of facets that describe the resultant dataset. A facet represents the result for the search grouped by a certain entity. If you would conduct a search for the keyword 'paris and have a look at the TYPE facet, this facet would tell how much items there exist within your search result grouped by TYPE (such as IMAGE, VIDEO etc.). When you search within your result set for a specific facet, the other items in your facet would still exist (you search for TYPE:IMAGE, then you can still see how many results there are for TYPE:VIDEO etc.). This last functionality, called multi-facets, is not supported for the <a href="/api/data-fields/#technical-metadata-facets">technical metadata facets</a>.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 78px;">Field</th>
+			<th style="width: 107px;">Datatype</th>
+			<th style="width: 697px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 78px;">name</td>
+			<td style="width: 107px;">String</td>
+			<td style="width: 697px;">The name of the facet (COUNTRY, DATA_PROVIDER, LANGUAGE, PROVIDER, RIGHTS, TYPE, UGC, YEAR, a <a href="/api/data-fields/">technical metadata facet</a> or a custom facet)</td>
+		</tr>
+		<tr>
+			<td style="width: 78px;">fields<sup>*</sup></td>
+			<td style="width: 107px;">Array (field)</td>
+			<td style="width: 697px;">A collection of facet fields. Each field is an object that has a label (String) and a count of objects (Number).</td>
+		</tr>
+	</tbody>
+</table>
+
+<p><sup>*</sup> <em>indicates an obligatory property</em></p>
+
+<h2 id="metadata-sets">Metadata sets</h2>
+
+<h3>Minimal profile</h3>
+
+<p>The minimal profile returns the following fields:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Name in API response</th>
+			<th>EDM field</th>
+			<th>Name is searching</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>dataProvider</td>
+			<td>ore:Aggregation/edm:dataProvider</td>
+			<td>provider_aggregation_edm_dataProvider</td>
+		</tr>
+		<tr>
+			<td>dcCreator and dcCreatorLangAware</td>
+			<td>edm:ProvidedCHO/dc:creator</td>
+			<td>proxy_dc_creator</td>
+		</tr>
+		<tr>
+			<td>edmIsShownAt</td>
+			<td>ore:Aggregation/edm:isShownAt</td>
+			<td>provider_aggregation_edm_isShownAt</td>
+		</tr>
+		<tr>
+			<td>edmPlaceLatitude</td>
+			<td>edm:Place/wgs84_pos:lat</td>
+			<td>pl_wgs84_pos_lat</td>
+		</tr>
+		<tr>
+			<td>edmPlaceLongitude</td>
+			<td>edm:Place/wgs84_pos:long</td>
+			<td>pl_wgs84_pos_long</td>
+		</tr>
+		<tr>
+			<td>edmPreview</td>
+			<td></td>
+			<td>europeana_aggregation_edm_preview</td>
+		</tr>
+		<tr>
+			<td>europeanaCompleteness</td>
+			<td></td>
+			<td>COMPLETENESS</td>
+		</tr>
+		<tr>
+			<td>guid</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>id</td>
+			<td></td>
+			<td>europeana_id</td>
+		</tr>
+		<tr>
+			<td>link</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>provider</td>
+			<td>ore:Aggregation/edm:provider</td>
+			<td>PROVIDER</td>
+		</tr>
+		<tr>
+			<td>rights</td>
+			<td>ore:Aggregation/edm:rights</td>
+			<td>RIGHTS</td>
+		</tr>
+		<tr>
+			<td>score</td>
+			<td></td>
+			<td>score</td>
+		</tr>
+		<tr>
+			<td>title and dcTitleLangAware</td>
+			<td>edm:ProvidedCHO/dc:title, edm:ProvidedCHO/dcterms:alternative</td>
+			<td>title</td>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td></td>
+			<td>TYPE</td>
+		</tr>
+		<tr>
+			<td>year</td>
+			<td></td>
+			<td>YEAR</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Standard profile</h3>
+
+<p>The standard profile returns all the fields of the minimal profile plus and the following fields:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Name in API response</th>
+			<th>EDM field</th>
+			<th>Name is searching</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>edmConceptTerm</td>
+			<td>skos:Concept/@rdf:about</td>
+			<td>skos_concept</td>
+		</tr>
+		<tr>
+			<td>edmConceptPrefLabel</td>
+			<td>skos:Concept/skos:prefLabel</td>
+			<td>cc_skos_prefLabel</td>
+		</tr>
+		<tr>
+			<td>edmConceptBroaderTerm</td>
+			<td>skos:Concept/skos:broader</td>
+			<td>cc_skos_broader</td>
+		</tr>
+		<tr>
+			<td>edmConceptBroaderLabel</td>
+			<td>skos:Concept/skos:broader</td>
+			<td>cc_skos_broader</td>
+		</tr>
+		<tr>
+			<td>edmTimespanLabel</td>
+			<td>edm:TimeSpan/skos:prefLabel</td>
+			<td>ts_skos_prefLabel</td>
+		</tr>
+		<tr>
+			<td>edmTimespanBegin</td>
+			<td>edm:TimeSpan/edm:begin</td>
+			<td>ts_edm_begin</td>
+		</tr>
+		<tr>
+			<td>edmTimespanEnd</td>
+			<td>edm:TimeSpan/edm:end</td>
+			<td>ts_edm_end</td>
+		</tr>
+		<tr>
+			<td>edmTimespanBroaderTerm</td>
+			<td>edm:TimeSpan/dcterms:isPartOf</td>
+			<td>ts_dcterms_isPartOf</td>
+		</tr>
+		<tr>
+			<td>edmTimespanBroaderLabel</td>
+			<td>edm:TimeSpan/dcterms:isPartOf</td>
+			<td>ts_dcterms_isPartOf</td>
+		</tr>
+		<tr>
+			<td>recordHashFirstSix</td>
+			<td></td>
+			<td>europeana_recordHashFirstSix</td>
+		</tr>
+		<tr>
+			<td>ugc</td>
+			<td>ore:Aggregation/edm:ugc</td>
+			<td>UGC</td>
+		</tr>
+		<tr>
+			<td>completeness</td>
+			<td></td>
+			<td>COMPLETENESS</td>
+		</tr>
+		<tr>
+			<td>country</td>
+			<td>edm:EuropeanaAggregation/edm:country</td>
+			<td>COUNTRY</td>
+		</tr>
+		<tr>
+			<td>europeanaCollectionName</td>
+			<td></td>
+			<td>europeana_collectionName</td>
+		</tr>
+		<tr>
+			<td>edmPlaceBroaderTerm</td>
+			<td>edm:Place/dcterms:isPartOf</td>
+			<td>pl_dcterms_isPartOf</td>
+		</tr>
+		<tr>
+			<td>edmPlaceAltLabel</td>
+			<td>edm:Place/skos:altLabel</td>
+			<td>pl_skos_altLabel</td>
+		</tr>
+		<tr>
+			<td>dctermsIsPartOf</td>
+			<td>edm:Place/dcterms:isPartOf</td>
+			<td>pl_dcterms_isPartOf</td>
+		</tr>
+		<tr>
+			<td>timestampCreated</td>
+			<td></td>
+			<td>timestamp_created</td>
+		</tr>
+		<tr>
+			<td>timestampUpdate</td>
+			<td></td>
+			<td>timestamp_update</td>
+		</tr>
+		<tr>
+			<td>language</td>
+			<td>edm:EuropeanaAggregation/edm:language</td>
+			<td>LANGUAGE</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Portal profile</h3>
+
+<p>The portal profile returns all the fields of the standard profile plus and the following fields:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Name in API response</th>
+			<th>EDM field</th>
+			<th>Name is searching</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>dctermsSpatial</td>
+			<td>edm:ProvidedCHO/dcterms:spatial</td>
+			<td>proxy_dcterms_spatial</td>
+		</tr>
+		<tr>
+			<td>edmPlace</td>
+			<td>edm:Place/@rdf:about</td>
+			<td>edm_place</td>
+		</tr>
+		<tr>
+			<td>edmTimespan</td>
+			<td>edm:TimeSpan/@rdf:about</td>
+			<td>edm_timespan</td>
+		</tr>
+		<tr>
+			<td>edmAgent</td>
+			<td>edm:Agent/@rdf:about</td>
+			<td>edm_agent</td>
+		</tr>
+		<tr>
+			<td>edmAgentLabel</td>
+			<td>edm:Agent/skos:prefLabel</td>
+			<td>ag_skos_prefLabel</td>
+		</tr>
+		<tr>
+			<td>dcContributor</td>
+			<td>edm:ProvidedCHO/dc:contributor</td>
+			<td>proxy_dc_contributor</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Rich profile</h3>
+
+<p>The rich profile returns all the fields of the portal profile plus the following fields:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Name in API response</th>
+			<th>EDM field</th>
+			<th>Name in search parameters</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>edmIsShownBy</td>
+			<td>ore:Aggregation/edm:isShownBy</td>
+			<td>provider_aggregation_edm_isShownBy</td>
+		</tr>
+		<tr>
+			<td>dcDescription and dcDescriptionLangAware</td>
+			<td>edm:ProvidedCHO/dc:description</td>
+			<td>proxy_dc_description</td>
+		</tr>
+		<tr>
+			<td>edmLandingPage</td>
+			<td>edm:EuropeanaAggregation/edm:landingPage</td>
+			<td>europeana_aggregation_edm_landingPage</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2 id="individual-facets">Individual facets</h2>
+
+<p>API users can select which facets they would like to retrieve beyond the default facet set via the <code>facet</code> parameter. When you request a facet you have to set the profile either as <code>facets</code> or as <code>portal</code> or <code>rich</code> (which both covers facets as well).</p>
+
+<p>The value of the parameter could be "DEFAULT" (which is a shortcut of the Europeana facet set we use on the portal, containing UGC, LANGUAGE, TYPE, YEAR, PROVIDER, DATA_PROVIDER, COUNTRY and RIGHTS), or any field name which is indexed and stored in Apache Solr. We maintain a table in API documentation about the existing <a href="/api/api-fields/">API Fields</a>. In the field type column, "text" means indexed as as a row of distinct terms, while "string" means indexed as phrase, so the whole content is taken as one individual unit.</p>
+
+<p>Users can set one or more facet in one query.</p>
+
+<p>Some facets return values in more than one language, for such facets its also possible to only return values in a specific language. For instance you can request the <b>proxy_dc_type</b> facet but you can also append the language code en for only English labels: <b>proxy_dc_type.en</b>. This works for many fields which can return a LangMap in the record retrieval:</p>
+
+<blockquote>
+<p>&amp;facet=proxy_dc_type.en&amp;profile=facets</p>
+</blockquote>
+
+<p>Requesting a single facet:</p>
+
+<blockquote>
+<p>&amp;facet=proxy_dc_contributor&amp;profile=facets</p>
+</blockquote>
+
+<p></p>
+
+<p>Requesting multiple facets can be done with two different syntaxes. You can add multiple facet parameters, or one facet parameter with multiple values separated by commas:</p>
+
+<p>Multiple facet parameters:</p>
+
+<blockquote>
+<p>&amp;facet=proxy_dc_coverage&amp;facet=proxy_dc_contributor&amp;profile=facets</p>
+</blockquote>
+
+<p></p>
+
+<p>Multiple facets separated by commas</p>
+
+<blockquote>
+<p>&amp;facet=proxy_dc_coverage,proxy_dc_contributor&amp;profile=facets</p>
+</blockquote>
+
+<p></p>
+
+<p>Requesting the default facets:</p>
+
+<blockquote>
+<p>&amp;profile=portal</p>
+</blockquote>
+
+<p></p>
+
+<blockquote>
+<p>&amp;profile=facets</p>
+</blockquote>
+
+<p></p>
+
+<blockquote>
+<p>&amp;facet=DEFAULT&amp;profile=facets</p>
+</blockquote>
+
+<p></p>
+
+<p>Combining default facets with custom facets:</p>
+
+<blockquote>
+<p>&amp;facet=DEFAULT+proxy_dc_contributor&amp;profile=facets</p>
+</blockquote>
+
+<p></p>
+
+<h3>Offset and limit of facets</h3>
+
+<p>The API user can set how many facet values to retrieve, and which should be the first one. With these parameters, you can page over all facet values without requesting too much at a time. The limit and offset parameter syntax is a little bit tricky, but if you are familiar with Apache Solr syntax it won't be strange because it is the same.</p>
+
+<p>Syntax: f.[facet name].facet.limit Example: &amp;f.PROVIDER.facet.limit=30</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=paris&amp;facet=PROVIDER&amp;profile=facets&amp;f.PROVIDER.facet.limit=30</p>
+</blockquote>
+
+<p></p>
+
+<p>Syntax: f.[facet name].facet.offset Example: &amp;f.PROVIDER.facet.offset=30</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=paris&amp;facet=PROVIDER&amp;profile=facets&amp;f.PROVIDER.facet.offset=30</p>
+</blockquote>
+
+<p></p>
+
+<p>Both parameters accept numeric values.</p>
+
+<p>The default offset value is 0, starting from the first item in the list. 1 offsets the list by one, so the first item to return is the second and so on.</p>
+
+<p>Set a limit of 0 to not return anything for that facet.</p>
+
+<p>By default, the limit of values of an individual facet is 50 when you do not provide the name of an individual facet (with the `facet` parameter). To override this you have to provide a custom limit e.g. via <code>&amp;f.DEFAULT.facet.limit=100</code>.</p>
+</section>

@@ -1,0 +1,53 @@
+<section>
+<p>Basic search function following the OpenSearch specification (see <a href="http://www.opensearch.org">http://www.opensearch.org/</a>), returning the results in XML (RSS) format. This function does not support facet search or profiles. Name of parameters are different from other API call methods, because they match the opensearch standard. The OpenSearch response elements can be used by search engines to augment existing XML formats with search-related metadata.</p>
+
+<blockquote>
+<p>https://europeana.eu/api/v2/opensearch.rss</p>
+</blockquote>
+
+<h3>Request</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>searchTerms</td>
+			<td>String</td>
+			<td>The search terms used to query the Europeana repository; similar to the query parameter in the <a href="/api/search/">search method</a>.</td>
+		</tr>
+		<tr>
+			<td>count</td>
+			<td>Number</td>
+			<td>The number of search results to return; possible values can be any integer up to 100 [default = 12].</td>
+		</tr>
+		<tr>
+			<td>startIndex</td>
+			<td>Number</td>
+			<td>The first object in the search result set to start with (first item = 1), e.g., if a result set is made up of 100 objects, you can set the first returned object to the specific object in the set [default = 1].</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Response</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a href="http://www.opensearch.org/Specifications/OpenSearch/1.1#OpenSearch_response_elements">opensearch</a></td>
+			<td>An OpenSearch XML Response. The OpenSearch response elements can be used by search engines to augment existing XML formats with search-related metadata.</td>
+		</tr>
+	</tbody>
+</table>
+</section>

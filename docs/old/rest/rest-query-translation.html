@@ -1,0 +1,94 @@
+<section>
+<p>Translate a term to different languages and return a query string to use in the search API method. Right now this functionality is a wrapper around a Wikipedia API call.</p>
+
+<h3>Request</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>wskey</td>
+			<td>String</td>
+			<td>Your API key</td>
+		</tr>
+		<tr>
+			<td>languageCodes</td>
+			<td>String</td>
+			<td>The ISO language codes separated by commas or spaces</td>
+		</tr>
+		<tr>
+			<td>term</td>
+			<td>String</td>
+			<td>The term to translate</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Response</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>translations</td>
+			<td>Array</td>
+			<td>A list of translations. Each translation contains two fields:<br />
+			text: the text of the translation<br />
+			languageCode: the ISO language code of the translation</td>
+		</tr>
+		<tr>
+			<td>translatedQuery</td>
+			<td>String</td>
+			<td>A query string where each translations are concatenated by the boolean OR operator.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Example</h3>
+
+<p>Get the translations of Notre Dame</p>
+
+<blockquote>
+<p>https://europeana.eu/api/v2/translateQuery.json?languageCodes=nl,en,hu&amp;wskey=xxxxxxxx&amp;term=notre%20dame</p>
+</blockquote>
+
+<p>It returns</p>
+
+<pre>
+<code class="language-JavaScript">{
+  "apikey": "xxxxxxxx",
+  "action": "translateQuery.json",
+  "success": true,
+  "requestNumber": 8957,
+  "translations": [
+    {
+      "text": "Notre-Dame",
+      "languageCode": "nl"
+    },
+    {
+      "text": "Notre Dame",
+      "languageCode": "en"
+    },
+    {
+      "text": "Notre Dame",
+      "languageCode": "de"
+    }
+  ],
+  "translatedQuery": "Notre-Dame OR \"Notre Dame\""
+}
+</code></pre>
+
+<p>For background information see the blog post <a href="http://blog.europeana.eu/2014/08/improving-search-across-languages/">Improving search across languages</a></p>
+</section>

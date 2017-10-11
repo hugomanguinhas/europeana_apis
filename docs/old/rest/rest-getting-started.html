@@ -1,0 +1,341 @@
+<section>
+<h3>Request</h3>
+
+<p>Every Europeana Search API call is an HTTP request in a specified format that is sent to the Europeana API service. The API root URL is located at:</p>
+
+<blockquote>
+<p>https://www.europeana.eu/api/v2</p>
+</blockquote>
+
+<p>For obligatory request parameters look into the documentation of specific calls. The <a href="#authentication">authentication</a> section provides information on the obligatory authentication parameter <em>wskey</em>.</p>
+
+<h3>Methods</h3>
+
+<h4>Search and retrieve records</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Method</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a href="#record">record.json</a></td>
+			<td>Retrieve information about a single record within the Europeana repository</td>
+		</tr>
+		<tr>
+			<td><a href="#search">search.json</a></td>
+			<td>Find records within the Europeana repository</td>
+		</tr>
+		<tr>
+			<td><a href="#suggestions">suggestions.json</a></td>
+			<td>Provides suggestions aimed at applications that use autocompletion for search queries</td>
+		</tr>
+		<tr>
+			<td><a href="#opensearch">opensearch.rss</a></td>
+			<td>Find objects within the Europeana repository following the OpenSearch specification</td>
+		</tr>
+	</tbody>
+</table>
+&nbsp;
+
+<h4>MyEuropeana Actions</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Method</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a href="#profile">profile.json</a></td>
+			<td>Retrieve user profile information</td>
+		</tr>
+		<tr>
+			<td><a href="#saved-items">saveditem.json</a></td>
+			<td>Manage favourite records</td>
+		</tr>
+		<tr>
+			<td><a href="#tags">tag.json</a></td>
+			<td>Manage tags</td>
+		</tr>
+		<tr>
+			<td><a href="#saved-searches">savedsearch.json</a></td>
+			<td>Manage saved searches</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Data Providers and Datasets</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Method</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a href="/api/provider/#providers">providers.json</a></td>
+			<td>Retrieve information about Europeana data providers</td>
+		</tr>
+		<tr>
+			<td><a href="/api/provider/#datasets-by-provider">datasets.json</a></td>
+			<td>Retrieve information about datasets supplied by a specific data provider</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Response</h3>
+
+<p>A response to an API call will always contain a number of standard fields that precede the fields specific for the call. The standard part contains the following fields:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>apikey</td>
+			<td>String</td>
+			<td>the authentication parameter sent out by the client (the wskey parameter)</td>
+		</tr>
+		<tr>
+			<td>action</td>
+			<td>String</td>
+			<td>the name of the API method that was called</td>
+		</tr>
+		<tr>
+			<td>success</td>
+			<td>Boolean</td>
+			<td>a boolean (true/false) flag denoting the successful execution of the call</td>
+		</tr>
+		<tr>
+			<td>statsDuration</td>
+			<td>Number</td>
+			<td>the time (in milliseconds) taken to serve the request</td>
+		</tr>
+		<tr>
+			<td>requestNumber</td>
+			<td>Number</td>
+			<td>a positive number denoting the number of request by this API key within the last 24 hours</td>
+		</tr>
+		<tr>
+			<td>error</td>
+			<td>String</td>
+			<td>if the call was not successful this fields will contain a detailed text message. See <a href="#error-codes">Error Codes</a> for more information.</td>
+		</tr>
+		<tr>
+			<td>params</td>
+			<td>Object</td>
+			<td>original request parameters. If an invalid request parameter was submitted, this response parameter will contain the default value (see individual calls for the default values). Shown up only if the profile parameter contains "params".</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Datatypes</h3>
+
+<p>Europeana API uses the following datatypes:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Number</td>
+			<td>integer or double precision floating-point number</td>
+		</tr>
+		<tr>
+			<td>String</td>
+			<td>double-quoted Unicode, with backslash escaping</td>
+		</tr>
+		<tr>
+			<td>Boolean</td>
+			<td>true or false</td>
+		</tr>
+		<tr>
+			<td>Array</td>
+			<td>an ordered sequence of values, comma-separated and enclosed in square brackets; the values do not need to be of the same type</td>
+		</tr>
+		<tr>
+			<td>Array([Datatype])</td>
+			<td>an ordered sequence values of Datatype (e.g. String or Object), comma-separated and enclosed in square brackets</td>
+		</tr>
+		<tr>
+			<td>Object</td>
+			<td>an unordered collection of key:value pairs with the ':' character separating the key and the value, comma-separated and enclosed in curly braces; the keys must be strings and should be distinct from each other</td>
+		</tr>
+		<tr>
+			<td>LangMap</td>
+			<td>
+			<p>A special data type we use in the API Object Call, to provide values in various languages. It is an associative array where the keys are ISO language codes or "def" (where the language is not given), and the value is an array of strings. For example: <code>"dcTitle": {"por": ["Paris"]}</code>. Here the data type of dcTitle is a LanguageMap: the language code is "por" (stands for Portuguese), and the value is a list with only one element: "Paris". For those familiar with Java notations: is it the JSON equivalent of <code> Map&lt;String,List&lt;String&gt;&gt;</code></p>
+
+			<p></p>
+			</td>
+		</tr>
+		<tr>
+			<td>null</td>
+			<td>empty value</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Error Codes</h3>
+
+<p>An error during processing of an API method is reported by (1) a relevant HTTP status code, (2) a value of the success field and (3) a meaningful error message in the error field (see the Response section).</p>
+
+<p>The following HTTP status codes are returned:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>HTTP Status Code</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>200</td>
+			<td>The request was executed successfully.</td>
+		</tr>
+		<tr>
+			<td>401</td>
+			<td>Authentication credentials were missing or authentication failed.</td>
+		</tr>
+		<tr>
+			<td>404</td>
+			<td>The requested record was not found.</td>
+		</tr>
+		<tr>
+			<td>429</td>
+			<td>The request could be served because the application has reached its usage limit.</td>
+		</tr>
+		<tr>
+			<td>500</td>
+			<td>Internal Server Error. Something has gone wrong, tell us!</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Namespaces</h3>
+
+<p>In the documentation we sometime refer to namespace prefixes, such as dc, skos, edm. Here we list all the namespace prefixes and URIs.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>prefix</th>
+			<th>Namespace URI</th>
+			<th>More info</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>dc</td>
+			<td>http://purl.org/dc/elements/1.1/</td>
+			<td>Dublin Core</td>
+		</tr>
+		<tr>
+			<td>dcterms</td>
+			<td>http://purl.org/dc/terms/</td>
+			<td>Dublin Core Mmetadata Initiative (DCMI) Metadata Terms http://dublincore.org/documents/2012/06/14/dcmi-terms/</td>
+		</tr>
+		<tr>
+			<td>edm</td>
+			<td>http://www.europeana.eu/schemas/edm/</td>
+			<td>Europeana Data Model</td>
+		</tr>
+		<tr>
+			<td>foaf</td>
+			<td>http://xmlns.com/foaf/0.1/</td>
+			<td>FOAF (Friend of a Friend) Vocabulary http://xmlns.com/foaf/spec/</td>
+		</tr>
+		<tr>
+			<td>ore</td>
+			<td>http://www.openarchives.org/ore/terms/</td>
+			<td>Open Archives Initiative Object Reuse and Exchange http://www.openarchives.org/ore/1.0/</td>
+		</tr>
+		<tr>
+			<td>owl</td>
+			<td>http://www.w3.org/2002/07/owl#</td>
+			<td>OWL Web Ontology Language</td>
+		</tr>
+		<tr>
+			<td>rdaGr2</td>
+			<td>http://rdvocab.info/ElementsGr2/</td>
+			<td>RDA Group 2 elements. http://metadataregistry.org/schema/show/id/15.html</td>
+		</tr>
+		<tr>
+			<td>rdf</td>
+			<td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
+			<td>Resource Description Framework</td>
+		</tr>
+		<tr>
+			<td>skos</td>
+			<td>http://www.w3.org/2004/02/skos/core#</td>
+			<td>Simple Knowledge Organization System http://www.w3.org/2009/08/skos-reference/skos.html</td>
+		</tr>
+		<tr>
+			<td>wgs84</td>
+			<td>http://www.w3.org/2003/01/geo/wgs84_pos#</td>
+			<td>WGS84 Geo Positioning http://www.w3.org/2003/01/geo/</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Callback Function</h3>
+
+<p>Name of a client side (JavaScript) callback function. If you set a funtion the JSON response will be wrapped by this function call, so it is not JSON, but <a href="http://en.wikipedia.org/wiki/JSONP">JSONP</a> (JSON with Padding). JSONP provides a method to request data from a server in a different domain, something prohibited by typical web browsers because of the <a href="http://en.wikipedia.org/wiki/Same_origin_policy">same origin policy</a>.</p>
+
+<blockquote>
+<p>"Under the same origin policy, a web page served from server1.example.com cannot normally connect to or communicate with a server other than server1.example.com. An exception is the HTML script element. Exploiting the open policy for script elements, some pages use them to retrieve JavaScript code that operates on dynamically generated JSON-formatted data from other origins. This usage pattern is known as JSONP. Requests for JSONP retrieve not JSON, but arbitrary JavaScript code. They are evaluated by the JavaScript interpreter, not parsed by a JSON parser." (Wikipedia: <a href="http://en.wikipedia.org/wiki/JSONP">JSONP</a>)</p>
+</blockquote>
+
+<p>A callback can be added to any JSON-based call by appending &amp;callback=callbackname to the call, where the callbackname should be an existing JavaScript function existing on the client side. The API returns JSONP response, like this one:</p>
+
+<p>/api/v2/record/[record ID].json?wskey=xxxx&amp;profile=similar&amp;<strong>callback=processEuropeanaSearch</strong></p>
+
+<p>returns</p>
+
+<pre>
+<code class="language-JavaScript">processEuropeanaSearch({
+  "apikey":"xxxxx",
+  "action":"record.json",
+  "success":true,
+  "statsDuration":22,
+  "requestNumber":8,
+  "object": {
+    "type":"TEXT",
+    "title":["Bibliotheca Indica"],
+    "about":"[record ID]",
+    ...
+  }
+})
+</code></pre>
+
+<p>The JSON response is wrapped into your function, and the function use JSON as input parameter, and it immediatelly runs when it returns. In your client you have to define the callback function before you call the API. A client side example:</p>
+
+<pre>
+<code class="language-HTML">&lt;script&gt;
+function processEuropeanaSearch(json) {
+  alert(json.object.title.join(', '));
+}
+&lt;/script&gt;
+&lt;script src="http://europeana.eu/api/v2/record/0000/1111.json?wskey=xxxx&amp;callback=processEuropeanaSearch"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>Of course in this example we haven't done any rocket science with the returned Europeana record, it is your turn to do something fascinating!</p>
+</section>
