@@ -1,0 +1,280 @@
+How to retrieve information about Europeana data providers and datasets
+<section>
+<p>This page describes the API calls that retrieve information about Europeana data providers and datasets that comprise the repository.</p>
+
+<h2>Providers</h2>
+
+<p>Retrieve information about all Europeana data providers.</p>
+
+<blockquote>
+<p>https://europeana.eu/api/v2/providers.json</p>
+</blockquote>
+
+<p>Alternatively, you can also use the <a href="/api/data-fields/#metadata-facets">DATA_PROVIDER facet</a> in a <a href="/api/search/">Search Query</a> to group results by and search for results by a provider.</p>
+
+<h3>Request</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>offset</td>
+			<td>String</td>
+			<td>query</td>
+			<td>for paging needs - offset to start with</td>
+		</tr>
+		<tr>
+			<td>pagesize</td>
+			<td>Number</td>
+			<td>query</td>
+			<td>for paging needs - size of the result set to fetch</td>
+		</tr>
+		<tr>
+			<td>countryCode</td>
+			<td>String</td>
+			<td>query</td>
+			<td>two-letters ISO 3166-1 country code</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>List all providers from The Netherlands:</p>
+
+<p>&amp;countryCode=NL https://www.europeana.eu/api/v2/providers.json?wskey=xxxx&amp;countryCode=NL</p>
+
+<h3>Response</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>EDM Field</th>
+			<th>Name in search</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>dc:identifier</td>
+			<td>identifier</td>
+			<td>String</td>
+			<td>the internal identifier of the provider in Europeana</td>
+		</tr>
+		<tr>
+			<td>edm:country</td>
+			<td>country</td>
+			<td>String</td>
+			<td>two-letters ISO 3166-1 code of the provider country</td>
+		</tr>
+		<tr>
+			<td>skos:prefLabel</td>
+			<td>name</td>
+			<td>String</td>
+			<td>the name of the provider</td>
+		</tr>
+		<tr>
+			<td>edm:acronym</td>
+			<td>acronym</td>
+			<td>String</td>
+			<td>the acronym commonly used to identify the organization</td>
+		</tr>
+		<tr>
+			<td>skos:altLabel</td>
+			<td>altname</td>
+			<td>String</td>
+			<td>the alternative name</td>
+		</tr>
+		<tr>
+			<td>edm:organizatonScope</td>
+			<td>scope</td>
+			<td>String</td>
+			<td>the scope (Cross/Single/Thematic/Individual)</td>
+		</tr>
+		<tr>
+			<td>edm:organizationDomain</td>
+			<td>domain</td>
+			<td>String</td>
+			<td>the domain (Gallery/Library/Archive/Museum)</td>
+		</tr>
+		<tr>
+			<td>edm:geographicLevel</td>
+			<td>geolevel</td>
+			<td>String</td>
+			<td>the level of operations (Regional/Nationa/European/Worldwide)</td>
+		</tr>
+		<tr>
+			<td>edm:europeanaRole</td>
+			<td>role</td>
+			<td>String</td>
+			<td>the type of the organisation with relation to Europeana (Aggregator/Data Provider)</td>
+		</tr>
+		<tr>
+			<td>foaf:homepage</td>
+			<td>website</td>
+			<td>String</td>
+			<td>The website of the provider</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Provider</h2>
+
+<p>Retrieve information about a provider. Returns the same fields as the previous call.</p>
+
+<blockquote>
+<p>https://europeana.eu/api/v2/provider/[providerID].json</p>
+</blockquote>
+
+<h3>Request</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>providerID</td>
+			<td>String</td>
+			<td>path</td>
+			<td>The identifier of the provider.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Datasets by Provider</h2>
+
+<p>Retrieve information about datasets supplied by a specific data provider.</p>
+
+<blockquote>
+<p>http://europeana.eu/api/v2/provider/[providerID]/datasets.json</p>
+</blockquote>
+
+<p>Alternatively, you can also construct a <a href="/api/search">Search Query</a> with a custom dataset facet to group results by and search for results by dataset.</p>
+
+<p>https://europeana.eu/api/v2/search.json?wskey=xxxx&amp;query=europeana_collectionName:*&amp;facet=europeana_collectionName&amp;f.europeana_collectionName.facet.limit=2000&amp;profile=facets</p>
+
+<h3>Request</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>providerID</td>
+			<td>String</td>
+			<td>path</td>
+			<td>The identifier of the provider</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Response</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>EDM Field</th>
+			<th>Name in search</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>dc:identifier</td>
+			<td>identifier</td>
+			<td>String</td>
+			<td>the internal identifier of the dataset in Europeana derived from the edm:datasetName</td>
+		</tr>
+		<tr>
+			<td>dc:identifier</td>
+			<td>provIdentifier</td>
+			<td>String</td>
+			<td>the internal identifier of the provider of the dataset</td>
+		</tr>
+		<tr>
+			<td>edm:provider</td>
+			<td>providerName</td>
+			<td>String</td>
+			<td>the name of the provider of the dataset</td>
+		</tr>
+		<tr>
+			<td>edm:datasetName</td>
+			<td>edmDatasetName</td>
+			<td>String</td>
+			<td>the name of the dataset</td>
+		</tr>
+		<tr>
+			<td>adms:status</td>
+			<td>status</td>
+			<td>String</td>
+			<td>the current status of the dataset in the europeana ingestion lifecycle</td>
+		</tr>
+		<tr>
+			<td>dcterms:extent</td>
+			<td>publishedRecords</td>
+			<td>Number</td>
+			<td>the number of records that belong to this dataset and are published on the Europeana Portal</td>
+		</tr>
+		<tr>
+			<td>N/A</td>
+			<td>deleteRecords</td>
+			<td>Number</td>
+			<td>The number of records that have been removed or deleted</td>
+		</tr>
+		<tr>
+			<td>dcterms:created</td>
+			<td>creationDate</td>
+			<td>Date</td>
+			<td>the date the dataset was created</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Dataset</h2>
+
+<p>Retrieve information about a dataset. Returns the same fields as the previous call.</p>
+
+<blockquote>
+<p>https://europeana.eu/api/v2/dataset/[datasetID].json</p>
+</blockquote>
+
+<h3>Request</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>datasetID</td>
+			<td>Number</td>
+			<td>path</td>
+			<td>Identifier of the dataset to retrieve</td>
+		</tr>
+	</tbody>
+</table>
+</section>

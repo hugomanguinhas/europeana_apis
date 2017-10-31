@@ -1,0 +1,45 @@
+Frequently Asked Questions
+
+<section>
+
+<p>Find all openly licensed records with a direct link to the full media file and match the query ‘Paris’:</p>
+
+<blockquote>
+<p>&amp;query=Paris&amp;reusability=open&amp;media=true</p>
+</blockquote>
+<a href="/api/console/?function=search&amp;query=Paris&amp;reusability=open&amp;media=true">Test on API Console</a>
+
+
+<p>Find all records that match the query ‘Paris’ which are openly licensed and have large images:</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=Paris&amp;reusability=open&amp;qf=IMAGE_SIZE:large</p>
+</blockquote>
+<a href="/api/console/?function=search&amp;query=Paris&amp;reusability=open&amp;qf=IMAGE_SIZE:large">Test on API Console</a>
+
+<p>Find all records that match the query Paris which have a thumbnail image, are of mime type image/jpeg and have an aspect ratio of 'landscape':</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=Paris&amp;thumbnail=true&amp;qf=MIME_TYPE:image%2Fjpeg&amp;qf=IMAGE_ASPECTRATIO:landscape</p>
+</blockquote>
+<a href="/api/console/?function=search&amp;query=Paris&amp;thumbnail=true&amp;qf=MIME_TYPE:image%2Fjpeg&amp;qf=IMAGE_ASPECTRATIO:landscape">Test on API Console</a>
+
+<p>Find all records where the subject is opera and where the results are sound files with a long duration:</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=what:opera&amp;qf=SOUND_DURATION:long</p>
+</blockquote>
+
+<p></p>
+<a href="/api/console/?function=search&amp;query=what:opera&amp;qf=SOUND_DURATION:long">Test on API Console</a>
+
+<p>Find all records where one of the images has a (dominant) red colour:</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=*:*&amp;colourpalette=%23FF0000</p>
+</blockquote>
+
+<p></p>
+<a href="/api/console/?function=search&amp;query=*:*&amp;colourpalette=%23FF0000">Test on API Console</a>
+
+</section>

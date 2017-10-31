@@ -1,0 +1,80 @@
+<section>
+<h2>What are entities?</h2>
+
+<p>An entity is something that exists on itself, which can be a person, a place or a thing. In the context of the Entities API, there is the notion of different kinds of entities such as persons (agents) such as <a href="http://data.europeana.eu/agent/base/146741" target="_blank">Leonardo da Vinci</a>, concepts (topics) such as <a href="http://data.europeana.eu/concept/base/96" target="_blank">Art Nouveau</a> and places such as <a href="http://data.europeana.eu/place/base/40964" target="_blank">Amsterdam</a>. In a later stage we will also add entities such as Time periods or Works. All these entities are part of the Europeana Entity Collection, a collection of entities in the context of Europeana harvested from and linked to controlled vocabularies such as ​<a href="http://geonames.org" target="_blank">Geonames</a> and <a href="http://dbpedia.org" target="_blank">Dbpedia</a> (soon also <a href="http://www.wikidata.org" target="_blank">Wikidata</a>).</p>
+
+<h2>Status: Public Alpha</h2>
+
+<p>The Entities API is currently available as a Public Alpha, which is the first public version released primarily to get feedback from you. Do note that this means that changes can be introduced which could break backwards compatibility. It also means that to use this API you need a separate API key than for the other Europeana APIs.</p>
+
+<h2>API keys</h2>
+
+<p>To use the Entities API you can use the API key: <i>apidemo</i></p>
+
+<h2>Request</h2>
+
+<p>Every Entities API call is an HTTP request in a specified format that is sent to the Entities API service. The API root URLs is:</p>
+
+<blockquote>
+<p><a href="https://www.europeana.eu/api/entities/">https://www.europeana.eu/api/entities/</a></p>
+</blockquote>
+
+<h2>Response format</h2>
+
+<p>The Entities API supports the <a href="http://json-ld.org/">JSON-LD</a> format, which is the Linked Open Data version of JSON (with the same syntax as JSON). The request and response format does not need to be passed along to the API, if not provided it will fallback to the default. You can provide the format either via the URL (extension) or via the "Accept" header. To specify the request and response format you can either do:</p>
+
+<blockquote>
+<p>suggest.jsonld?wskey=xxxxx&amp;text=*:*</p>
+</blockquote>
+Or:
+
+<blockquote>
+<p>Request header: "Accept: application/ld+json"<br />
+suggest?wskey=xxxxx&amp;text=*:*</p>
+</blockquote>
+
+<h2>Authentication</h2>
+
+<p>To authenticate your API client against the Entities API you need to pass along your API key as the <i>wskey</i> parameter. Example (replace xxxxxx with your API key):</p>
+
+<blockquote>
+<p>suggest?wskey=xxxxx&amp;query=*:*</p>
+</blockquote>
+
+<h2 id="error-codes">Error Codes</h2>
+
+<p>An error during processing of an API method is reported by (1) a relevant HTTP status code, (2) a value of the success field and (3) a meaningful error message in the error field.</p>
+
+<p>The following HTTP status codes are returned:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>HTTP Status Code</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>200</td>
+			<td>The request was executed successfully.</td>
+		</tr>
+		<tr>
+			<td>401</td>
+			<td>Authentication credentials were missing or authentication failed.</td>
+		</tr>
+		<tr>
+			<td>404</td>
+			<td>The requested entity was not found.</td>
+		</tr>
+		<tr>
+			<td>429</td>
+			<td>The request could be served because the application has reached its usage limit.</td>
+		</tr>
+		<tr>
+			<td>500</td>
+			<td>Internal Server Error. Something has gone wrong, which we will correct.</td>
+		</tr>
+	</tbody>
+</table>
+</section>

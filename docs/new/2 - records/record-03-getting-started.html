@@ -1,0 +1,101 @@
+<section>
+
+<p>Every call to the Record API is an HTTP request in the following URL signature:</p>
+
+<blockquote style="word-wrap: break-word">http://www.europeana.eu/api/v2/record/[RECORD_ID].[FORMAT]</blockquote>
+
+where the variables in the URL path mean:
+
+<table class="format">
+	<tbody>
+		<tr>
+			<td class="field">RECORD_ID</td>
+			<td>The identifier of the record which is composed of the dataset identifier plus a local identifier within the dataset in the form of "/DATASET_ID/LOCAL_ID", for more detail see <a href="http://labs.europeana.eu/api/data-hierarchy/#identifying-records">Europeana ID</a>.</td>
+		</tr>
+		<tr>
+			<td class="field">FORMAT</td>
+			<td>The file extension corresponding to one of the supported output formats, namely: .json, .jsonld, .rdf</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<!--
+		<tr>
+			<td class="field">callback</td>
+			<td class="field">String</td>
+			<td>Name of a <a href="http://labs.europeana.eu/api/search/#callback-function">client side callback function</a>.</td>
+		</tr>
+
+<p>For obligatory request parameters look into the documentation of specific calls. The <a href="#authentication">authentication</a> section provides information on the obligatory authentication parameter <em>wskey</em>.</p>
+-->
+
+<h3>Supported Output Formats</h3>
+
+The Record API supports the following serialization formats:
+JSON-LD and RDF are formats to represent Linked Data. Europeana's records can be retrieved in either of these formats. To request a record in either JSON-LD or RDF/XML, alter the extension of the call to the desired format. For JSON-LD, request the following:
+
+<table class="format">
+	<thead>
+		<tr>
+			<th>Format</th>
+			<th>Extension</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="field">JSON</td>
+			<td class="field">.json</td>
+			<td>This is the primary output supported by this API. Some fields are only available in this format. The schema for JSON is further explained in the next Section.</td>
+		</tr>
+		<tr>
+			<td class="field">XML</td>
+			<td class="field">.rdf</td>
+			<td>The XML output is primarily based on RDF/XML format for RDF serialization but following the EDM XSD schema (the same schema is also used for data ingestion to Europeana).</td>
+		</tr>
+		<tr>
+			<td class="field">JSON-LD</td>
+			<td class="field">.json-ld</td>
+			<td>An alternative JSON output based on the JSON-LD format for RDF.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Error Responses</h3>
+
+<p>An error during processing of an API method is reported by (1) a relevant HTTP status code, (2) a value of the success field and (3) a meaningful error message in the error field (see the Response section).</p>
+
+<p>The following HTTP status codes are returned:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>HTTP Status Code</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>200</td>
+			<td>The request was executed successfully.</td>
+		</tr>
+		<tr>
+			<td>401</td>
+			<td>Authentication credentials were missing or authentication failed.</td>
+		</tr>
+		<tr>
+			<td>404</td>
+			<td>The requested record was not found.</td>
+		</tr>
+		<tr>
+			<td>429</td>
+			<td>The request could be served because the application has reached its usage limit.</td>
+		</tr>
+		<tr>
+			<td>500</td>
+			<td>Internal Server Error. Something has gone wrong, tell us!</td>
+		</tr>
+	</tbody>
+</table>
+
+</section>

@@ -1,0 +1,657 @@
+MyEuropeana API allows you accessing personal user data stored on MyEuropeana accounts.
+<section>
+<p>The MyEuropeana part of the API allows you accessing personal user data stored on MyEuropeana accounts.</p>
+
+<p>There are two methods to access MyEuropeana user data.</p>
+
+<p>To access data of a specific account you can use MyData methods which require <a href="http://labs.europeana.eu/api/authentication/#user_authentication">authentication using the public and private key of the user</a>.</p>
+
+<p>Applications that wish to access MyEuropeana data of a specific end-user on her behalf need to authenticate using the <a href="http://labs.europeana.eu/api/authentication/#oauth2_authentication">OAuth2 scheme</a> and to use MyEuropeana set of methods.</p>
+
+<h2>Profile</h2>
+
+<p>Retrieve your MyEuropeana profile, including statistics about user's activity. This call is read-only.</p>
+
+<blockquote>
+<p>GET http://europeana.eu/api/v2/user/profile.json<br />
+GET http://europeana.eu/api/v2/mydata/profile.json</p>
+</blockquote>
+
+<h3>Response</h3>
+
+<p>Fields containing no data are not included in JSON response. We added description where needed.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>email</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>userName</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>registrationDate</td>
+			<td>String</td>
+			<td>TBD (In timestamp format (Date.toLong))</td>
+		</tr>
+		<tr>
+			<td>lastLogin</td>
+			<td>String</td>
+			<td>(In timestamp format (Date.toLong))</td>
+		</tr>
+		<tr>
+			<td>firstName</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lastName</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>company</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>country</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>phone</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>address</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>website</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>fieldOfWork</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>nrOfSavedItems</td>
+			<td>Number</td>
+			<td>The number of saved items</td>
+		</tr>
+		<tr>
+			<td>nrOfSavedSearches</td>
+			<td>Number</td>
+			<td>The number of saved searches</td>
+		</tr>
+		<tr>
+			<td>nrOfSocialTags</td>
+			<td>Number</td>
+			<td>The number of tags</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Saved Items</h2>
+
+<p>Retrieve or modify saved items (favorites) at your MyEuropeana account.</p>
+
+<h3>Get</h3>
+
+<p>Retrieve saved items.</p>
+
+<blockquote>
+<p>GET https://europeana.eu/api/v2/user/saveditem.json<br />
+GET http://europeana.eu/api/v2/mydata/saveditem.json</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>action</td>
+			<td>String</td>
+			<td>Action parameter (should be LIST for this call)</td>
+		</tr>
+		<tr>
+			<td>europeanaID</td>
+			<td>String</td>
+			<td>(optional) The ID of a saved item</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Response</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>username</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>items</td>
+			<td>Array([SavedItem](http://labs.europeana.eu/api/myeuropeana/saved_item))</td>
+			<td>Collection of saved items</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>SavedItem</h4>
+
+<p>Information about one saved item.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>id</td>
+			<td>Number</td>
+			<td>The unique ID of this item</td>
+		</tr>
+		<tr>
+			<td>europeanaID</td>
+			<td>String</td>
+			<td>[Europeana ID](http://labs.europeana.eu/api/data-hierarchy/#identifying_records) of the item</td>
+		</tr>
+		<tr>
+			<td>guid</td>
+			<td>String</td>
+			<td>Link to the item on Europeana Portal</td>
+		</tr>
+		<tr>
+			<td>link</td>
+			<td>String</td>
+			<td>Link to the JSON representation of the item</td>
+		</tr>
+		<tr>
+			<td>title</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>edmPreview</td>
+			<td>String</td>
+			<td>Link to the content thumbnail, if available</td>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td>String</td>
+			<td>Media type of the record: IMAGE / VIDEO / TEXT / SOUND / 3D</td>
+		</tr>
+		<tr>
+			<td>dateSaved</td>
+			<td>String</td>
+			<td>Creation date</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Create</h3>
+
+<p>Creates a new saved item.</p>
+
+<blockquote>
+<p>POST https://europeana.eu/api/v2/user/saveditem.json<br />
+POST https://europeana.eu/api/v2/mydata/saveditem.json</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>action</td>
+			<td>String</td>
+			<td>Action parameter (should be CREATE for this call)</td>
+		</tr>
+		<tr>
+			<td>europeanaid</td>
+			<td>String</td>
+			<td>TBD: (optional) check the existance of a specific saved item</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Delete</h3>
+
+<p>Deletes a saved item.</p>
+
+<blockquote>
+<p>DELETE https://europeana.eu/api/v2/user/saveditem.json<br />
+DELETE https://europeana.eu/api/v2/mydata/saveditem.json</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>action</td>
+			<td>String</td>
+			<td>Action parameter (should be DELETE for this call)</td>
+		</tr>
+		<tr>
+			<td>itemid</td>
+			<td>String</td>
+			<td>The ID of the item to delete (use the IDs returned by LIST action)</td>
+		</tr>
+		<tr>
+			<td>europeanaid</td>
+			<td>String</td>
+			<td>[Europeana ID](http://labs.europeana.eu/api/data-hierarchy/#identifying_records) of the record to delete (TBD)</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Tags</h2>
+
+<p>Retrieve information about, create, or delete tags at MyEuropeana account.</p>
+
+<h3>Get</h3>
+
+<p>Get a tag.</p>
+
+<blockquote>
+<p>GET https://europeana.eu/api/v2/user/tag.json<br />
+GET https://europeana.eu/api/v2/mydata/tag.json</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>action</td>
+			<td>String</td>
+			<td>Action parameter (should be LIST for this call)</td>
+		</tr>
+		<tr>
+			<td>europeanaid</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Response</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>username</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>items</td>
+			<td>Array([Tag](http://labs.europeana.eu/api/myeuropeana/tag))</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Tag</h4>
+
+<p>Information about a single tag.</p>
+
+<p>TBD</p>
+
+<h3>Get Tag Cloud</h3>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>action</td>
+			<td>String</td>
+			<td>Action parameter (should be TAGCLOUD for this call)</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Response</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>username</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>items</td>
+			<td>Array([TagCloud](http://labs.europeana.eu/api/myeuropeana/tagcloud))</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>TagCloud</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>label</td>
+			<td>String</td>
+			<td>The tag name</td>
+		</tr>
+		<tr>
+			<td>count</td>
+			<td>Number</td>
+			<td>Tag count</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Create</h3>
+
+<p>Create a new tag.</p>
+
+<blockquote>
+<p>GET https://europeana.eu/api/v2/user/tag.json<br />
+GET https://europeana.eu/api/v2/mydata/tag.json</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>action</td>
+			<td>String</td>
+			<td>Action parameter (should be CREATE for this call)</td>
+		</tr>
+		<tr>
+			<td>europeanaid</td>
+			<td>String</td>
+			<td>TBD</td>
+		</tr>
+		<tr>
+			<td>tag</td>
+			<td>String</td>
+			<td>The tag to add for this object</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Delete</h3>
+
+<p>Delete a tag.</p>
+
+<blockquote>
+<p>DELETE https://europeana.eu/api/v2/user/tag.json<br />
+DELETE https://europeana.eu/api/v2/mydata/tag.json</p>
+</blockquote>
+
+<h2>Request</h2>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>tagid</td>
+			<td>String</td>
+			<td>Delete by tagid (returned by LIST action)</td>
+		</tr>
+		<tr>
+			<td>tag</td>
+			<td>String</td>
+			<td>Delete by tag name (can resut in deletion of many tags)</td>
+		</tr>
+		<tr>
+			<td>europeanaid</td>
+			<td>String</td>
+			<td>Remove all the tags bound to this Europeana Record</td>
+		</tr>
+	</tbody>
+</table>
+
+<ul>
+	<li>tag and europeanaid parameters can be used together, tagid works only as single selection parameter.</li>
+</ul>
+
+<h2>Saved Searches</h2>
+
+<p>Retrieve or modify saved searches in your MyEuropeana account</p>
+
+<h3>Get</h3>
+
+<p>Get saved searches.</p>
+
+<blockquote>
+<p>GET https://europeana.eu/api/v2/user/savedsearch.json<br />
+GET https://europeana.eu/api/v2/mydata/savedsearch.json</p>
+</blockquote>
+
+<h3>Response</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>username</td>
+			<td>String</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>items</td>
+			<td>Array([SavedSearch](http://labs.europeana.eu/api/myeuropeana/savedsearch))</td>
+			<td>Collection of saved searches</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>SavedSearch</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>id</td>
+			<td>Number</td>
+			<td>ID of the saved search</td>
+		</tr>
+		<tr>
+			<td>query</td>
+			<td>String</td>
+			<td>Query executed by this saved search</td>
+		</tr>
+		<tr>
+			<td>queryString</td>
+			<td>String</td>
+			<td>Complete query string of this saved search, including refinements and paging</td>
+		</tr>
+		<tr>
+			<td>dateSaved</td>
+			<td>Timestamp</td>
+			<td>Creation date</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Create</h3>
+
+<p>Create a new saved search. Read more on the search parameters in <a href="http://labs.europeana.eu/api/query/">Query Syntax</a>.</p>
+
+<blockquote>
+<p>POST https://europeana.eu/api/v2/user/savedsearch.json<br />
+POST https://europeana.eu/api/v2/mydata/savedsearch.json</p>
+</blockquote>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>action</td>
+			<td>String</td>
+			<td>Action parameter (should be CREATE for this call)</td>
+		</tr>
+		<tr>
+			<td>query</td>
+			<td>String</td>
+			<td>Main query parameter</td>
+		</tr>
+		<tr>
+			<td>qf</td>
+			<td>Array(String)</td>
+			<td>[Refinements](http://labs.europeana.eu/api/query/#refinements) array</td>
+		</tr>
+		<tr>
+			<td>start</td>
+			<td>Number</td>
+			<td>Start number for paging</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Delete</h3>
+
+<p>Delete a saved search.</p>
+
+<blockquote>
+<p>DELETE https://europeana.eu/api/v2/user/savedsearch.json<br />
+DELETE https://europeana.eu/api/v2/mydata/savedsearch.json</p>
+</blockquote>
+
+<table>
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>action</td>
+			<td>String</td>
+			<td>Action parameter (should be DELETE for this call)</td>
+		</tr>
+		<tr>
+			<td>searchid</td>
+			<td>String</td>
+			<td>ID of the saved search (as returned by LIST action)</td>
+		</tr>
+	</tbody>
+</table>
+</section>

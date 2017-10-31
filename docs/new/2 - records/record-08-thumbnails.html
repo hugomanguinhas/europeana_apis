@@ -1,0 +1,46 @@
+Retrieve thumbnails from media resources
+
+<blockquote>
+<p>https://europeana.eu/api/v2/thumbnail-by-url.json</p>
+</blockquote>
+
+<h3 id="request">Request</h3>
+
+<p>The thumbnail API doesn't require any form of authentication, providing your API key is optional. The thumbnail API always returns an image, whether the thumbnail exists or not. To use the Search API to verify whether a thumbnail exists you can add <i>has_thumbnail=true</i> to your search query, or check if the <i>edmPreview</i> field in the search or record response has a value (which is the URL of the thumbnail).</p>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 161px;">Parameter</th>
+			<th style="width: 166px;">Datatype</th>
+			<th style="width: 649px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 161px;">size</td>
+			<td style="width: 166px;">String</td>
+			<td style="width: 649px;">The size of the thumbnail, can either be w200 (width 200) or w400 (width 400).</td>
+		</tr>
+		<tr>
+			<td style="width: 161px;">type</td>
+			<td style="width: 166px;">String</td>
+			<td style="width: 649px;">Type of the default thumbnail (media image) in case the thumbnail does not exists, can be: IMAGE, SOUND, VIDEO, TEXT or 3D.</td>
+		</tr>
+		<tr>
+			<td style="width: 161px;">uri</td>
+			<td style="width: 166px;">String</td>
+			<td style="width: 649px;">The URL of the media resource of which a thumbnail should be returned. Note that the URL should be encoded.</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>Return a 400px thumbnail from the image located at <i>https://www.dropbox.com/s/8gpbipwr4ipwj37/Austria_Gerstl.jpg?raw=1</i>:</p>
+
+<blockquote>
+<p>https://www.europeana.eu/api/v2/thumbnail-by-url.json?size=w400&amp;type=IMAGE&amp;uri=https%3A%2F%2Fwww.dropbox.com%2Fs%2F8gpbipwr4ipwj37%2FAustria_Gerstl.jpg%3Fraw%3D1</p>
+</blockquote>
+
+<h3 id="response">Response</h3>
+
+<p>The thumbnail API call responds with an image in the given size. If the thumbnail does not exist, the API returns a 'default' image which is specific to the 'type' that is provided.</p>

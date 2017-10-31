@@ -1,0 +1,245 @@
+
+
+<h4 id="item">items</h4>
+
+<p>Each item in a search result and is represented by a summary of its metadata record. The actual content depends of the profile parameter, see <a href="/api/search/#metadata-sets">metadata sets</a>.</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>EDM Property</th>
+			<th>Field</th>
+			<th>Datatype</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td></td>
+			<td>europeanaCompleteness</td>
+			<td>Number</td>
+			<td>A number from 1 to 10 that is an internal measure of the metadata quality. It is based on the availability of mandatory and optional schema fields.</td>
+		</tr>
+		<tr>
+			<td>europeanaCollectionName</td>
+			<td>Array (String)</td>
+			<td>The names of the Europeana collections that contain the item</td>
+		</tr>
+		<tr>
+			<td>id</td>
+			<td>String</td>
+			<td>The Europeana ID of the record.</td>
+		</tr>
+		<tr>
+			<td>guid</td>
+			<td>String</td>
+			<td>A link to the object page on the Europeana portal to be used by client applications.</td>
+		</tr>
+		<tr>
+			<td>link</td>
+			<td>String</td>
+			<td>A link to the API object call. This link should be used to retrieve the full metadata object.</td>
+		</tr>
+		<tr>
+			<td>provider</td>
+			<td>String</td>
+			<td>The name or identifier of the provider of the object.</td>
+		</tr>
+		<tr>
+			<td>rights</td>
+			<td>Array (String)</td>
+			<td>A collection of URLs referring to the object rights.</td>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td>String</td>
+			<td>The type of the provided object (TEXT, VIDEO, SOUND, IMAGE, 3D)</td>
+		</tr>
+		<tr>
+			<td>dcCreator</td>
+			<td>Array (String)</td>
+			<td>A collection entities primarily responsible for making the resource.</td>
+		</tr>
+		<tr>
+			<td>edmConceptLabel</td>
+			<td>String</td>
+			<td>The label of the SKOS Concept of the record. Find more in <a href="http://pro.europeana.eu/documents/900548/bb6b51df-ad11-4a78-8d8a-44cc41810f22">EDM definition</a></td>
+		</tr>
+		<tr>
+			<td>edmPreview</td>
+			<td>String</td>
+			<td>A link to the representation of the object on Europeana.</td>
+		</tr>
+		<tr>
+			<td>edmTimespanLabel</td>
+			<td>String</td>
+			<td>The label of EDM Time Span object of the record. Find more in <a href="http://pro.europeana.eu/documents/900548/bb6b51df-ad11-4a78-8d8a-44cc41810f22">EDM Definition</a></td>
+		</tr>
+		<tr>
+			<td>language</td>
+			<td>Array (String)</td>
+			<td>Languages assigned to the resource with reference to the Provider. Usually, this field contains the languages of the metadata of the record.</td>
+		</tr>
+		<tr>
+			<td>title</td>
+			<td>Array (String)</td>
+			<td>The main and alternative titles of the item.</td>
+		</tr>
+		<tr>
+			<td>year</td>
+			<td>Array (String)</td>
+			<td>A point of time associated with an event in the life of the original analog or born digital object. Find more in <a href="http://pro.europeana.eu/documents/900548/bb6b51df-ad11-4a78-8d8a-44cc41810f22">EDM definition</a></td>
+		</tr>
+		<tr>
+			<td>edmIsShownAt</td>
+			<td>Array (String)</td>
+			<td>The URL of a web view of the object in full information context.</td>
+		</tr>
+		<tr>
+			<td>edmPlaceLatitude</td>
+			<td>Array (String)</td>
+			<td>The latitude of a spatial thing (decimal degrees).</td>
+		</tr>
+		<tr>
+			<td>edmPlaceLongitude</td>
+			<td>Array (String)</td>
+			<td>The longitude of a spatial thing (decimal degrees).</td>
+		</tr>
+		<tr>
+			<td>score</td>
+			<td>Number</td>
+			<td>The relevancy score calculated by the search engine. Depends of the query.</td>
+		</tr>
+		<tr>
+			<td>edmConceptTerm</td>
+			<td>Array (String)</td>
+			<td>A SKOS Concept.</td>
+		</tr>
+		<tr>
+			<td>edmConceptPrefLabel</td>
+			<td></td>
+			<td>The preferred form of the name of the concept.</td>
+		</tr>
+		<tr>
+			<td>edmConceptBroaderTerm</td>
+			<td>Array (String)</td>
+			<td>The identifier of a broader concept in the same thesaurus or controlled vocabulary</td>
+		</tr>
+		<tr>
+			<td>edmConceptBroaderLabel</td>
+			<td></td>
+			<td>A human readable name of a broader concept.</td>
+		</tr>
+		<tr>
+			<td>edmTimespanBegin</td>
+			<td>Array (String)</td>
+			<td>The date the timespan started.</td>
+		</tr>
+		<tr>
+			<td>edmTimespanEnd</td>
+			<td>Array (String)</td>
+			<td>The date the timespan finished.</td>
+		</tr>
+		<tr>
+			<td>edmTimespanBroaderTerm</td>
+			<td>Array (String)</td>
+			<td>ts_dcterms_isPartOf</td>
+		</tr>
+		<tr>
+			<td>edmTimespanBroaderLabel</td>
+			<td>edm:TimeSpan/dcterms:isPartOf</td>
+			<td>ts_dcterms_isPartOf</td>
+		</tr>
+		<tr>
+			<td>ugc</td>
+			<td>Array (Boolean)</td>
+			<td>Whether or not the record includeshas user generated contents in the record</td>
+		</tr>
+		<tr>
+			<td>country</td>
+			<td>Array (String)</td>
+			<td>The name of the country in which the Provider is based or “Europe” in the case of Europe-wide projects.</td>
+		</tr>
+		<tr>
+			<td>edmPlaceBroaderTerm</td>
+			<td>Array (String)</td>
+			<td>pl_dcterms_isPartOf</td>
+		</tr>
+		<tr>
+			<td>edmPlaceAltLabel</td>
+			<td></td>
+			<td>Alternative forms of the name of the place.</td>
+		</tr>
+		<tr>
+			<td>dctermsIsPartOf</td>
+			<td>Array (String)</td>
+			<td>A related resource in which the described resource is physically or logically included.</td>
+		</tr>
+		<tr>
+			<td>dctermsSpatial</td>
+			<td>Array (String)</td>
+			<td>Spatial characteristics of the resource.</td>
+		</tr>
+		<tr>
+			<td>edmPlace</td>
+			<td>Array (String)</td>
+			<td>The URI of an EDM Place object.</td>
+		</tr>
+		<tr>
+			<td>edmTimespan</td>
+			<td>Array (String)</td>
+			<td>The URI of an EDM Timespan object.</td>
+		</tr>
+		<tr>
+			<td>edmAgent</td>
+			<td>Array (String)</td>
+			<td>The URI of an EDM Agent object</td>
+		</tr>
+		<tr>
+			<td>edmAgentLabel</td>
+			<td></td>
+			<td>Name of the agent.</td>
+		</tr>
+		<tr>
+			<td>dcContributor</td>
+			<td>Array (String)</td>
+			<td>An entity responsible for making contributions to the resource.</td>
+		</tr>
+		<tr>
+			<td>isShownBy</td>
+			<td>Array (String)</td>
+			<td>The URL of a web view of the object.</td>
+		</tr>
+		<tr>
+			<td>dcDescription</td>
+			<td>Array (String)</td>
+			<td>A description of the resource.</td>
+		</tr>
+		<tr>
+			<td>edmLandingPage</td>
+			<td>Array (String)</td>
+			<td>This property captures the relation between an aggregation representing a cultural heritage object and the Web resource representing that object on the provider’s web site.</td>
+		</tr>
+		<tr>
+			<td>timestamp_created_epoch</td>
+			<td>Number</td>
+			<td>UNIX timestamp of the date when record were created</td>
+		</tr>
+		<tr>
+			<td>timestamp_update_epoch</td>
+			<td>Number</td>
+			<td>UNIX timestamp of the date when record were last updated</td>
+		</tr>
+		<tr>
+			<td>timestamp_created</td>
+			<td>String</td>
+			<td><a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format of the date when record were created</td>
+		</tr>
+		<tr>
+			<td>timestamp_update</td>
+			<td>String</td>
+			<td><a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format of the date when record were last updated</td>
+		</tr>
+	</tbody>
+</table>
+
+</section>
