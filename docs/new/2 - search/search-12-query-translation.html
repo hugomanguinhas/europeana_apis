@@ -1,0 +1,108 @@
+<section>
+
+<p>The Search API offers an auxiliar method to help translate search terms to different languages so that they can be easily used with the main Search API method. This method is uses the Wikipedia API to perform the actual translation. The signature of the method is as follows:</p>
+
+<blockquote style="word-wrap: break-word">https://europeana.eu/api/v2/translateQuery.json?wskey=YOUR_KEY&term=TERM&languageCodes=LANGUAGE_CODES</blockquote>
+
+<p>The following parameters are supported by this method:<p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 170px">Parameter</th>
+			<th style="width: 90px">Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>term</td>
+			<td>String</td>
+			<td>The search term being translated</td>
+		</tr>
+		<tr>
+			<td>languageCodes</td>
+			<td>String</td>
+			<td>A comma separated list of <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> language codes corresponding to the target languages for translation</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Response</h3>
+
+<p>A response of the translation method is always formated in JSON and will contain a number of fields that present information about the handling of the request, while the concrete information about the record is presented in the "translations" field.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Result Field</th>
+			<th style="width: 150px">JSON Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>translations</td>
+			<td><a href="#json-array">Array</a> (<a href="#ro-translation">Translation</a>)</td>
+			<td>A list of translations. Each translation contains two fields:<br />
+			text: the text of the translation<br />
+			languageCode: the ISO language code of the translation</td>
+		</tr>
+		<tr>
+			<td>translatedQuery</td>
+			<td><a href="#json-string">String</a></td>
+			<td>A query string where each translations are concatenated by the boolean OR operator.</td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr id="ro-translation">
+			<th colspan="3">Translation Object</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>languageCode</td>
+			<td><a href="#json-string">String</a></td>
+			<td>The language code of the requested language.</td>
+		</tr>
+		<tr>
+			<td>text</td>
+			<td><a href="#json-string">String</a></td>
+			<td>The text translated to the requested language.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: Get translations for "Notre Dame" in Dutch, English and Hungarian</h4>
+
+<blockquote style="word-wrap: break-word">
+https://europeana.eu/api/v2/translateQuery.json?languageCodes=nl,en,hu&amp;wskey=YOUR_KEY&amp;term=notre%20dame
+</blockquote>
+
+<pre><code class="language-JavaScript">
+{
+  "apikey": "xxxxxxxx",
+  "action": "translateQuery.json",
+  "success": true,
+  "requestNumber": 8957,
+  "translations": [
+    {
+      "text": "Notre-Dame",
+      "languageCode": "nl"
+    },
+    {
+      "text": "Notre Dame",
+      "languageCode": "en"
+    },
+    {
+      "text": "Notre Dame",
+      "languageCode": "de"
+    }
+  ],
+  "translatedQuery": "Notre-Dame OR \"Notre Dame\""
+}
+</code></pre>
+
+<p>For background information on this method, see the blog post <a href="http://blog.europeana.eu/2014/08/improving-search-across-languages/">Improving search across languages</a></p>
+
+</section>

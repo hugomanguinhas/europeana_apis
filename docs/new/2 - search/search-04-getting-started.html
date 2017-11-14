@@ -1,0 +1,254 @@
+title: Getting Started
+anchor: Getting Started
+
+<section>
+
+<p>Every call to the Search API is an HTTPS request in the following URL signature:</p>
+
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json</blockquote>
+
+with the following parameters:
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 170px">Parameter</th>
+			<th style="width: 90px">Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="param-query">
+			<td>query</td>
+			<td><a href="#search-string">String</a></td>
+			<td>The search term(s). See <a href="#query-syntax">Query Syntax</a> for information on forming complex queries and examples.</td>
+		</tr>
+		<tr id="param-qf">
+			<td>qf</td>
+			<td><a href="#search-string">String</a></td>
+			<td>Facet filtering query. This parameter can be defined more than once. See <a href="#query-syntax">Query Syntax</a> page for more information.</td>
+		</tr>
+		<tr id="param-reusability">
+			<td><a href="#reusability">reusability</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td>Filter by copyright status. Possible values are <a href="#reusability-open">open</a>, <a href="#reusability-restricted">restricted</a> or <a href="#reusability-permission">permission</a>.</td>
+		</tr>
+		<tr id="param-media">
+			<td>media</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td>Filter by records where an URL to the full media file is present in the edm:isShownBy or edm:hasView metadata and is resolvable.</td>
+		</tr>
+		<tr id="param-thumbnail">
+			<td>thumbnail</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td>Filter by records where a thumbnail image has been generated for any of the WebResource media resources (thumbnail available in the edmPreview field).</td>
+		</tr>
+		<tr id="param-landingpage">
+			<td>landingpage</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td>Filter by records where the link to the original object on the providers website (edm:isShownAt) is present and verified to be working.</td>
+		</tr>
+		<tr id="param-colourpalette">
+			<td>colourpalette</td>
+			<td><a href="#search-string">String</a></td>
+			<td>Filter by images where one of the colours of an image matches the provided colour code. You can provide this parameter multiple times, the search will then do an 'AND' search on all the provided colours. See <a href="#colour-palette">colour palette</a>.</td>
+		</tr>
+		<tr id="param-sort">
+			<td>sort</td>
+			<td><a href="#search-string">String</a></td>
+			<td>Sort records by certain fields, currently only timestamp_created and timestamp_update are supported. Use: field+sort_order, example: &amp;sort=timestamp_update+desc</td>
+		</tr>
+		<tr id="param-rows">
+			<td>rows</td>
+			<td><a href="#search-number">Number</a></td>
+			<td>The number of records to return. Maximum is 100. Defaults to 12. See <a href="#pagination">pagination</a>.</td>
+		</tr>
+		<tr id="param-start">
+			<td>start</td>
+			<td><a href="#search-number">Number</a></td>
+			<td>The item in the search results to start with when using <a href="#pagination-cursor">cursor-based pagination</a>. First item is 1. Defaults to 1.</td>
+		</tr>
+		<tr id="param-cursor">
+			<td>cursor</td>
+			<td><a href="#search-string">String</a></td>
+			<td>A cursor mark from where to start the search result set when using deep pagination. Set to * to start <a href="#pagination-cursor">cursor-based pagination</a>.</td>
+		</tr>
+		<tr id="param-profile">
+			<td>profile</td>
+			<td><a href="#search-string">String</a></td>
+			<td>A <a href="#profiles">profile</a> parameter which controls the format and richness of the response.</td>
+		</tr>
+		<tr id="param-callback">
+			<td>callback</td>
+			<td><a href="#search-string">String</a></td>
+			<td>Name of a client side <a href="intro#callback-function">callback function</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: Search for all openly licensed records with a direct link to the full media file:</h4>
+
+<blockquote style="word-wrap: break-word">
+https://www.europeana.eu/api/v2/search.json?query=Paris&amp;reusability=open&amp;media=true (<a href="#console?function=search&amp;query=Paris&amp;reusability=open&amp;media=true">Try on Console</a>)
+</blockquote>
+
+<h3>Response</h3>
+
+<p>A response to the Search API is always formated in JSON and will contain a number of fields that present information about the handling of the request, while the concrete information about the record is presented in the "items" field (see <a href="#metadata-sets">Metadata Sets</a>).</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>apikey</td>
+			<td><a href="#search-string">String</a></td>
+			<td>the authentication parameter sent out by the client (the wskey parameter)</td>
+		</tr>
+		<tr>
+			<td>action</td>
+			<td><a href="#search-string">String</a></td>
+			<td>the name of the API method that was called</td>
+		</tr>
+		<tr>
+			<td>success</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td>a boolean (true/false) flag denoting the successful execution of the call</td>
+		</tr>
+		<tr>
+			<td>statsDuration</td>
+			<td><a href="#search-number">Number</a></td>
+			<td>the time (in milliseconds) taken to serve the request</td>
+		</tr>
+		<tr>
+			<td>requestNumber</td>
+			<td><a href="#search-number">Number</a></td>
+			<td>a positive number denoting the number of request by this API key within the last 24 hours</td>
+		</tr>
+		<tr>
+			<td>params</td>
+			<td>Object</td>
+			<td>The original request parameters. If an invalid request parameter was submitted, this response parameter will contain the default value (see individual calls for the default values). Shown up only if the profile parameter contains "params".</td>
+		</tr>
+		<tr>
+			<td>itemsCount</td>
+			<td><a href="#search-number">Number</a></td>
+			<td>The number of retrieved records</td>
+		</tr>
+		<tr>
+			<td>totalResults</td>
+			<td><a href="#search-number">Number</a></td>
+			<td>The total number of results</td>
+		</tr>
+		<tr>
+			<td>nextCursor</td>
+			<td><a href="#search-string">String</a></td>
+			<td>Encoded string to pass along to the cursor to navigate to the next page in the search result set. See <a href="#pagination">Pagination</a>.</td>
+		</tr>
+		<tr id="rf-items">
+			<td>items</td>
+			<td><a href="#search-array">Array</a> (<a href="#item">Item</a>)</td>
+			<td>This is a collection of search results. Each item is represented by a summary of the metadata record. The actual content is dependent of the profile parameter.</td>
+		</tr>
+		<tr id="rf-facets">
+			<td>facets</td>
+			<td><a href="#search-array">Array</a> (<a href="#ro-facet">Facet</a>)</td>
+			<td>A collection of facets that describe the resultant dataset.</td>
+		</tr>
+		<tr>
+			<td>breadcrumbs</td>
+			<td><a href="#search-array">Array</a> (<a href="#breadcrumb">Breadcrumb</a>)</td>
+			<td>A collection of search queries that were applied in this call.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Error Responses</h3>
+
+<p>An error occurring during processing of an API method is reported by (1) a relevant HTTP status code, (2) a value of the success field and (3) a meaningful error message in the error field. The following table shows the fields appearing within an error response:</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 120px">Field</th>
+			<th style="width: 100px">Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>apikey</td>
+			<td><a href="#search-string">String</a></td>
+			<td>The authentication parameter sent out by the client (the wskey parameter)</td>
+		</tr>
+		<tr>
+			<td>success</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td>A boolean (true/false) flag denoting the successful execution of the call</td>
+		</tr>
+		<tr>
+			<td>statsDuration</td>
+			<td><a href="#search-number">Number</a></td>
+			<td>The time (in milliseconds) taken to serve the request</td>
+		</tr>
+		<tr>
+			<td>error</td>
+			<td><a href="#search-string">String</a></td>
+			<td>If the call was not successful, this fields will contain a detailed text message. See <a href="#error-codes">Error Codes</a> for more information.</td>
+		</tr>
+<!--
+		<tr>
+			<td>params</td>
+			<td>Object</td>
+			<td>The original request parameters. When an invalid request parameter was submitted, this response parameter will contain the default value (see individual calls for the default values). Shown up only if the profile parameter contains "params".</td>
+		</tr>
+-->
+	</tbody>
+</table>
+
+<p>The following kinds of errors can be returned by the Record API:</p>
+
+<table class="listingtable" id="error-codes">
+	<thead>
+		<tr>
+			<th style="width: 130px">HTTP<br/>Status Code</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>200</td>
+			<td>The request was executed successfully.</td>
+		</tr>
+		<tr>
+			<td>401</td>
+			<td>Authentication credentials were missing or authentication failed.</td>
+		</tr>
+		<tr>
+			<td>429</td>
+			<td>The request could be served because the application has reached its usage limit.</td>
+		</tr>
+		<tr>
+			<td>500</td>
+			<td>An error has occorred in the server which has not been properly handled. If you receive this error it means that something has gone really wrong, so please report them to us!</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: Request to the Search API supplying an invalid (unknown) API key</h4>
+
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?query=*&wskey=test</blockquote>
+
+<pre><code>{
+	"apikey": "test",
+	"success": false,
+	"error": "Invalid API key"
+}
+</code></pre>
+
+</section>

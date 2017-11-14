@@ -1,0 +1,84 @@
+
+
+
+
+<p>The following example looks for objects containing the term <em>Paris</em> among images:</p>
+
+<blockquote>
+<p>https://www.europeana.eu/api/v2/search.json?wskey=xxxx&amp;query=Paris&amp;qf=TYPE:IMAGE</p>
+</blockquote>
+
+<p><a href="/api/console/?function=search&amp;query=Paris&amp;qf=TYPE:IMAGE">Test on API Console</a></p>
+
+<p>Here are more examples of faceted search. Looking for objects containing the term <em>Paris</em> among objects described in <em>French</em>:</p>
+
+<blockquote>
+<p>https://www.europeana.eu/api/v2/search.json?wskey=xxxx&amp;query=Paris&amp;qf=LANGUAGE:fr</p>
+</blockquote>
+
+<p><a href="/api/console/?function=search&amp;query=Paris&amp;qf=LANGUAGE:fr">Test on API Console</a></p>
+
+<p>Looking for objects containing the term <em>Paris</em> among objects dated by the year <em>1789</em>:</p>
+
+<blockquote>
+<p>http://www.europeana.eu/api/v2/search.json?wskey=xxxx&amp;query=Paris&amp;qf=YEAR:1789</p>
+
+<p><a href="/api/console/?function=search&amp;query=Paris&amp;qf=YEAR:1789">Test on API Console</a></p>
+</blockquote>
+
+<p>Looking for objects containing the term Paris among objects provided by an institution based in <em>France</em>:</p>
+
+<blockquote>
+<p>https://www.europeana.eu/api/v2/search.json?wskey=xxxx&amp;query=Paris&amp;qf=COUNTRY:france</p>
+
+<p><a href="/api/console/?function=search&amp;query=Paris&amp;qf=COUNTRY:france">Test on API Console</a></p>
+</blockquote>
+
+<p>Looking for objects containing the term <em>Paris</em> among objects protected by the <a href="http://www.europeana.eu/portal/rights/rr-f.html"><em>Rights Reserved - Free Access</em></a> licence:</p>
+
+<blockquote>
+<p>https://www.europeana.eu/api/v2/search.json?wskey=xxxx&amp;query=Paris&amp;qf=RIGHTS:http://www.europeana.eu/rights/rr-f/</p>
+
+<p><a href="/api/console/?function=search&amp;query=Paris&amp;qf=RIGHTS:http://www.europeana.eu/rights/rr-f/">Test on API Console</a></p>
+</blockquote>
+
+<p>Looking for objects containing the term <em>Paris</em> among objects provided by <em>The European Library</em>:</p>
+
+<blockquote>
+<p>https://www.europeana.eu/api/v2/search.json?wskey=xxxx&amp;query=Paris&amp;qf=PROVIDER:"The+European+Library"</p>
+
+<p><a href="/api/console/?function=search&amp;query=Paris&amp;qf=PROVIDER:%22The%20European%20Library%22">Test on API Console</a></p>
+</blockquote>
+
+<p>Looking for objects containing the term <em>Paris</em> among objects provided by the user community:</p>
+
+<blockquote>
+<p>https://www.europeana.eu/api/v2/search.json?wskey=xxxx&amp;query=Paris&amp;qf=UGC:true</p>
+
+<p><a href="/api/console/?function=search&amp;query=Paris&amp;qf=UGC:true">Test on API Console</a></p>
+</blockquote>
+
+<h3><b>Example queries</b></h3>
+
+<ul>
+	<li>Openly licensed content - <a href="http://labs.europeana.eu/api/console?function=search&amp;query=*:*&amp;reusability=open&amp;profile=rich">&amp;reusability=open</a></li>
+	<li>Limit to items with &gt;4 megapixel images - <a href="http://labs.europeana.eu/api/console?function=search&amp;query=*:*&amp;reusability=open&amp;qf=IMAGE_SIZE:extra_large&amp;profile=rich">&amp;qf=IMAGE_SIZE:extra_large</a></li>
+	<li>Colour search - add one or more colours e.g. &amp;colourpalette=%23556B2F (Dark Olive Green)</li>
+	<li>Subject searches e.g. paintings - <a href="http://labs.europeana.eu/api/console?function=search&amp;query=*:*&amp;reusability=open&amp;qf=IMAGE_SIZE:extra_large&amp;qf=what:portrait&amp;profile=rich">&amp;qf=what:portrait</a></li>
+</ul>
+
+<h2>Searching for locations</h2>
+
+<p><img alt="" src="/files/labs/blog/2020601-leuven.jpeg" /></p>
+
+<p>"<a href="http://www.europeana.eu/portal/record/2020601/attachments_1249_556_1249_original_1249_jpg.html">Louvain - le Théâtre et la rue de la Station</a>". Contributed by Arietta Ruß as part of the Europeana 1914-18 project. CC BY-SA.</p>
+
+<p>As many photographic related applications require location-based material, it’s worth giving some extra advice on how to find these.</p>
+
+<ul>
+	<li>Within the Europeana API there is the ability to search for geotagged materials using a bounding box. You can append a parameter such as<br />
+	&amp;qf=pl_wgs84_pos_lat:[50.8628526691932+TO+50.89686185152743]+AND+pl_wgs84_pos_long:[4.644899368286132+TO+4.756135940551758]<br />
+	This has been used on the PostcodePast site that has a small script to generate a geoJson feed for display using LeafletJS - e.g. see <a href="http://postcodepast.com/data/europeana.php?bbox=4.644899368286132,50.8628526691932,4.756135940551758,50.89686185152743">http://postcodepast.com/data/europeana.php?bbox=4.644899368286132,50.8628526691932,4.756135940551758,50.89686185152743</a> (feel free to use this for testing, but for production purposes you can find the code under an open license on GitHub)</li>
+	<li>The presence of geotagged material can be limited if providers have not given geotags with their metadata. There are a few possible ways to overcome this, for example by searching for a location name. You can simply type the name as a search term e.g. <a href="http://www.europeana.eu/portal/search?q=leuven&amp;f%5BMEDIA%5D%5B%5D=true&amp;f%5BREUSABILITY%5D%5B%5D=open&amp;f%5BREUSABILITY%5D%5B%5D=restricted&amp;f%5BTYPE%5D%5B%5D=IMAGE">q=Leuven</a> or if that returns poor results try the more specific <a href="http://www.europeana.eu/portal/search?f%5BMEDIA%5D%5B%5D=true&amp;f%5BREUSABILITY%5D%5B%5D=open&amp;f%5BREUSABILITY%5D%5B%5D=restricted&amp;f%5BTYPE%5D%5B%5D=IMAGE&amp;page=4&amp;q=what%3ALeuven">&amp;qf=what:Leuven OR Louvain OR Löwen</a></li>
+	<li>An example of this approach has been implemented on PostcodePast which uses the Wikipedia API to find geotagged points of interest and then searches these names within Europeana (and Flickr &amp; DPLA) - see e.g. <a href="http://postcodepast.com/#lat=50.8798438&amp;lng=4.700517600000012&amp;zoom=14">http://postcodepast.com/#lat=50.8798438&amp;lng=4.700517600000012&amp;zoom=14</a>. The concept and API calls behind this are illustrated in <a href="https://docs.google.com/spreadsheets/d/1MBxY_awlVfo3SWa6JT_mKg4R0Z1pE7U8IRpAkEr_gy4/edit?usp=sharing">this Google Sheet</a> (please make a copy for your own use before editing/changing).</li>
+</ul>

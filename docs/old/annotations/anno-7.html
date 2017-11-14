@@ -1,0 +1,143 @@
+A roadmap for the development of the Annotations API along with a changelog of updates to the API.
+
+<section>
+<p>The Annotations API will work towards a first major release at the third quarter of 2017. Until then, the Annotations API will feature many updates and iterations, which will be listed on this page.</p>
+
+<h2>Version 0.2.7 (May 2017)</h2>
+
+<p>In this release we have:</p>
+
+<ul>
+	<li>added support for the search profiles</li>
+	<li>adjusted pageSize limits for search to make them configurable and profile dependent</li>
+	<li>made several improvements to exception handling: responding with proper error codes and understandable error messages that can be configured through property files.</li>
+	<li>migrated the provider and user configurations to MongoDB.</li>
+	<li>revised the fields used for search and faceting, and fixed some issues.</li>
+	<li>fixed the PUT method to be less restrictive.</li>
+	<li>added support for asynchronuous indexing.</li>
+	<li>added support for canonical identifiers</li>
+	<li>added a method to support the update all references to record identifiers following changes in the main Europeana reference database</li>
+	<li>added support for write locks to the API for maintenance purposes.</li>
+</ul>
+
+<h2>Version 0.2.6 (December 2016)</h2>
+
+<p>In this release we have:</p>
+
+<ul>
+	<li>Removed the (Java) Exception class from error messages, all error messages only show what's happening in friendly ways now.</li>
+	<li>Updated the logic of the "generator" class in annotations. The minimised version (single value) can contain both a name or URI. The expanded version can contain an "id" (must be a URI) and/or "name" property.</li>
+</ul>
+
+<h2>Version 0.2.5 (October 2016)</h2>
+
+<p>In this release we mostly fixed some bugs:</p>
+
+<ul>
+	<li>Fixed a bug where the "items" listing in the search method did return a string for single-item results instead of a list.</li>
+	<li>Allowed Cross-Origin Domain requests to the <a href="https://annotations.europeana.eu/api-docs/" target="_blank">Swagger API spec</a>, to power the Annotations <a href="http://labs.europeana.eu/api/annotations-api-console" target="_blank">API console</a>.</li>
+	<li>Added utf-8 headers to all JSON-LD output to ensure response is properly formatted.</li>
+	<li>Fixed a bug where requesting facets could return an exception.</li>
+</ul>
+
+<h2>Version 0.2.4 (October 2016)</h2>
+
+<p>In this release we've updated the API specification in line with the latest Candidate Recommendation release of the <a href="https://www.w3.org/TR/annotation-protocol/">Web Annotations Protocol</a>. This means that in the search method, many fields and structures have changed which are not backwards compatible. The good news is that since the latest protocol is a Candidate Recommendation, this should be the last Major change which breaks backwards compatibility.</p>
+
+<ul>
+	<li>Renamed the "contains" field to "items".</li>
+	<li>Add an "isPartOf" element to the search output to indicate information about the search result set with the total number of items ("total") and the URI of the search query ("id").</li>
+	<li>Changed the value of "type" to "AnnotationPage".</li>
+	<li>Added support for "next" and "prev" in the search output to indicate the URIs for the next and previous pages of search results (if applicable).</li>
+	<li>Added an "id" field to the search output with the URI of the search results (first page).</li>
+	<li>Renamed "totalItems" to "total" with the number of items on the current search result page (the total number of search results is in "total" in the "isPartOf" element.</li>
+	<li>To control the number of search results per page, use the "pageSize" parameter (defaults to 10).</li>
+	<li>To control the page (to paginate), use the "page" parameter, which defaults to 0 (first page).</li>
+</ul>
+
+<h2>Version 0.2.3 (August 2016)</h2>
+
+<p>In this release we have improved our search for annotations, which allows you to search for other fields than those were already available. We also updated some of the names of the search fields.</p>
+
+<ul>
+	<li>New: the ability to search for annotations based on the generator (id and name, fields: generator_id, generator_name).</li>
+	<li>Change: updated the fields for target_record_ids to target_id and motivation_key to motivation. This applies to both search &amp; faceting.</li>
+</ul>
+
+<h2>Version 0.2.2 (July 2016)</h2>
+
+<p>With this release we further stabilised the Annotations API and addressed some feedback from the Alpha version. This version is a further iteration of the Public Alpha.</p>
+
+<p>New features:</p>
+
+<ul>
+	<li>Support for geo-tagging, you can now submit geo-tags to the Annotations API for geographical information.</li>
+</ul>
+
+<p>We've also updated our API to reflect the latest updates on the Web Annotation Model. Make sure to update your API clients accordingly:</p>
+
+<ul>
+	<li>The @ has been removed from all fields except for <i>@context</i>.</li>
+	<li>The simple tagging scenario without language information should use the <i>bodyValue</i> field to represent the tag. You can no longer send a literal as <i>body</i> anymore in this scenario.</li>
+	<li>The semantic tagging scenario does now accept a URI resource directly in the <i>body</i> field.</li>
+	<li>The annotation type has been updated from <i>oa:Annotation</i> to just <i>Annotation</i>.</li>
+</ul>
+
+<h2>Version 0.2.1 (March 2016)</h2>
+
+<p>First Public Alpha version of the Annotations API. Alpha means that the API is available for preview and testing. This also means that while the API is in Alpha changes can be and are likely to be made which are <strong>not backwards compatible</strong>.</p>
+
+<ul>
+	<li>First release.</li>
+	<li>Support for simple tags, semantic tags and object links.</li>
+</ul>
+
+<h2>Roadmap</h2>
+
+<p>The contents of the roadmap are subject to change, they will be updated at least every three weeks.</p>
+
+<h3>Major releases</h3>
+
+<p>Alpha release: February 2016<br />
+Beta release: Summer 2016<br />
+Stable release: Early 2017</p>
+
+<table>
+	<colgroup>
+		<col width="25%" />
+		<col width="75%" />
+	</colgroup>
+	<tbody>
+		<tr>
+			<th>In development</th>
+			<td>
+			<ul>
+				<li>Enhancements to semantic tagging:
+				<ul>
+					<li>Support for more vocabularies.</li>
+					<li>Extracting and storing information from semantic resources (dereferencing).</li>
+				</ul>
+				</li>
+				<li>Preparations for the Beta release:
+				<ul>
+					<li>Allow Europeana REST API keys to be used for the Annotations API.</li>
+					<li>Connect MyEuropeana API to the Annotations API for individual user management.</li>
+					<li>Automated registration of providers for annotations.</li>
+				</ul>
+				</li>
+			</ul>
+			</td>
+		</tr>
+		<tr>
+			<th>Planned development</th>
+			<td>
+			<ul>
+				<li>Support for image (coordinates) annotations.</li>
+				<li>Support for time-based annotations (audio).</li>
+				<li>Support for geo-based annotations.</li>
+			</ul>
+			Along with the planned features every new release will aim to improve existing features, enhance existing types of annotations and to incorporate feedback from developers and users.</td>
+		</tr>
+	</tbody>
+</table>
+</section>

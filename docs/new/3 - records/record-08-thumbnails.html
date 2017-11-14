@@ -1,0 +1,57 @@
+Retrieving thumbnails from media resources
+
+<section>
+
+<p>The Thumbnail API is an extension of the Record API to allow the retrieval of cached thumbnails that are generated upon ingestion of the metadata by Europeana. Thumbnails are only generated for media resources that are referred through the edm:isShownBy, edm:isShownAt or edm:object properties.</p>
+
+<h3 id="request">Request</h3>
+
+<p>The Thumbnail API doesn't require any form of authentication, providing your API key is optional. It always returns an image, whether the thumbnail exists or not. To use the Search API to verify whether a thumbnail exists you can add <i>has_thumbnail=true</i> to your search query, or check if the <i>edmPreview</i> field in the search or record response has a value (which is the URL of the thumbnail).</p>
+
+<p>Every call to the Thumbnail API is an HTTP request in the following URL signature:</p>
+
+<blockquote style="word-wrap: break-word">https://europeana.eu/api/v2/thumbnail-by-url.json?size=SIZE&type=TYPE&uri=URI</blockquote>
+
+where the variables in the URL path mean:
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 120px;">Parameter</th>
+			<th style="width: 120px;">Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>size</td>
+			<td>String</td>
+			<td>The size of the thumbnail, can either be w200 (width 200) or w400 (width 400).</td>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td>String</td>
+			<td>Type of the default thumbnail (media image) in case the thumbnail does not exists, can be: IMAGE, SOUND, VIDEO, TEXT or 3D.</td>
+		</tr>
+		<tr>
+			<td>uri</td>
+			<td>String</td>
+			<td>The URL of the media resource of which a thumbnail should be returned. Note that the URL should be encoded.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="response">Response</h3>
+
+<p>The thumbnail API call responds with an image in the given size. If the thumbnail does not exist, the API returns a 'default' image which is specific to the 'type' that is provided.</p>
+
+<h3 id="response">Example</h3>
+
+<p>Obtain a 400px thumbnail from the image located at <i>https://www.dropbox.com/s/8gpbipwr4ipwj37/Austria_Gerstl.jpg?raw=1</i>:</p>
+
+<blockquote style="word-wrap: break-word">
+https://www.europeana.eu/api/v2/thumbnail-by-url.json?size=w400&amp;type=IMAGE&amp;uri=https%3A%2F%2Fwww.dropbox.com%2Fs%2F8gpbipwr4ipwj37%2FAustria_Gerstl.jpg%3Fraw%3D1
+</blockquote>
+
+</section>
+

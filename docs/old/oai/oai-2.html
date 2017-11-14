@@ -1,0 +1,52 @@
+
+In this section you will find all information necessary to get started using Europeana's OAI-PMH Service.
+
+<section>
+<h2>Access key</h2>
+
+<p>Ensure that you have obtained an <a href="/api/oai-pmh-access-key/">access key</a>, which is not the same as the access key for the REST API as long as the service is still in beta.</p>
+
+<h2>What you can do with this service</h2>
+
+<p>The Europeana OAI-PMH Service can be used to harvest metadata records from Europeana. Metadata records can be harvested all at once (all of Europeana's metadata), or selectively per dataset or date of creation/modification. Further down this page you will find some information on the structure and definitions of the repository.</p>
+
+<h2>Learn about OAI</h2>
+
+<p>If you are not familiar with OAI we recommend the <a href="https://www.oaforum.org/tutorial/">OAI for beginners tutorial</a> from the Open Archives Forum. Please see the <a href="/api/oai-pmh/resources/">resources page</a> for more online resources.</p>
+
+<h2>Available requests</h2>
+
+<p>Below you can find the available requests. The base URL for all requests is <a href="http://oai.europeana.eu/" target="_blank">http://oai.europeana.eu/</a>. These links and requests return XML, for which you need to use an XML-aware browser or viewing application.</p>
+
+<p>Here is the list of available requests defined by the OAI-PMH protocol:</p>
+
+<ul>
+	<li><a href="http://oai.europeana.eu/oaicat/identify.shtml">Identify</a></li>
+	<li><a href="http://oai.europeana.eu/oaicat/getRecord.shtml">getRecord</a></li>
+	<li><a href="http://oai.europeana.eu/oaicat/listIdentifiers.shtml">listIdentifiers</a> (<a href="http://oai.europeana.eu/oaicat/listIdentifiersResumption.shtml">Resumption</a>)</li>
+	<li><a href="http://oai.europeana.eu/oaicat/listMetadataFormats.shtml">listMetadataFormats</a></li>
+</ul>
+
+<h2>Structure of the data</h2>
+
+<p>The records in the OAI repository are structured into datasets. A dataset for Europeana is an Information Package <a href="http://public.ccsds.org/publications/archive/650x0m2.pdf" target="_blank">as defined by OAIS</a> or a collection of data. A Europeana dataset can be about a certain topic, originate from a certain source or process and is aggregated by a certain custodian. (<a href="http://www.w3.org/TR/void/" target="_blank">http://www.w3.org/TR/void/</a>).</p>
+
+<p>In some cases, a Europeana dataset can be the representation of one existing collection held by an institution. In other cases the correspondence between datasets and collections won’t be one-to-one.</p>
+
+<p>A dataset has an unambiguous reference within the context of the Europeana datasets database.</p>
+
+<p>A dataset can be provided by:</p>
+
+<ul>
+	<li>a provider (i.e. the organisation providing datasets directly to Europeana).</li>
+	<li>a data provider (i.e. an organisation providing the dataset to an aggregator).</li>
+</ul>
+
+<p>Note that a dataset can have multiple data providers. A data provider is an organisation that submits data to Europeana.eu. Data providers may submit data directly to Europeana but are more likely to use the services of a provider, which collects, formats and manages data from data providers before submitting data to Europeana.eu.</p>
+
+<p>The data model used for the metadata is EDM. You can read about EDM and records on the <a href="/api/data-hierarchy">data hierarchy page</a>.</p>
+
+<h2>Examples</h2>
+
+<p>An example of a dataset that is accepted by the OAI-PMH service is 2022608_Ag_NO_ELocal_DiMu. You could use the <a href="/api/provider/">Providers and Datasets REST API</a> to retrieve a listing of all datasets per provider. The records are identified by their Linked Data Cultural Heritage Object (CHO) URIs. An example of such an identifier is <a href="http://data.europeana.eu/item/2022608/AAK_AAKS_2007_02_0206">http://data.europeana.eu/item/2022608/AAK_AAKS_2007_02_0206</a>. To learn more about data.europeana.eu and its resources please see the <a href="/api/linked-open-data/data-structure/">data structure page</a>.</p>
+</section>

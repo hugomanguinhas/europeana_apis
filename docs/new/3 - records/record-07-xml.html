@@ -1,0 +1,44 @@
+Retrieving a record in RDF/XML format.
+
+<section id="format-xml">
+
+<p>The XML output is primarily based on <a href="https://www.w3.org/TR/rdf-syntax-grammar/">RDF/XML format</a> for RDF serialization but following the <a href="https://www.europeana.eu/schemas/edm/EDM.xsd">EDM XSD schema</a> (the same schema is also used for data ingestion to Europeana).</p>
+
+<p>The structure of an RDF/XML document formated using the EDM XSD schema is as follows:<p>
+
+<ul>
+	<li>The root element of the XML document is "rdf:RDF". This element will have declared all the namespaces required for the qualified names of all classes and properties being using within the document. A list of all supported namespaces can be view in the Introduction page.
+<pre><code>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	     xmlns:edm="http://www.europeana.eu/schemas/edm/">
+	...	
+</rdf:RDF>
+</code></pre>
+	</li>
+	<li>Within the root element, all instances of EDM classes are declared using the qualified name of the classes as the label for the XML element. An "rdf:about" attribute is present indicating the IRI of that instance.
+<pre><code>
+<!--
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	     xmlns:edm="http://www.europeana.eu/schemas/edm/">
+	<ore:Aggregation rdf:about="http://data.europeana.eu/aggregation/provider/92077/FFEABF09D1E0B1A66C00A1B012F6281807A9F684">
+		...
+	</ore:Aggregation>
+</rdf:RDF>
+-->
+</code></pre>
+	</li>
+	<li>
+<pre><code>
+<!--
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	     xmlns:edm="http://www.europeana.eu/schemas/edm/">
+	
+</rdf:RDF>
+-->
+</code></pre>
+	</li>
+
+
+</section>

@@ -1,0 +1,197 @@
+The different types of annotations supported by the Annotations API.
+
+<section>
+<p>The Annotations API supports different types of annotations. This page explains the types of annotations that are currently supported, providing examples on how to represent them in the API.</p>
+
+<h2>1. Simple tags (without language)</h2>
+
+<p>A simple tag is a short textual description of a resource. This scenario only applies when the language of the tag is not know, otherwise see the scenario described in the next Section.</p>
+
+<table>
+	<tbody>
+		<tr>
+			<th>Examples:</th>
+			<td>church<br />
+			blue<br />
+			black and white</td>
+		</tr>
+		<tr>
+			<th>Requirement:</th>
+			<td>A maximum of 64 characters is allowed for a simple tag.<br />
+			A tag cannot be a URL.</td>
+		</tr>
+		<tr>
+			<th>In the API:</th>
+			<td>Set the "motivation" to "tagging" and set the tag within the "bodyValue" field.</td>
+		</tr>
+		<tr>
+			<th>Availability:</th>
+			<td>Simple tags are available since version 0.2.1.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Example representation:</h3>
+
+<p>The example below is a shortened version of the Annotation, see the complete version on <a href="/api/annotations-data-model">Data Model</a>.</p>
+
+<pre>
+{
+  "motivation": "tagging",
+  "bodyValue": "painting",
+  "target": "http://data.europeana.eu/item/92062/BibliographicResource_1000126189360"
+}</pre>
+
+<h2>2. Simple tags (with language)</h2>
+
+<p>A simple tag is a short textual description of a resource.</p>
+
+<table>
+	<tbody>
+		<tr>
+			<th>Examples:</th>
+			<td>church<br />
+			blue<br />
+			black and white</td>
+		</tr>
+		<tr>
+			<th>Requirement:</th>
+			<td>A maximum of 64 characters is allowed for a simple tag.<br />
+			A tag cannot be a URL.<br />
+			The language information must be specified.</td>
+		</tr>
+		<tr>
+			<th>In the API:</th>
+			<td>Set the "motivation" to "tagging" and set the tag within the "body" field as a Textual Body.</td>
+		</tr>
+		<tr>
+			<th>Availability:</th>
+			<td>Simple tags are available since version 0.2.1.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Example representation:</h3>
+
+<p>The example below is a shortened version of the Annotation, see the complete version on <a href="/api/annotations-data-model">Data Model</a>.</p>
+
+<pre>
+{
+  "motivation": "tagging",
+  "body": {
+    "type": "TextualBody",
+    "value": "painting",
+    "language": "en"
+ },
+  "target": "http://data.europeana.eu/item/92062/BibliographicResource_1000126189360"
+}</pre>
+
+<h2>Semantic tags</h2>
+
+<p>A semantic tag is a tag to a resource from a controlled vocabulary, making it machine-interpretable.</p>
+
+<table>
+	<tbody>
+		<tr>
+			<th nowrap="nowrap">Example:</th>
+			<td>This <a href="http://www.europeana.eu/portal/record/09102/_UEDIN_214.html" target="_blank">object in Europeana</a> is somehow related to <a href="http://sws.geonames.org/2988507" target="_blank">France (http://sws.geonames.org/2988507)</a>.</td>
+		</tr>
+		<tr>
+			<th nowrap="nowrap">Requirement:</th>
+			<td>Any URI is accepted as semantic resource. In the future, it will be limited to a controlled list of acceptable domains.</td>
+		</tr>
+		<tr>
+			<th nowrap="nowrap">In the API:</th>
+			<td>Set the "motivation" to "tagging" and set as body the URI for the semantic resource taken from a contolled vocabulary.</td>
+		</tr>
+		<tr>
+			<th nowrap="nowrap">Availability:</th>
+			<td>Semantic tags are available since version 0.2.1.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Example representation:</h3>
+
+<p>The example below is a shortened version of the Annotation, see the complete version on <a href="/api/annotations-data-model">Data Model</a>.</p>
+
+<pre>
+{
+  "motivation": "tagging",
+  "body": "http://sws.geonames.org/2988507",
+  "target": "http://data.europeana.eu/item/09102/_UEDIN_214"
+}</pre>
+
+<h2>Object links</h2>
+
+<p>An object link is a relationship between two (Europeana) objects. This relationship can be any.</p>
+
+<table>
+	<tbody>
+		<tr>
+			<th>Example:</th>
+			<td>This <a href="http://www.europeana.eu/portal/record/92062/BibliographicResource_1000126189361.html" target="_blank">object in Europeana</a> is (in some way) similar to <a href="http://www.europeana.eu/portal/record/92062/BibliographicResource_1000126189360.html" target="_blank">this object</a>.</td>
+		</tr>
+		<tr>
+			<th>Requirement:</th>
+			<td>An object link can only be made between two Europeana objects.</td>
+		</tr>
+		<tr>
+			<th nowrap="nowrap">In the API:</th>
+			<td>Set the "motivation" to "linking" and set as target an array containing the URIs of both objects.</td>
+		</tr>
+		<tr>
+			<th>Availability:</th>
+			<td>Object linking is available since version 0.2.1.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Example representation:</h3>
+
+<p>The example below is a shortened version of the Annotation, see the complete version on <a href="/api/annotations-data-model">Data Model</a>.</p>
+
+<pre>
+{
+  "motivation": "linking",
+  "target": [
+      "http://data.europeana.eu/item/92062/BibliographicResource_1000126189360",
+      "http://data.europeana.eu/item/92062/BibliographicResource_1000126189361"
+  ]
+}</pre>
+
+<h2>Geo-tags</h2>
+
+<p>A geo-tag adds a geographical location to an item.</p>
+
+<table>
+	<tbody>
+		<tr>
+			<th style="width: 104px;">Example:</th>
+			<td style="width: 731px;">This <a href="http://www.europeana.eu/portal/record/92034/GVNRC_NFA03_kop_6_3.html" target="_blank">object in Europeana</a> was located at latitude 52.081131 and longitude 4.324053. .</td>
+		</tr>
+		<tr>
+			<th nowrap="nowrap" style="width: 104px;">In the API:</th>
+			<td style="width: 731px;">Set the "motivation" to "tagging" and include the "type", "lat" and "long" attributes in the body as per the example below.</td>
+		</tr>
+		<tr>
+			<th style="width: 104px;">Availability:</th>
+			<td style="width: 731px;">Object linking is available since version 0.2.2.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Example representation:</h3>
+
+<pre>
+{
+  "motivation": "tagging",
+  "body": {
+    "@context": "http://www.europeana.eu/schemas/context/entity.jsonld",
+    "type": "Place",
+    "lat": "52.081131",
+    "long": "4.324053"
+  },
+  "target": "http://data.europeana.eu/item/92034/GVNRC_NFA03_kop_6_3"
+}</pre>
+</section>

@@ -1,0 +1,169 @@
+<section>
+
+<p>The number of records that Europeana contains is very big and growing. Therefore we need efficient ways to allow our users to discover what they need easily. One such technique is a faceted indexing system that classifies each record along multiple dimensions. The facets, seen on the left side of the <a href="http://www.europeana.eu">Europeana Collections Portal</a>, can be useful for filtering search results and can also be used by API clients. If you would conduct a search for the keyword "paris" and have a look at the TYPE facet, this facet would tell how much items exist within your search result grouped by TYPE (such as IMAGE, VIDEO etc.). All search fields can also be facetted on.</p>
+
+<p>When you search within your result set for a specific facet, the other items in your facet would still exist (you search for TYPE:IMAGE, then you can still see how many results there are for TYPE:VIDEO etc.). This last functionality, called multi-facets, is not supported for the <a href="#technical-metadata-facets">Technical Metadata fields</a>.</p>
+
+<h3 id="requesting-facets">Requesting Facets</h3>
+
+<p>Facets can be requested by either setting the <a href="#param-facets">facets</a> or the <a href="#param-portal">portal</a> profiles with the profile parameter. By default, a predefined set of facets is returned corresponding to the facets seen on the left side of the <a href="http://www.europeana.eu">Europeana Collections Portal</a>, which correspond to the following search fields:</p>
+
+<ul>
+	<li><a href="#sf_TYPE">TYPE</a>, <a href="#sf_LANGUAGE">LANGUAGE</a>, <a href="#sf_COMPLETENESS">COMPLETENESS</a>, <a href="#sf_CONTRIBUTOR">CONTRIBUTOR</a>, <a href="#sf_COUNTRY">COUNTRY</a>, <a href="#sf_DATA_PROVIDER">DATA_PROVIDER</a>, <a href="#sf_LANGUAGE">LANGUAGE</a>, <a href="#sf_PROVIDER">PROVIDER</a>, <a href="#sf_RIGHTS">RIGHTS</a>, <a href="#sf_edm_UGC">UGC</a>, <a href="#sf_YEAR">YEAR</a>, <a href="#sf_COLOURPALETTE">COLOURPALETTE</a>, <a href="#sf_MIME_TYPE">MIME_TYPE</a>, <a href="#sf_REUSABILITY">REUSABILITY</a>, <a href="#sf_IMAGE_SIZE">IMAGE_SIZE</a>, <a href="#sf_SOUND_DURATION">SOUND_DURATION</a>, <a href="#sf_VIDEO_DURATION">VIDEO_DURATION</a>, <a href="#sf_TEXT_FULLTEXT">TEXT_FULLTEXT</a>, <a href="#sf_LANDINGPAGE">LANDINGPAGE</a>, <a href="#sf_MEDIA">MEDIA</a>, <a href="#sf_THUMBNAIL">THUMBNAIL</a>, <a href="#sf_IMAGE_ASPECTRATIO">IMAGE_ASPECTRATIO</a>, <a href="#sf_IMAGE_COLOUR">IMAGE_COLOUR</a>, <a href="#sf_VIDEO_HD">VIDEO_HD</a>, <a href="#sf_SOUND_HQ">SOUND_HQ</a></li>
+</ul>
+
+<h3 id="ro-facet">Facet objects in the Response</h3>
+
+<p>When requested, facets appear on the response within the <a href="#rf-facets">facets</a> field as an Array of Facet objects, which are composed by the following fields:</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 120px">Result Field</th>
+			<th style="width: 100px">JSON Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<thead>
+		<tr id="ro-facet">
+			<th colspan="3">Facet Object</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>name</td>
+			<td><a href="#json-string">String</a></td>
+			<td>The name of the field being facetted, e.g. COUNTRY</td>
+		</tr>
+		<tr>
+			<td>fields</td>
+			<td><a href="#json-array">Array</a> (<a href="#ro-facet-value">Facet Value</a>)</td>
+			<td>A collection of values for the given facet.</td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr id="ro-facet-value">
+			<th colspan="3">Facet Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>label</td>
+			<td><a href="#json-string">String</a></td>
+			<td>The value that was found within the field of one or more objects.</td>
+		</tr>
+		<tr>
+			<td>count</td>
+			<td><a href="#json-number">Number</a></td>
+			<td>The number of objects for which the value was found within that field.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: Requesting default facets for all Europeana records</h4>
+
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?wskey=YOUR_KEY&query=*&rows=0&profile=facets</blockquote>
+
+<pre><code>{
+  "apikey": "YOUR_KEY",
+  "success": true,
+  "requestNumber": 999,
+  "totalResults": 53008466,
+  "items": [],
+  "facets": [
+    {
+      "name": "RIGHTS",
+      "fields": [
+        {
+          "label": "http://rightsstatements.org/vocab/InC/1.0/",
+          "count": 21135772
+        },
+		...
+		{
+          "label": "http://creativecommons.org/licenses/by-nc-nd/3.0/de/",
+          "count": 2732
+        }
+	  ]
+	}
+	...
+  ]
+}
+</code></pre>
+
+
+<h3 id="facets-individual">Individual Facets</h3>
+
+<p>It is also possible to select which facets to retrieve beyond (or instead of) the default facet set, via the <code>facet</code> parameter.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 170px">Parameter</th>
+			<th style="width: 90px">Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="param-facet">
+			<td>facet</td>
+			<td><a href="#search-string">String</a></td>
+			<td>A name of an individual field or a comma separated list of fields</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>The value of the parameter could be "DEFAULT" (which is a shortcut for the <a href="#requesting-facets">default facet set</a>) or any <a href="#search-fields">search field</a>. A remainder that search fields with datatype <a href="#search-text">Text</a> are indexed as tokenized terms which imply that facet values and counts will reflect such terms as opposed to the whole value (ie. phrase) like in the remaining datatypes. This is the reason why the <a href="#search-fields-lang">language specific search fields</a> were added with type string so that faceting could be done on the complete values. These are the fields actually used by the Europeana Collections Portal to display the facet values on the left side.</p>
+
+<p><em>We have aligned the logic for faceting across all fields in the API output to be consistent. Previously, faceting on the 'default' facets (such as TYPE, or RIGHTS) would use a different logic than faceting on custom fields (such as proxy_dc_creator). The difference is that now all other values in a list of facet values are returned (multi-facet).</em></p>
+
+<h4>Example: Requesting an individual facet</h4>
+
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?search=*&amp;facet=proxy_dc_contributor&amp;profile=facets</blockquote>
+
+<h4>Example: Requesting the default plus an additional individual facet</h4>
+
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?search=*&amp;facet=DEFAULT+proxy_dc_contributor&amp;profile=facets</blockquote>
+
+<h3 id="facets-multiple">Multiple Individual Facets</h3>
+
+<p>A client can request for one or more facet in one query. This can be done by either duplicating the <a href="#param-facet">facet parameter</a> or by combining all the fields needed for faceting as a comma separated String.</p>
+
+<h4>Example: a) requesting multiple facets by duplicating the facet parameter.</h4>
+
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?search=*&amp;proxy_dc_coverage&amp;facet=proxy_dc_contributor&amp;profile=facets</blockquote>
+
+<h4>Example: b) requesting multiple facets through a comma separated list.</h4>
+
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?search=*&amp;facet=proxy_dc_coverage,proxy_dc_contributor&amp;profile=facets</blockquote>
+
+<h3 id="facets-config">Offset and limit for Facets</h3>
+
+<p>A client can request how many facet values to retrieve, and which should be the first one. These parameters can be used to page over all facet values without requesting too many facet values at a time. The table below explains these two parameters. The FACET_NAME constant stands for the field for which the limit applies.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 170px">Parameter</th>
+			<th style="width: 90px">Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="param-facet-limit">
+			<td>f.[FACET_NAME].facet.limit</td>
+			<td><a href="#search-number">Number</a></td>
+			<td>Number of values an <a href="#individual-facets">individual facet</a> should contain. Set a limit of "0" to not return anything for that facet. By default, the limit of values of an individual facet is 50. This can be overriden by setting a custom limit e.g. via <code>&amp;f.DEFAULT.facet.limit=100</code>.</td>
+		</tr>
+		<tr id="param-facet-offset">
+			<td>f.[FACET_NAME].facet.offset</td>
+			<td><a href="#search-number">Number</a></td>
+			<td>The offset of the first value in an <a href="#individual-facets">individual facet</a>. The default offset value is "0", starting from the first item in the list while value "1" offsets the list by one, so the first item to return is the second and so on.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: Requesting for faceting on the PROVIDER field using offset and limit.</h4>
+
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?wskey=YOUR_KEY&amp;query=paris&amp;profile=facets&amp;facet=PROVIDER&amp;f.PROVIDER.facet.offset=10&amp;f.PROVIDER.facet.limit=30</blockquote>
+
+</section>

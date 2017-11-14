@@ -1,0 +1,239 @@
+
+Europeana datasets can be explored, accessed and downloaded through the SPARQL endpoint.
+
+<section><!--
+<p><strong>The Europeana SPARQL endpoint is currently unavailable until further notice. Our apologies for the inconvenience.</strong>
+-->
+<p>Europeana datasets can be explored, accessed and downloaded through the SPARQL endpoint available at <a href="http://sparql.europeana.eu">http://sparql.europeana.eu</a>. The data can be downloaded in JSON or RDF.</p>
+
+<p>The SPARQL endpoint reflects the current state of the Europeana datasets as in the portal europeana.eu and is regularly updated.</p>
+
+<p>The terms of use and external data sources appearing at data.europeana.eu are provided on the <a href="http://www.europeana.eu/portal/rights/linked-data-sources.html">Europeana Data sources</a> page.</p>
+
+<h2>How to use the SPARQL endpoint</h2>
+
+<h3>Things to know before starting</h3>
+
+<ul>
+	<li>Europeana data is represented as a triple:</li>
+</ul>
+
+<pre>
+&lt;subject&gt; &lt;predicate&gt; &lt;object&gt;</pre>
+
+<p>Each subject, predicate and an object represent a node within Europeana’s network of resources. These statements are usually represented as URIs to which certain labels might correspond.</p>
+
+<p>For instance</p>
+
+<pre>
+&lt;http://data.europeana.eu/item/2021604/C2D27CB79870761BE291A3FACAB963F62D7CA39B&gt; &lt;http://purl.org/dc/terms/creator&gt; “Moltzheim, A. de” .</pre>
+
+<ul>
+	<li>A SPARQL query requires the declaration of PREFIXes that are shortcuts to the labels of given predicates. <!--
+The Europeana SPARQL endpoint allows you to select those prefixes through the interface.--></li>
+</ul>
+<!--
+<p><img alt="" src="/files/labs/api/Linked-Open-Data/sparql-endpoint-02.png" /></p>
+-->
+
+<ul>
+	<li>The different packages of information contained in the Europeana data are described using several classes in the Europeana Data Model (EDM). We invite you to consult our <a href="http://labs.europeana.eu/api/linked-open-data-data-structure/">Data structure</a> page and the <a href="http://pro.europeana.eu/edm-documentation">EDM documentation</a> if you need more details on the model. <!--The SPARQL endpoint provides a nice graphical overview of RDF graph structure representing a Cultural Heritage Object (CHO). In order to see it, you need to view the edm:ProvidedCHO resource (<a href="http://data.europeana.eu/item">http://data.europeana.eu/item</a>) and click on the <strong>Graph</strong> tab. For our example the Cittie of London 31, see <a href="http://europeana.ontotext.com/resource?uri=http%3A%2F%2Fdata.europeana.eu%2Fitem%2F92037%2F_http___www_bl_uk_onlinegallery_onlineex_crace_t_zoomify87870_html&amp;role=graph">http://europeana.ontotext.com/resource?uri=http%3A%2F%2Fdata.europeana.eu%2Fitem%2F92037%2F_http___www_bl_uk_onlinegallery_onlineex_crace_t_zoomify87870_html&amp;role=graph</a>--></li>
+</ul>
+<!--
+<p><img alt="" src="/files/labs/api/Linked-Open-Data/sparql-endpoint-01.png" /></p>
+-->
+
+<ul>
+	<li>When formulating a query don’t forget to adjust the LIMIT value which indicates the number of results to be returned by the query. Note that the query may take longer if the number of results asked is high.</li>
+</ul>
+
+<ul>
+	<li>If you set a LIMIT value but still want to be able to select the range of results you will get within the dataset, adjust the OFFSET value.</li>
+</ul>
+
+<h3>A first query</h3>
+
+<ol>
+	<li>Add your prefixes by selecting them in the SPARQL editor as described above.</li>
+</ol>
+
+<p>For instance a selection of the namespaces dc, edm and ore will give you:</p>
+
+<pre>
+PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;</pre>
+
+<ol start="2">
+	<li>
+	<p>Then SELECT the things you want to find and define names for these variables.</p>
+	</li>
+</ol>
+
+<p>We want all the results with a title, a creator, a media URL and a year.</p>
+
+<pre>
+SELECT ?title ?creator ?mediaURL ?year</pre>
+
+<ol start="3">
+	<li>Define the variables</li>
+</ol>
+
+<pre>
+WHERE {
+  ?item edm:type "SOUND" ;
+      ore:proxyIn ?proxy;
+      dc:title ?title ;
+      dc:creator ?creator .
+  ?proxy edm:isShownBy ?mediaURL .
+  ?EuropeanaProxy edm:year ?year .
+}</pre>
+
+<p dir="ltr">In this example you restrict the results to the resources with the edm:type SOUND.</p>
+
+<ol start="4">
+	<li>Define a LIMIT</li>
+</ol>
+
+<pre dir="ltr">
+PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;
+SELECT ?title ?creator ?mediaURL ?date
+WHERE {
+  ?CHO edm:type "SOUND" ;
+      ore:proxyIn ?proxy;
+      dc:title ?title ;
+      dc:creator ?creator ;
+      dc:date ?date .
+  ?proxy edm:isShownBy ?mediaURL .
+}
+LIMIT 100</pre>
+
+<p dir="ltr">You obtain all the first 100 SOUND resources which have a title, a creator, a media URL and a year.</p>
+
+<h3 dir="ltr">How to define more complex queries</h3>
+
+<p dir="ltr">You can start defining more complex queries which will group, list, filter or order your results. The commands COUNT, GROUP BY and ORDER BY can be used for this purpose.</p>
+
+<p dir="ltr">For instance we want to order our results by year (ascending order)</p>
+
+<pre dir="ltr">
+PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;
+SELECT ?title ?creator ?mediaURL ?date
+WHERE {
+  ?CHO edm:type "SOUND" ;
+      ore:proxyIn ?proxy;
+      dc:title ?title ;
+      dc:creator ?creator;
+      dc:date ?date .
+  ?proxy edm:isShownBy ?mediaURL .
+  FILTER (?date &gt; "1780" &amp;&amp; ?date &lt; "1930")
+}
+ORDER BY asc (?date)
+LIMIT 100</pre>
+
+<p dir="ltr">You will notice that this type of query takes longer as we are asking to the database to not only return results but also to order them.</p>
+
+<h3 dir="ltr">More examples of SPARQL queries</h3>
+
+<p><strong>1. List of data providers which contributed content to Europeana</strong></p>
+
+<pre dir="ltr">
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT ?DataProvider
+WHERE { ?Aggregation edm:dataProvider ?DataProvider }`</pre>
+
+<p><strong>2. List of datasets from Italy</strong></p>
+
+<pre dir="ltr">
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT DISTINCT ?Dataset
+WHERE {
+  ?Aggregation edm:datasetName ?Dataset ;
+      edm:country "Italy"
+}
+</pre>
+<strong>3. Objects provided to Europeana from the 18th and from France</strong>
+
+<pre dir="ltr">
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT DISTINCT ?ProvidedCHO ?year
+WHERE {
+  ?Aggregation edm:aggregatedCHO ?ProvidedCHO ;
+      edm:country "France" .
+  ?Proxy ore:proxyFor ?ProvidedCHO ;
+      edm:year ?year .
+  FILTER (?year &gt; "1700" &amp;&amp; ?year &lt; "1800")
+}
+ORDER BY asc(?year)
+LIMIT 100</pre>
+<strong>4. Listing of edm:Agent</strong>
+
+<pre dir="ltr">
+PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT ?Agent
+WHERE { ?Agent rdf:type edm:Agent }
+LIMIT 100</pre>
+<strong>5. Objects provided to Europeana linking to edm:Place</strong>
+
+<pre dir="ltr">
+PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT DISTINCT ?ProvidedCHO
+WHERE {
+  ?Place rdf:type edm:Place .
+  ?Proxy ?property ?Place ;
+      ore:proxyIn ?Aggregation .
+  ?Aggregation edm:aggregatedCHO ?ProvidedCHO
+}</pre>
+<strong>6. Objects provided to Europeana linking to skos:Concept from the Getty target vocabulary</strong>
+
+<pre dir="ltr">
+PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;
+PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT DISTINCT ?ProvidedCHO
+WHERE {
+  ?Concept rdf:type skos:Concept .
+  FILTER strstarts(str(?Concept), "http://vocab.getty.edu/aat/") .
+  ?Proxy ?property ?Concept ;
+      ore:proxyIn ?Aggregation .
+  ?Aggregation edm:aggregatedCHO ?ProvidedCHO
+}
+LIMIT 100</pre>
+
+<h2 dir="ltr">Further reading</h2>
+
+<p dir="ltr">For more details on SPARQL and its different commands, you can refer to those two resources:</p>
+
+<ul dir="ltr">
+	<li><a href="http://rdf.myexperiment.org/howtosparql">How to SPARQL</a></li>
+	<li><a href="http://en.wikibooks.org/wiki/XQuery/SPARQL_Tutorial">Wikibooks SPARQL tutorial</a></li>
+</ul>
+
+<p dir="ltr">We got inspired by these two blogs for writing this page</p>
+
+<ul dir="ltr">
+	<li><a href="http://www.snee.com/bobdc.blog/2013/01/finding-europeana-audio-with-s.html">http://www.snee.com/bobdc.blog/2013/01/finding-europeana-audio-with-s.html</a></li>
+	<li><a href="http://matthewlincoln.net/2014/07/10/sparql-for-humanists.html">http://matthewlincoln.net/2014/07/10/sparql-for-humanists.html</a></li>
+</ul>
+
+<p>We thank the authors for their interest in data.europeana.eu!</p>
+
+<p></p>
+
+<p>See the <a href="https://groups.google.com/forum/#!topic/europeana-lod/Rn5hpIGOoNo">Europeana LOD Google Group</a> for a discussion on this topic.</p>
+</section>

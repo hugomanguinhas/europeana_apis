@@ -1,0 +1,284 @@
+Explaining the data model used for representing Annotations in the Annotations API.
+
+
+<p>The Annotations API adopted the <a href="https://www.w3.org/TR/annotation-model/" target="_blank">Web Annotation Data Model</a> as a base model for exchanging annotations between client applications and the API.</p>
+
+<h2>Background</h2>
+
+<p>The Web Annotation Data Model (or simply WA) is a W3C recommendation that describes a model and format to share annotations across different platforms.</p>
+
+<p>Please note that, even though we have adopted WA as underlying data model for this API, it is not expected that we support the full extent of the model. We thus advise to look at the <a href="https://docs.google.com/document/d/1V-XjlQXPOQLZo7-c6UBzqYEc0mNPtCBfXFCWdquuUvc">EDM Annotations profile</a> which describes the basics of our implementation and, in particular, the section on <a href="/api/annotations-scenarios/">Annotation Scenarios</a> for a comprehensive list of the different kinds of annotations that we support.</p>
+
+<h2>Basics of the model</h2>
+
+<p>In WA, an annotation is essentially a reified relation between two or more resources, typically a body and a target, and conveys that the <b>body</b> reflects what is intended to be said about the <b>target</b>. A body can also be absent to describe situations where a target is simply bookmarked. A <b>target</b> can represent a resource or just a part of it that is being annotated.</p>
+
+<p>Being reified as a class enables an annotation to be further described with a <b>motivation</b> which expresses the reason why the annotation was created but also some <b>provenance</b> information such as the user that created the annotation and the software application that was used, as well as the times when it was initially created and sent to the API.</p>
+
+<h2>Representation in JSON-LD</h2>
+
+<h3 id="annotation">Annotation</h3>
+
+<table>
+	<colgroup>
+		<col />
+		<col />
+		<col />
+	</colgroup>
+	<tbody>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+		<tr>
+			<td>@context</td>
+			<td>String (URL)</td>
+			<td>The URL of the JSON-LD context. (always with value "http://www.w3.org/ns/anno.jsonld")</td>
+		</tr>
+		<tr>
+			<td>id</td>
+			<td>String (URI)</td>
+			<td>The identifier of the Annotation. It is automatically generated unless a local identifier is specified upon creation.</td>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td>String</td>
+			<td>Always has the values of "Annotation".</td>
+		</tr>
+		<tr>
+			<td>created</td>
+			<td>String (DateTime)</td>
+			<td>The time at which the Annotation was created by the client application. It must be expressed in ISO8601 format and should have a timezone specified.</td>
+		</tr>
+		<tr>
+			<td>creator</td>
+			<td>Object (<a href="#agent">Agent</a>)</td>
+			<td>The agent responsible for creating the Annotation. This may be either a human or software agent.</td>
+		</tr>
+		<tr>
+			<td>generated</td>
+			<td>String (DateTime)</td>
+			<td>The time at which the annotation was sent to the server.</td>
+		</tr>
+		<tr>
+			<td>generator</td>
+			<td>Object (<a href="#agent">Software</a>)</td>
+			<td>The agent responsible for generating the Annotation. Typically a client application used to create the annotation.</td>
+		</tr>
+		<tr>
+			<td>motivation</td>
+			<td>String</td>
+			<td>Expresses the reason why the annotation was created. The value can be either "tagging" or "linking".</td>
+		</tr>
+		<tr>
+			<td>body</td>
+			<td>String or Object (Semantic Resource or Textual Body)</td>
+			<td>A body conveying what is intended to be said about the target. If the value is provided as a string, then it is interpreted as the URI and must only be used for the semantic tagging scenario. See the application scenarios section for more information.</td>
+		</tr>
+		<tr>
+			<td>bodyValue</td>
+			<td>String</td>
+			<td>A string conveying the tag text. This field must only be used in combination with "tagging" as motivation and when the language of the tag is not known. Otherwise, it is recommended to use the body field as defined in the Application Scenarios section.</td>
+		</tr>
+		<tr>
+			<td>target</td>
+			<td>String or Array (String)</td>
+			<td>The URL of the resource that is being annotated. An array of URLs may also be set (mostly used for the object linking).</td>
+		</tr>
+		<tr>
+			<td>via</td>
+			<td>String</td>
+			<td>The URL of the annotation, if available in an external service.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="agent">Agent</h3>
+
+<p>An Agent can be either a Person or a Software. Typically the Person corresponds to the user that created the annotation while the Software reflects the client application that was used to create it. A Software can also create annotations if they result from an automatic process.</p>
+
+<table>
+	<colgroup>
+		<col />
+		<col />
+		<col />
+	</colgroup>
+	<tbody>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td>String</td>
+			<td>Either "Person" or "Software".</td>
+		</tr>
+		<tr>
+			<td>name</td>
+			<td>String</td>
+			<td>The name of the agent. Either the name of the user that created the annotation, or the name of the client software that was used to create it.</td>
+		</tr>
+		<tr>
+			<td>homepage</td>
+			<td>String</td>
+			<td>The homepage of the user or client application, if available.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="specific-resource">Semantic Resource</h3>
+
+<p>A Semantic Resource is used whenever an external resource needs to be referenced as the body of the annotation. It is mostly used for <a href="/api/annotations-methods/">Semantic Tagging</a>.</p>
+
+<table>
+	<colgroup>
+		<col />
+		<col />
+		<col />
+	</colgroup>
+	<tbody>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td>String</td>
+			<td>Always "SpecificResource".</td>
+		</tr>
+		<tr>
+			<td>source</td>
+			<td>String (URI)</td>
+			<td>The URI of the resource being referred as body.</td>
+		</tr>
+		<tr>
+			<td>language</td>
+			<td>String (ISO639)</td>
+			<td>The ISO639 language code corresponding to the language of the resource.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2 id="optional-mandatory-fields">Optional and mandatory fields</h2>
+
+<table>
+	<colgroup>
+		<col />
+		<col />
+		<col />
+		<col />
+		<col />
+	</colgroup>
+	<tbody>
+		<tr>
+			<th>Field</th>
+			<th>POST</th>
+			<th>PUT</th>
+			<th>DELETE</th>
+			<th>READ</th>
+		</tr>
+		<tr>
+			<td>@context</td>
+			<td>O</td>
+			<td>M</td>
+			<td>N/A</td>
+			<td>M</td>
+		</tr>
+		<tr>
+			<td>id</td>
+			<td>O</td>
+			<td>M</td>
+			<td>N/A</td>
+			<td>M</td>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td>O</td>
+			<td>M</td>
+			<td>N/A</td>
+			<td>M</td>
+		</tr>
+		<tr>
+			<td>created</td>
+			<td>O</td>
+			<td>M</td>
+			<td>N/A</td>
+			<td>M</td>
+		</tr>
+		<tr>
+			<td>creator</td>
+			<td>M</td>
+			<td>M</td>
+			<td>N/A</td>
+			<td>M</td>
+		</tr>
+		<tr>
+			<td>generated</td>
+			<td>O</td>
+			<td>M</td>
+			<td>N/A</td>
+			<td>M</td>
+		</tr>
+		<tr>
+			<td>generator</td>
+			<td>O</td>
+			<td>M</td>
+			<td>N/A</td>
+			<td>M</td>
+		</tr>
+		<tr>
+			<td>motivation</td>
+			<td>M</td>
+			<td>M</td>
+			<td>N/A</td>
+			<td>M</td>
+		</tr>
+		<tr>
+			<td>body</td>
+			<td>O</td>
+			<td>M (either body or bodyValue)</td>
+			<td>N/A</td>
+			<td>M (either body or bodyValue)</td>
+		</tr>
+		<tr>
+			<td>bodyValue</td>
+			<td>O</td>
+			<td>M (either body or bodyValue)</td>
+			<td>N/A</td>
+			<td>M (either body or bodyValue)</td>
+		</tr>
+		<tr>
+			<td>target</td>
+			<td>M</td>
+			<td>M</td>
+			<td>N/A</td>
+			<td>M</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Example:</h3>
+
+<pre>
+{
+  "@context": “http://www.w3.org/ns/anno.jsonld”
+  "id": "http://data.europeana.eu/annotations/1",
+  "type": "Annotation",
+  "created": "2015-03-10T14:08:07Z",
+  "creator": {
+    "type": "Person",
+    "name": "John Smith"
+  },
+  "generated": "2015-04-01T09:00:00Z",
+  "generator": {
+      "type": "Software",
+      "name": "HistoryPin",
+      "homepage": "https://www.historypin.org/"
+  },
+  "motivation": "tagging",
+  "bodyValue": "MyBeautifulTag",
+  "target": "http://data.europeana.eu/item/92062/BibliographicResource_1000126189360"
+}</pre>

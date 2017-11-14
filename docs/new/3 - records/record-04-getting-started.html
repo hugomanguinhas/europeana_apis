@@ -1,0 +1,150 @@
+<section>
+
+<p>Every call to the Record API is an HTTPS request in the following URL signature:</p>
+
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/record/[RECORD_ID].[FORMAT]</blockquote>
+
+where the variables in the URL path mean:
+
+<table class="listingtable">
+	<tbody>
+		<tr>
+			<td style="width: 120px">RECORD_ID</td>
+			<td>The identifier of the record which is composed of the dataset identifier plus a local identifier within the dataset in the form of "/DATASET_ID/LOCAL_ID", for more detail see <a href="intro#identifying-records">Europeana ID</a>.</td>
+		</tr>
+		<tr>
+			<td>FORMAT</td>
+			<td>The file extension corresponding to one of the supported output formats, namely: .json, .jsonld, .rdf</a>. See next section on <a href="#formats">Output Formats</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<!--
+		<tr>
+			<td>callback</td>
+			<td>String</td>
+			<td>Name of a <a href="https://labs.europeana.eu/api/search/#callback-function">client side callback function</a>.</td>
+		</tr>
+
+<p>For obligatory request parameters look into the documentation of specific calls. The <a href="#authentication">authentication</a> section provides information on the obligatory authentication parameter <em>wskey</em>.</p>
+-->
+
+<h3 id="formats">Supported Output Formats</h3>
+
+<p>The Record API supports 3 serialization formats, namely: JSON, JSON-LD and RDF/XML. The primary and default output supported by this API is JSON which also means that some fields are only available in this format. Both JSON-LD and RDF/XML are formats to represent Linked Data which used predefined transport schemas for serializing <a href="https://www.w3.org/RDF/">RDF</a> data. To request a record in either of these formats, just alter the extension of the call to the desired format. The table below explains each of the formats and the respective extension.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 100px">Format</th>
+			<th style="width: 100px">Extension</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a href="#json">JSON</a></td>
+			<td>.json</td>
+			<td>The output serialized in <a href="https://www.json.org/">JSON</a> and using a Europeana specific schema for representing EDM data. The schema is further explained in the <a href="#format-json">next Section</a>.</td>
+		</tr>
+		<tr>
+			<td><a href="#json-ld">JSON-LD</a></td>
+			<td>.json-ld</td>
+			<td>An alternative JSON output based on the <a href="https://json-ld.org/">JSON-LD format</a> for RDF.</td>
+		</tr>
+		<tr>
+			<td><a href="#rdf-xml">RDF/XML</a></td>
+			<td>.rdf</td>
+			<td>The XML output is primarily based on <a href="https://www.w3.org/TR/rdf-syntax-grammar/">RDF/XML format</a> for RDF serialization but following the <a href="https://www.europeana.eu/schemas/edm/EDM.xsd">EDM XSD schema</a> (the same schema is also used for data ingestion to Europeana).</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Error Responses</h3>
+
+<p>An error occurring during processing of an API method is reported by (1) a relevant HTTP status code, (2) a value of the success field and (3) a meaningful error message in the error field. The following table shows the fields appearing within an error response:</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 120px">Field</th>
+			<th style="width: 100px">Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>apikey</td>
+			<td>String</td>
+			<td>The authentication parameter sent out by the client (the wskey parameter)</td>
+		</tr>
+		<tr>
+			<td>success</td>
+			<td>Boolean</td>
+			<td>A boolean (true/false) flag denoting the successful execution of the call</td>
+		</tr>
+		<tr>
+			<td>statsDuration</td>
+			<td>Number</td>
+			<td>The time (in milliseconds) taken to serve the request</td>
+		</tr>
+		<tr>
+			<td>error</td>
+			<td>String</td>
+			<td>If the call was not successful, this fields will contain a detailed text message. See <a href="#error-codes">Error Codes</a> for more information.</td>
+		</tr>
+<!--
+		<tr>
+			<td>params</td>
+			<td>Object</td>
+			<td>The original request parameters. When an invalid request parameter was submitted, this response parameter will contain the default value (see individual calls for the default values). Shown up only if the profile parameter contains "params".</td>
+		</tr>
+-->
+	</tbody>
+</table>
+
+<p>The following kinds of errors can be returned by the API:</p>
+
+<table class="listingtable" id="error-codes">
+	<thead>
+		<tr>
+			<th style="width: 130px">HTTP<br/>Status Code</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>200</td>
+			<td>The request was executed successfully.</td>
+		</tr>
+		<tr>
+			<td>401</td>
+			<td>Authentication credentials were missing or authentication failed.</td>
+		</tr>
+		<tr>
+			<td>404</td>
+			<td>The requested record was not found.</td>
+		</tr>
+		<tr>
+			<td>429</td>
+			<td>The request could be served because the application has reached its usage limit.</td>
+		</tr>
+		<tr>
+			<td>500</td>
+			<td>An error has occorred in the server which has not been properly handled. If you receive this error it means that something has gone really wrong, so please report them to us!</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: Request to the Record API supplying an invalid (unknown) API key</h4>
+
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/record/000002/_UEDIN_214?wskey=test</blockquote>
+
+<pre><code>{
+	"apikey": "test",
+	"success": false,
+	"error": "Invalid API key"
+}
+</code></pre>
+
+</section>

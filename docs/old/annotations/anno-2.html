@@ -1,0 +1,96 @@
+Getting started with the Annotations API.
+
+<section>
+<h2>What are annotations?</h2>
+
+<p>Annotations (in the Europeana context) are user-contributed or system-generated enhancements to (a selection of) metadata or media. The most well-known type of annotation is the "tag", a short textual depiction of something. Annotations allow for the creation of meaningful connections across Europeana and will also offer up new ways to explore or find the content you're looking for.</p>
+
+<h2>Web Annotation Data Model</h2>
+
+<p>The Annotations API uses the <a href="https://www.w3.org/TR/annotation-model/" target="_blank">Web Annotation Data Model</a> as a guideline for how to represent and model annotations.</p>
+
+<h2>API keys</h2>
+
+<p>While the Annotations API is in an Alpha state you will need to use a separate API key (other than for the main REST API) to start experimenting with the Annotations API. You can use the following keys:</p>
+
+<ul>
+	<li><b>Test environment:</b> API key <i>apidemo</i> with user token <i>tester1</i> (allows to create, update &amp; remove annotations on behalf of a test user in the Annotations API test environment).</li>
+	<li><b>Production environment:</b> API key <i>apidemo</i> (allows to search and retrieve annotations in the Annotations API production (live) environment).</li>
+</ul>
+
+<p>Creating annotations in the production (live) environment is currently limited to only selected partners, this will be opened up as part of the Beta release.</p>
+
+<h2>Request</h2>
+
+<p>Every Annotations API call is an HTTP request in a specified format that is sent to the Annotations API service. The API root URLs for the two environments are located at:</p>
+
+<blockquote>
+<p><a href="http://test-annotations.europeana.eu/annotation">https://test-annotations.europeana.eu/annotation</a> (test)<br />
+<a href="http://www.europeana.eu/api/annotations">https://www.europeana.eu/api/annotations</a> (production)</p>
+</blockquote>
+
+<h2>Response format</h2>
+
+<p>The Annotations API currently only supports the <a href="http://json-ld.org/">JSON-LD</a> format, which is the Linked Open Data version of JSON (with the same syntax as JSON). The request and response format does not need to be passed along to the API, if not provided it will fallback to the default. You can provide the format either via the URL (extension) or via the "Accept" header. To specify the request and response format you can either do:</p>
+
+<blockquote>
+<p>search.jsonld?wskey=xxxxx&amp;query=*:*</p>
+</blockquote>
+Or:
+
+<blockquote>
+<p>Request header: "Accept: application/ld+json"<br />
+search?wskey=xxxxx&amp;query=*:*</p>
+</blockquote>
+
+<h2>Authentication</h2>
+
+<p>To authenticate your API client against the Annotations API for <b>reading (GET requests)</b> you need to pass along your API key as the <i>wskey</i> parameter. Example (replace xxxxxx with your API key):</p>
+
+<blockquote>
+<p>search?wskey=xxxxx&amp;query=*:*</p>
+</blockquote>
+
+<p>To authenticate your API client against the Annotations API for <b>writing (POST/PUT/DELETE requests)</b> on behalf of a user you need to pass along your API key as the <i>wskey</i> parameter along with a user token as the <i>userToken</i> parameter. Example (replace xxxxxx with your API key and yyyyy with the user token):</p>
+
+<blockquote>
+<p>create?wskey=xxxxx&amp;userToken=yyyyy&amp;query=*:*</p>
+</blockquote>
+
+<h2 id="error-codes">Error Codes</h2>
+
+<p>An error during processing of an API method is reported by (1) a relevant HTTP status code, (2) a value of the success field and (3) a meaningful error message in the error field.</p>
+
+<p>The following HTTP status codes are returned:</p>
+
+<table>
+	<thead>
+		<tr>
+			<th>HTTP Status Code</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>200</td>
+			<td>The request was executed successfully.</td>
+		</tr>
+		<tr>
+			<td>401</td>
+			<td>Authentication credentials were missing or authentication failed.</td>
+		</tr>
+		<tr>
+			<td>404</td>
+			<td>The requested annotation was not found.</td>
+		</tr>
+		<tr>
+			<td>429</td>
+			<td>The request could be served because the application has reached its usage limit.</td>
+		</tr>
+		<tr>
+			<td>500</td>
+			<td>Internal Server Error. Something has gone wrong, which we will correct.</td>
+		</tr>
+	</tbody>
+</table>
+</section>

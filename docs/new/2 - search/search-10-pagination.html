@@ -1,0 +1,33 @@
+<section>
+
+<p>The Search API offers two ways of paginating through the result set: <a href="#pagination-basic">basic</a> and <a href="pagination-cursor">cursor-based</a> pagination. The basic pagination is suitable for smaller or user-facing browsing applications which allows for the iteration over the first 1000 results using the start parameter. For larger and/or harvesting applications, the API offers the capability to use cursor-based pagination which allows for a quick iteration over the entire result set.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 100px;">Pagination</th>
+			<th style="width: 360px;">Capabilities</th>
+			<th>Implementation</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="pagination-basic">
+			<td>Basic</td>
+			<td>Allows to go to a specific offset/page (start=X).<br />
+			Limited to the first 1000 results (start + rows).</td>
+			<td>Use the start parameter to set the search result offset, default value is 1.</td>
+		</tr>
+		<tr id="pagination-cursor">
+			<td>Cursor-based</td>
+			<td>Quickly iterate over the entire result set.<br />
+			Does not allow you to go to a specific offset.<br />
+			Cannot be used in conjunction with the start parameter.<br />
+			Based on <a href="https://cwiki.apache.org/confluence/display/solr/Pagination+of+Results">Solr Cursor Pagination</a>.</td>
+			<td>Set the cursor parameter to * to start cursor-based pagination at page 1.<br />
+			Take the nextCursor value from the response and pass it to the cursor parameter to paginate to the next page (you will need to urlescape the key).<br />
+			When the nextCursor value is not returned anymore, you have reached the end of the search result set.</td>
+		</tr>
+	</tbody>
+</table>
+
+</section>

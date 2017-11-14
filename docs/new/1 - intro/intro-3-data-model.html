@@ -1,0 +1,102 @@
+<section>
+
+<p>To organize its data, Europeana has defined a data model named Europeana Data Model (EDM). A detailed description of EDM is beyond the scope of this documentation: the reader is referred to the extensive documentation at the <a href="http://pro.europeana.eu/edm-documentation">EDM page</a>. However, a basic understanding of EDM is necessary for using the API. The objective of this section is to provide this basic understanding.</p>
+<p>The data model used for the metadata is EDM. You can read about EDM and records on the <a href="/api/data-hierarchy">data hierarchy page</a>.</p>
+
+
+<h3 id="edm">EDM and Records</h3>
+
+<p>The Europeana API provides access to the Europeana data, which is modeled using EDM. While EDM is an open flexible data model featuring various kind of resources and relations between them, the Europeana API (and the Europeana Portal) supports the retrieval of a segment of EDM for practical purposes (a subgraph, to use strict terminology). These ‘atomic' EDM segments usually contain one Cultural Heritage Object (CHO), the aggregation information which connects the metadata and the digital representations together and a number of contextual resources such as the agents, places, concepts and time pertaining to the CHO. The further API documentation, in particular the <a href="#record">Record API</a> refers to this subgraph as <em>object</em>.</p>
+
+<h3 id="datasets">Datasets</h3>
+
+<p>The records in Europeana are grouped by datasets. A dataset for Europeana is an Information Package <a href="http://public.ccsds.org/publications/archive/650x0m2.pdf" target="_blank">as defined by OAIS</a> or a collection of data. A Europeana dataset can be about a certain topic, originate from a certain source or process and is aggregated by a certain custodian. (<a href="http://www.w3.org/TR/void/" target="_blank">http://www.w3.org/TR/void/</a>).</p>
+
+<p>In some cases, a Europeana dataset can be the representation of one existing collection held by an institution. In other cases the correspondence between datasets and collections won’t be one-to-one.</p>
+
+<p>A dataset has an unambiguous reference within the context of the Europeana datasets database.</p>
+
+<p>A dataset can be provided by:</p>
+
+<ul>
+	<li>a provider (i.e. the organisation providing datasets directly to Europeana).</li>
+	<li>a data provider (i.e. an organisation providing the dataset to an aggregator).</li>
+</ul>
+
+<p>Note that a dataset can have multiple data providers. A data provider is an organisation that submits data to Europeana.eu. Data providers may submit data directly to Europeana but are more likely to use the services of a provider, which collects, formats and manages data from data providers before submitting data to Europeana.eu.</p>
+
+<h3 id="identifying-records">Identifying Records</h3>
+
+<p>Digital records delivered to Europeana are assigned a unique identifier, Europeana ID, that serves to further identify the records when using the API. Usually, this identifier is based on the original metadata that are provided for the record and internal Europeana identifiers of the provider and the dataset containing the record. For example, a Europeana ID of an object can look as follows:</p>
+
+<p>/09102/_GNM_1234</p>
+
+<p>where 091 is the identifier of the provider, 02 is the id of the dataset and <em>GNM_1234</em> is derived from the unique identifier of the record in the context of the provider.</p>
+
+<h3 id="namespaces">Namespaces</h3>
+
+<p>In the documentation we sometime refer to namespace prefixes, such as dc, skos, edm. Here we list all the namespace prefixes and URIs.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Prefix</th>
+			<th>Namespace URI</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>dc</td>
+			<td>http://purl.org/dc/elements/1.1/</td>
+			<td>Dublin Core</td>
+		</tr>
+		<tr>
+			<td>dcterms</td>
+			<td>http://purl.org/dc/terms/</td>
+			<td>Dublin Core Mmetadata Initiative (DCMI) Metadata Terms http://dublincore.org/documents/2012/06/14/dcmi-terms/</td>
+		</tr>
+		<tr>
+			<td>edm</td>
+			<td>http://www.europeana.eu/schemas/edm/</td>
+			<td>Europeana Data Model</td>
+		</tr>
+		<tr>
+			<td>foaf</td>
+			<td>http://xmlns.com/foaf/0.1/</td>
+			<td>FOAF (Friend of a Friend) Vocabulary http://xmlns.com/foaf/spec/</td>
+		</tr>
+		<tr>
+			<td>ore</td>
+			<td>http://www.openarchives.org/ore/terms/</td>
+			<td>Open Archives Initiative Object Reuse and Exchange http://www.openarchives.org/ore/1.0/</td>
+		</tr>
+		<tr>
+			<td>owl</td>
+			<td>http://www.w3.org/2002/07/owl#</td>
+			<td>OWL Web Ontology Language</td>
+		</tr>
+		<tr>
+			<td>rdaGr2</td>
+			<td>http://rdvocab.info/ElementsGr2/</td>
+			<td>RDA Group 2 elements. http://metadataregistry.org/schema/show/id/15.html</td>
+		</tr>
+		<tr>
+			<td>rdf</td>
+			<td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
+			<td>Resource Description Framework</td>
+		</tr>
+		<tr>
+			<td>skos</td>
+			<td>http://www.w3.org/2004/02/skos/core#</td>
+			<td>Simple Knowledge Organization System http://www.w3.org/2009/08/skos-reference/skos.html</td>
+		</tr>
+		<tr>
+			<td>wgs84</td>
+			<td>http://www.w3.org/2003/01/geo/wgs84_pos#</td>
+			<td>WGS84 Geo Positioning http://www.w3.org/2003/01/geo/</td>
+		</tr>
+	</tbody>
+</table>
+
+</section>

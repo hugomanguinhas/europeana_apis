@@ -1,0 +1,38 @@
+<section>
+
+<p>The resolve method was designed to search for an entity given an identifier used by an external source and redirect to the corresponding Europeana Entity through its URI. In case there is not equivalent Entity in Europeana, a HTTP 404 is returned. This method makes use of the co-reference information typically present within owl:sameAs properties (or skos:exactMatch in the case of entities of type skos:Concept) for the lookup.</p>
+
+<h3>Request</h3>
+
+<p>A call to the resolve method is an HTTPS request with the following signature:</p>
+
+<blockquote style="word-wrap: break-word">GET https://www.europeana.eu/api/entities/resolve?uri=[EXTERNAL_URI]</blockquote>
+
+<p>where the parameters in the URL mean:</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>uri</td>
+			<td>String</td>
+			<td>The external identifier (as an URI) for the entity.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Response</h3>
+
+<p>On success, the method returns a HTTP 301 with the Europeana URI within the <i>Location</i> Header field.</p>
+
+<h4>Example: Retrieve the Europeana entity for <i>Leonardo da Vinci</i> via the corresponding URI on DBpedia (<a href="http://dbpedia.org/resource/Leonardo_da_Vinci">http://dbpedia.org/resource/Leonardo_da_Vinci</a>):</h4>
+
+<blockquote style="word-wrap: break-word">GET https://www.europeana.eu/api/entities/entity/resolve?wskey=YOUR_KEY&amp;uri=http://dbpedia.org/resource/Leonardo_da_Vinci</blockquote>
+
+</section>

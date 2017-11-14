@@ -1,0 +1,85 @@
+<section>
+
+<p>A profile typically determines how extensive the response will be, by either dictating the metadata fields that will be present (ie. minimal, standard and rich) or appending additional data elements such as facets or breadcrumbs. Most facets can be combined with the exception of the metadata facets or combined facets such as rich. The following table lists the profiles supported by the API: </p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 100px;">Profile</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="param-minimal">
+			<td><a href="#profile-minimal">minimal</a></td>
+			<td>Returns minimal <a href="#metadata-sets">set of metadata</a>.</td>
+		</tr>
+		<tr id="param-standard">
+			<td><a href="#profile-standard">standard</a></td>
+			<td>Returns a broader <a href="#metadata-sets">set of metadata</a>.</td>
+		</tr>
+		<tr id="param-rich">
+			<td><a href="#profile-rich">rich</a></td>
+			<td>Returns the broadest <a href="#metadata-sets">set of metadata</a>.</td>
+		</tr>
+		<tr id="param-facets">
+			<td><a href="#facets">facets</a></td>
+			<td>Information about <a href="#ro-facet">Facets</a> is added. For the records the Standard profile is used.</td>
+		</tr>
+		<tr id="param-breadcrumbs">
+			<td><a href="#profile-breadcrumbs">breadcrumbs</a></td>
+			<td>information about the query is added in the form of breadcrumbs. Facets are added as well; for the records the Standard profile is used.</td>
+		</tr>
+		<tr>
+			<td>params</td>
+			<td>The header of the response will contain a params key, which lists the requested and default parameters of the API call.</td>
+		</tr>
+		<tr id="param-portal">
+			<td><a href="#profile-portal">portal</a></td>
+			<td><i>standard</i>, <i>facets</i>, and <i>breadcrumb</i> combined, plus additional fields.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="profile-breadcrumbs">Breadcrumbs</h3>
+
+<p>A collection of search queries that were applied in this call.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 62px;">Field</th>
+			<th style="width: 89px;">Datatype</th>
+			<th style="width: 423px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>display</td>
+			<td><a href="#json-string">String</a></td>
+			<td>Human-readable description of the search</td>
+		</tr>
+		<tr>
+			<td>param</td>
+			<td><a href="#json-string">String</a></td>
+			<td>The search parameter name (**query** or **qf**)</td>
+		</tr>
+		<tr>
+			<td>value</td>
+			<td><a href="#json-string">String</a></td>
+			<td>The search parameter value</td>
+		</tr>
+		<tr>
+			<td>href</td>
+			<td><a href="#json-string">String</a></td>
+			<td>The search part of the URL which can be reused in further calls</td>
+		</tr>
+		<tr>
+			<td>last</td>
+			<td><a href="#json-boolean">Boolean</a></td>
+			<td>Boolean value indicating whether the current breadcrumb is the last one</td>
+		</tr>
+	</tbody>
+</table>
+
+</section>

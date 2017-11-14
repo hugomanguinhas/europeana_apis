@@ -1,0 +1,54 @@
+<section>
+
+<h3>Large openly licensed images of paintings</h3>
+
+<p>The following section will help you build a simple application based on the media search and retrieval capabilities of the REST API. For this use-case we will construct API queries to retrieve openly licensed large and extra large images of paintings, display their thumbnails on a page and then display part of their technical metadata on a separate page for the image. This section will provide guidance on how to use the API in order to fulfil this use-case.</p>
+
+<h4>Retrieving large and extra large images</h4>
+
+<p>We will start with the search query to retrieve the records. For this, we use the following:</p>
+
+<blockquote>
+<p>search.json?wskey=xxxx&amp;query=what:painting&amp;media=true&amp;qf=IMAGE_SIZE:large&amp;qf=IMAGE_SIZE:extra_large&amp;reusability=open</p>
+</blockquote>
+To breakdown the search query:
+
+<ul>
+	<li>wskey=xxxx - API authentication, replace xxxx with your API key.</li>
+	<li>query=what:painting - Search for records where the subject is a painting.</li>
+	<li>media=true - Records where there is a link to a media file present in the metadata and where this links resolves to a working media file. Note that this parameter is not actually needed when you do a query for any of the media facets, which already imply the value of this parameter.</li>
+	<li>qf=IMAGE_SIZE:large - Records where an image is present of a large size (1-4MP).</li>
+	<li>qf=IMAGE_SIZE:extra_large - Records where an image is present of an extra large size (&gt;4 MP), note that the qf parameter can be included more than once and in this case equals to an 'OR' query.</li>
+	<li>reusability=open - Ensure that only openly licensed media is present in the search results.</li>
+</ul>
+<a href="/api/console/?function=search&amp;query=what:painting&amp;media=true&amp;qf=IMAGE_SIZE:large&amp;qf=IMAGE_SIZE:extra_large&amp;reusability=open">Test on API Console</a>
+
+<h4>Show search results as thumbnails</h4>
+
+<p>Now that we have the search query, we need to use its output to render thumbnails of images on a page. First, note that we did not include any sample as for pagination, you need to apply this yourselves. For this you can use the 'rows' and 'start' parameters in the search API. To render thumbnails of the images in the search results, you need the following information from the search response:</p>
+
+<ul>
+	<li>id - The identifier of the record.</li>
+	<li>title - The title of the record.</li>
+	<li>edmPreview - The URL to the thumbnail image of the main media file.</li>
+</ul>
+
+<p>With this information, you can build a page which shows the thumbnail (edmPreview), along with a title (title) and with a link to a separate page which at minimum should contain the identifier of the record (id). Next, we will help you create that separate page.</p>
+
+<h4>Show the large image with its technical metadata</h4>
+
+<p>If a user clicks on a thumbnail from the search results, next thing you want is to display a large (or extra large) images along with its technical metadata. For this, you need to retrieve the record information from the record API. An example query to the record API would be:</p>
+
+<blockquote>
+<p>/record/90402/BK_1978_399.json?wskey=xxxx</p>
+</blockquote>
+
+<p>As you can see, the only parameter - aside from your API key, is the record identifier. In order to then display the (extra) large images and information from the technical metadata, you need to parse the record API response as follows:</p>
+
+<ul>
+	<li>Use the URL from the "edmIsShownBy" field in the "aggregations" class as the URL of the image file. This field only appears once.</li>
+	<li>Iterate through the "webResources" in the same "aggregations" class until you find the WebResource element which URL ("about") corresponds with the "edmIsShownBy". In here, the technical metadata is present.</li>
+	<li>Then, render the technical metadata you want to display, for instance the "ebucoreWidth" and "ebucoreHeight" (width x height in pixels).</li>
+</ul>
+
+</section>

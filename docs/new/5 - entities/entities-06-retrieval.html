@@ -1,0 +1,112 @@
+<section>
+
+<p>Retrieves all information about a specific entity. The full entity can be retrieved through its persistent URI which is always on the <i>data.europeana.eu</i> domain. The entity is recognised by the type of entity (e.g. agent), the scheme (for now always base) and the minted identification number for the entity.</p>
+
+<!--
+<blockquote>
+<p>GET http://data.europeana.eu/agent/base/147466</p>
+</blockquote>
+
+<p>Or:</p>
+
+<blockquote>
+<p>GET /agent/base/147466?wskey=xxxxx</p>
+</blockquote>
+-->
+
+<h3>Request</h3>
+
+<p>A call to the retrieval method is an HTTPS request with the following signature:</p>
+
+<blockquote style="word-wrap: break-word">GET https://www.europeana.eu/api/entities/[TYPE]/[SCHEME]/[IDENTIFIER].[FORMAT]</blockquote>
+
+<p>where the variables in the URL path mean:<p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Parameter</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>TYPE</td>
+			<td>String</td>
+			<td>The type of the entity, either: "agent", "concept", "place" or "timespan".</td>
+		</tr>
+		<tr>
+			<td>SCHEME</td>
+			<td>String</td>
+			<td>Represents a sub-division under each entity type, for now this is always "base" containing all entities that are re-used from external data sources.</td>
+		</tr>
+		<tr>
+			<td>IDENTIFIER</td>
+			<td>Number</td>
+			<td>The local identifier for the entity.</td>
+		</tr>
+		<tr>
+			<td>FORMAT</td>
+			<td>String</td>
+			<td>An optional, file extension corresponding to the <a href="#formats">output format</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Response</h3>
+
+<p>The retrieve method returns all known information about an entity in all languages in which the information is available. This includes all localised labels (prefLabel), contextual information such as biography and all references of the same entity in other external data sources (sameAs). For a full list of data fields, please see the <a href="http://www.europeana.eu/schemas/context/entity.jsonld" target="_blank">Entity context definition</a>.</p>
+
+
+<h4>Example: Retrieve the Europeana entity for <i>Arturo Toscanini</i> using its identifier:</h4>
+
+<blockquote style="word-wrap: break-word">GET https://www.europeana.eu/api/entities/agent/base/147466?wskey=YOUR_KEY</blockquote>
+
+<pre>
+{
+   "@context": "http://www.europeana.eu/schemas/context/entity.jsonld",
+   "altLabel": {
+      "en": "Toscanini, Arturo"
+   },
+   "biographicalInformation": [
+     {
+       "@language": "ca",
+       "@value": "Arturo Toscanini (25 de març de 1867 - 16 de gener de 1957) va ser un director d'orquestra italià. És considerat per molts crítics, músics i molta de l'audiència que escolta música clàssica, com el director més important de la seva època. Era cèlebre per la seva intensitat brillant, el seu perfeccionisme inquiet, la seva oïda fenomenal i la seva memòria fotogràfica que li donaven un domini extraordinari d'un ample repertori d'obres per a orquestra i òperes. Aquestes capacitats li van permetre de fer indicacions molt precises sobre com interpretar la partitura, fent aportacions en llocs que havien passat per alt a altres directors."
+     },
+     { .. }
+  ],
+  "dateOfBirth": [
+    "1867-03-25"
+  ],
+  "dateOfDeath": [
+    "1957-01-16"
+  ],
+  "end": [
+    "1957-01-16"
+  ],
+  "id": "http://data.europeana.eu/agent/base/147466",
+  "placeOfBirth": {
+    "@id": "http://dbpedia.org/resource/Parma"
+  },
+  "placeOfDeath": [
+    {
+       "@id": "http://dbpedia.org/resource/Port_of_New_York_and_New_Jersey"
+    },
+    {
+       "@id": "http://dbpedia.org/resource/Riverdale,_Bronx"
+    }
+  ],
+  "prefLabel": {
+     "be": "Артура Тасканіні",
+      [..]
+  },
+  "sameAs": [
+     "http://zh.dbpedia.org/resource/阿图罗·托斯卡尼尼",
+     [..]
+  ],
+  "type": "Agent"
+}</pre>
+
+
+</section>

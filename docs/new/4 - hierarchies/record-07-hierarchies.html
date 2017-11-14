@@ -1,0 +1,342 @@
+title: Retrieve information on records which are part of a hierarchical relationship with other records.
+
+<section>
+<p>The hierarchical API methods allow you to travese through a hierarchical set of records. Some records in Europeana are part of such a hierarchy. A good example is the <a href="http://www.europeana.eu/portal/record/9200300/BibliographicResource_3000052917527.html" target="_blank">Wiener Zeitung</a> from the Austrian National Library, a newspaper where the different editions are represented in a hierarchical structure. The hierarchical structure is shown on the record page next to "Related items". This structure and navigation is generated with the hierarchical API methods as documented on this page.</p>
+
+<h3 id="methods">Hierarchical API methods</h3>
+
+<p>All API methods reside in the record namespace:</p>
+
+<blockquote>
+<p>https://www.europeana.eu/api/v2/record/[recordID]/[method].json</p>
+</blockquote>
+
+<ul>
+	<li><a href="#self">self.json - information on a record as part of a hierarchy</a></li>
+	<li><a href="#parent">parent.json - retrieve the parent of a record</a></li>
+	<li><a href="#children">children.json - retrieve the children of a record</a></li>
+	<li><a href="#preceding-siblings">preceding-siblings.json - the preceding siblings of a record</a></li>
+	<li><a href="#following-siblings">following-siblings.json - the following siblings of a record</a></li>
+	<li><a href="#ancestor-self-siblings">ancestor-self-siblings.json - the position of a record in a hierarchy</a></li>
+</ul>
+
+<h3 id="self">self.json</h3>
+
+<p>Returns information on the record as part of a hierarchy.</p>
+
+<blockquote>
+<p>/api/v2/record/9200300/BibliographicResource_3000052917527/self.json?wskey=xxxxx</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 168px;">Parameter</th>
+			<th style="width: 95px;">Datatype</th>
+			<th style="width: 619px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 168px;">callback</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Name of a client side <a href="#callback-function">callback function</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Response</h3>
+
+<p>Returns a "self" response element with information on the hierarchy with the title, description, type (media type), index (ordered position with respect to the siblings (if any), starting with 1), childrenCount (number of child elements, only if hasChildren is true) and whether it has children (boolean):</p>
+
+<pre>
+{
+  "success": true,
+  "self": {
+    "id": "/9200300/BibliographicResource_3000052917527",
+    "title": {
+      "def": [
+       "Wiener Zeitung"
+      ]
+    },
+    "type": "TEXT",
+    "index": 1,
+    "childrenCount": 30817,
+    "hasChildren": true
+  }
+}
+</pre>
+
+<p>If the record is not part of a hierarchy, the <i>success</i> field will be false and the error message will state that the record ID is not a valid identifier.</p>
+
+<h3 id="parent">parent.json</h3>
+
+<p>Returns information on the parent record of this record in the hierarchy. This call also retrieves the information as present in the "self.json" method.</p>
+
+<blockquote>
+<p>/api/v2/record/9200300/BibliographicResource_3000116310788/parent.json?wskey=xxxxx</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 168px;">Parameter</th>
+			<th style="width: 95px;">Datatype</th>
+			<th style="width: 619px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 168px;">callback</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Name of a client side <a href="#callback-function">callback function</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Response</h4>
+
+<p>Returns a <a href="#self">"self"</a> response element (see above) along with a "parent" element with the information on the parent record:</p>
+
+<pre>
+{
+  "success": true,
+  "self": { .. }
+  "parent": {
+    "id": "/9200300/BibliographicResource_3000052917527",
+    "title": {
+      "def": [
+       "Wiener Zeitung"
+      ]
+    },
+    "type": "TEXT",
+    "index": 1,
+    "childrenCount": 30817,
+    "hasChildren": true
+  }
+}
+</pre>
+
+<p>If the record has no parent (e.g. it is by itself a parent), the <i>success</i> field will be false and the <i>message</i> field will contain the message "This record has no parent". If the record is not part of a hierarchy, the <i>success</i> field will also be false and the error message will state that the record ID is not a valid identifier.</p>
+
+<h3 id="children">children.json</h3>
+
+<p>Returns the children of the record in the hierarchical structure.</p>
+
+<blockquote>
+<p>/api/v2/record/9200300/BibliographicResource_3000052917527/children.json?wskey=xxxxx&amp;offset=10&amp;limit=10</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 168px;">Parameter</th>
+			<th style="width: 95px;">Datatype</th>
+			<th style="width: 619px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 168px;">offset</td>
+			<td style="width: 95px;">Integer</td>
+			<td style="width: 619px;">The offset of the number of results to retrieve. Default is no offset.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">limit</td>
+			<td style="width: 95px;">Integer</td>
+			<td style="width: 619px;">The limit of results to retrieve. Defaults to 10.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">callback</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Name of a client side <a href="#callback-function">callback function</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Response</h4>
+
+<p>Returns a <a href="#self">"self"</a> response element along with a "children" element with the children. Each child has a field named <i>relbefore</i> (a boolean, whether there are preceding siblings) and <i>hasChildren</i> (a boolean, to indicate whether this child has other children in a sub-hierarchy):</p>
+
+<pre>
+{
+  "success": true,
+  "self": { .. }
+  "children": [
+    {
+      "id": "/9200300/BibliographicResource_3000116311348",
+      "title": {
+        "def": [
+          "Wiener Zeitung - 1703-09-17"
+        ]
+      },
+      "type": "TEXT",
+      "parent": "/9200300/BibliographicResource_3000052917527",
+      "index": 11,
+      "relBefore": true,
+      "hasChildren": false
+    },
+    { .. }
+  ]
+}</pre>
+
+<p>If the record has no children, the <i>success</i> field will be false and the <i>message</i> field will contain the message "This record has no children". If the record is not part of a hierarchy, the <i>success</i> field will also be false and the error message will state that the record ID is not a valid identifier.</p>
+
+<h3 id="preceding-siblings">preceding-siblings.json</h3>
+
+<p>Returns the preceding sibling of the record in the hierarchical structure.</p>
+
+<blockquote>
+<p>/api/v2/record9200300/BibliographicResource_3000116311348/preceding-siblings.json?wskey=xxxxx</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 168px;">Parameter</th>
+			<th style="width: 95px;">Datatype</th>
+			<th style="width: 619px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 168px;">offset</td>
+			<td style="width: 95px;">Integer</td>
+			<td style="width: 619px;">The offset of the number of results to retrieve. Default is no offset.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">limit</td>
+			<td style="width: 95px;">Integer</td>
+			<td style="width: 619px;">The limit of results to retrieve. Defaults to 10.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">callback</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Name of a client side <a href="#callback-function">callback function</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Response</h4>
+
+<p>Returns a <a href="#self">"self"</a> response element along with a "preceding-siblings" element with the preceding children. The fields are the same as for the <a href="#children">"children"</a> element in the children.json method.</p>
+
+<pre>
+{
+  "success": true,
+  "self": { .. }
+  "preceding-siblings": [
+    { .. },
+    { .. }
+  ]
+}
+</pre>
+
+<p>If the record has no preceding siblings, the <i>success</i> field will be false and the <i>message</i> field will contain the message "This record has no preceding siblings". If the record is not part of a hierarchy, the <i>success</i> field will also be false and the error message will state that the record ID is not a valid identifier.</p>
+
+<h3 id="following-siblings">following-siblings.json</h3>
+
+<p>Returns the following siblings of the record in the hierarchical structure.</p>
+
+<blockquote>
+<p>/api/v2/record/9200300/BibliographicResource_3000116311348/following-siblings.json?wskey=xxxxx</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 168px;">Parameter</th>
+			<th style="width: 95px;">Datatype</th>
+			<th style="width: 619px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 168px;">offset</td>
+			<td style="width: 95px;">Integer</td>
+			<td style="width: 619px;">The offset of the number of results to retrieve. Default is no offset.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">limit</td>
+			<td style="width: 95px;">Integer</td>
+			<td style="width: 619px;">The limit of results to retrieve. Defaults to 10.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">callback</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Name of a client side <a href="#callback-function">callback function</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Response</h4>
+
+<p>Returns a <a href="#self">"self"</a> response element along with a "following-siblings" element with the following children. The fields are the same as for the <a href="#children">"children"</a> element in the children.json method.</p>
+
+<pre>
+{
+  "success": true,
+  "self": { .. }
+  "following-siblings": [
+    { .. },
+    { .. }
+  ]
+}</pre>
+
+<p>If the record has no following siblings, the <i>success</i> field will be false and the <i>message</i> field will contain the message "This record has no following siblings". If the record is not part of a hierarchy, the <i>success</i> field will also be false and the error message will state that the record ID is not a valid identifier.</p>
+
+<h3 id="ancestor-self-siblings">ancestor-self-siblings.json</h3>
+
+<p>Returns the parent and siblings of the record in the hierarchical structure.</p>
+
+<blockquote>
+<p>/api/v2/record/9200300/BibliographicResource_3000116310788/ancestor-self-siblings.json?wskey=xxxxx</p>
+</blockquote>
+
+<h4>Request</h4>
+
+<h4>Request</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th style="width: 168px;">Parameter</th>
+			<th style="width: 95px;">Datatype</th>
+			<th style="width: 619px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 168px;">offset</td>
+			<td style="width: 95px;">Integer</td>
+			<td style="width: 619px;">The offset of the number of results to retrieve. Default is no offset.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">limit</td>
+			<td style="width: 95px;">Integer</td>
+			<td style="width: 619px;">The limit of results to retrieve. Defaults to 10.</td>
+		</tr>
+		<tr>
+			<td style="width: 168px;">callback</td>
+			<td style="width: 95px;">String</td>
+			<td style="width: 619px;">Name of a client side <a href="#callback-function">callback function</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Response</h4>
+
+<p>Returns a <a href="#self">"self"</a> response element along with a "following-siblings" element with the following siblings, a "preceding-siblings" element with the preceding sibling and an "ancestors" element with the ancestors. See the other methods for the output and elements of these fields.</p>
+
+<p>If the record has no parent or sibling, the <i>success</i> field will be false and the <i>message</i> field will contain the message "This record has no parent or siblings". If any of the fields are empty (e.g. no preceding siblings), this field will be omitted from the response. If the record is not part of a hierarchy, the <i>success</i> field will also be false and the error message will state that the record ID is not a valid identifier.</p>
+</section>

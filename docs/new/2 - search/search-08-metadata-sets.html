@@ -1,0 +1,427 @@
+title: Metadata Sets
+<section>
+
+<p>Each item in a search result is represented by a subset of the fields from the corresponding metadata record. The extent of the fields that are present is determined by the <a href="#profiles">Profile</a> chosen.</p>
+
+<h3 id="result-fields-outside">Result Fields outside EDM</h4>
+
+<p>In addition to the fields defined in EDM, a handfull of other fields were defined for administrative reasons that are output in the response.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Result Field</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>guid</td>
+			<td>A link to the object page on the Europeana portal to be used by client applications.</td>
+		</tr>
+		<tr>
+			<td>link</td>
+			<td>A link to the API object call. This link should be used to retrieve the full metadata object.</td>
+		</tr>
+		<tr>
+			<td>title<br/></td>
+			<td>The main and alternative titles of the item.</td>
+		</tr>
+		<tr>
+			<td>score</td>
+			<td>The relevancy score calculated by the search engine. Depends of the query.</td>
+		</tr>
+		<tr>
+			<td>timestamp</td>
+			<td>?</td>
+		</tr>
+		<tr>
+			<td>timestamp_created_epoch</td>
+			<td>UNIX timestamp of the date when record were created</td>
+		</tr>
+		<tr>
+			<td>timestamp_update_epoch</td>
+			<td>UNIX timestamp of the date when record were last updated</td>
+		</tr>
+		<tr>
+			<td>timestamp_created</td>
+			<td><a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format of the date when record were created</td>
+		</tr>
+		<tr>
+			<td>timestamp_update</td>
+			<td><a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format of the date when record were last updated</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="result-fields-lang">Language-specific Result Fields</h3>
+
+<p>The same way as there are separate <a href="#search-fields-lang">language specific fields for searching</a>, there is also a way to distinguish language specific values for the response. Such fields always end with the suffix "LangAware" and are represented as <a href="#json-langmap">LangMap</a>. In order to preserve backwards compatibility we have not changed the original fields. This means that fields such as title, description and creator now appear twice in the search response, one with their original field name (dcTitle) and one as a multilingual labelled list (dcTitleLangAware). In the future we will replace the single-value fields for the correct multilingual ones.</p>
+
+<p>The following table shows the base and language specific result fields for the dc:creator property:</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Result Field</th>
+			<th>Result Datatype</th>
+			<th>Search Field</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a href="intro#dc:creator" title="dc:creator">dcCreator</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</a></td>
+			<td><a href="#sf_proxy_dc_creator">proxy_dc_creator</a></td>
+		</tr>
+		<tr>
+			<td><a href="intro#dc:creator" title="dc:creator">dcCreatorLangAware</a></td>
+			<td><a href="#json-langmap">LangMap</a></td>
+			<td><a href="#sf_proxy_dc_creator">proxy_dc_creator.en<br/>proxy_dc_creator.fr<br/>...<br/>proxy_dc_creator.*</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="result-fields-edm">Result Fields</h3>
+
+<p>The table below lists all the fields that are output by the search divided per profile (metadata set).</>
+
+<table class="listingtable rigid">
+	<thead>
+		<tr>
+			<th>Result Field</th>
+			<th style="width: 150px">JSON Datatype</th>
+			<th style="width: 205px">Search Field</th>
+		</tr>
+	</thead>
+	<thead>
+		<tr id="profile-minimal">
+			<th colspan="3">Minimal Profile</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="rf_dataProvider">
+			<td><a href="intro#edm:dataProvider">dataProvider</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_provider_aggregation_edm_dataProvider">provider_aggregation_edm_dataProvider</a></td>
+		</tr>
+		<tr id="rf_dcCreator">
+			<td><a href="intro#edm:ProvidedCHO/dc:creator">dcCreator</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_proxy_dc_creator">proxy_dc_creator</a></td>
+		</tr>
+		<tr id="rf_dcCreatorLangAware">
+			<td><a href="intro#edm:ProvidedCHO/dc:creator">dcCreatorLangAware</a></td>
+			<td><a href="#json-langmap">LangMap</a></td>
+			<td><a href="#sf_proxy_dc_creator">proxy_dc_creator.*</a></td>
+		</tr>
+		<tr id="rf_edmIsShownAt">
+			<td><a href="intro#ore:Aggregation/edm:isShownAt">edmIsShownAt</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_provider_aggregation_edm_isShownAt">provider_aggregation_edm_isShownAt</a></td>
+		</tr>
+		<tr id="rf_edmPlaceLatitude">
+			<td><a href="intro#edm:Place/wgs84_pos:lat">edmPlaceLatitude</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_pl_wgs84_pos_lat">pl_wgs84_pos_lat</a></td>
+		</tr>
+		<tr id="rf_edmPlaceLongitude">
+			<td><a href="intro#edm:Place/wgs84_pos:long">edmPlaceLongitude</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_pl_wgs84_pos_long">pl_wgs84_pos_long</a></td>
+		</tr>
+		<tr id="rf_edmPreview">
+			<td><a href="intro#edm:EuropeanaAggregation/edm:preview">edmPreview</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td></td>
+		</tr>
+		<tr id="rf_europeanaCompleteness">
+			<td>europeanaCompleteness</td>
+			<td><a href="#json-number">Number</a></td>
+			<td><a href="#sf_COMPLETENESS">COMPLETENESS</a></td>
+		</tr>
+		<tr id="rf_guid">
+			<td>guid</td>
+			<td><a href="#json-string">String</a></td>
+			<td></td>
+		</tr>
+		<tr id="rf_id">
+			<td>id</td>
+			<td><a href="#json-string">String</a></td>
+			<td><a href="#sf_europeana_id">europeana_id</a></td>
+		</tr>
+		<tr id="rf_link">
+			<td>link</td>
+			<td><a href="#json-string">String</a></td>
+			<td></td>
+		</tr>
+		<tr id="rf_provider">
+			<td><a href="intro#ore:Aggregation/edm:provider">provider</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_PROVIDER">PROVIDER</a></td>
+		</tr>
+		<tr id="rf_rights">
+			<td><a href="intro#ore:Aggregation/edm:rights">rights</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_RIGHTS">RIGHTS</a></td>
+		</tr>
+		<tr id="rf_score">
+			<td>score</td>
+			<td><a href="#json-number">Number</a></td>
+			<td><a href="#sf_score">score</a></td>
+		</tr>
+		<tr id="rf_title">
+			<td>title</td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_title">title</a></td>
+		</tr>
+		<tr id="rf_dcTitleLangAware">
+			<td><a href="edm:ProvidedCHO/dc:title">dcTitleLangAware</a></td>
+			<td><a href="#json-langmap">LangMap</a></td>
+			<td><a href="#sf_proxy_dc_title">proxy_dc_title.*</a></td>
+		</tr>
+		<tr id="rf_type">
+			<td><a href="ore:Proxy/edm:type">type</a></td>
+			<td><a href="#json-string">String</a></td>
+			<td><a href="#sf_TYPE">TYPE</a></td>
+		</tr>
+		<tr id="rf_year">
+			<td><a href="ore:Proxy/edm:year">year</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_YEAR">YEAR</a></td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr id="profile-standard">
+			<th colspan="3">Standard Profile</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="rf_previewNoDistribute">
+			<td>previewNoDistribute</td>
+			<td><a href="#json-boolean">Boolean</a></td>
+			<td><a href="#sf_edm_previewNoDistribute">edm_previewNoDistribute</a></td>
+		</tr>
+		<tr id="rf_edmConceptTerm">
+			<td><a href="skos:Concept/@rdf:about">edmConceptTerm</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_skos_concept">skos_concept</a></td>
+		</tr>
+		<tr id="rf_edmConceptPrefLabel">
+			<td><a href="skos:Concept/skos:prefLabel">edmConceptPrefLabel</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-langmap">LangMap</a>)</td>
+			<td><a href="#sf_cc_skos_prefLabel">cc_skos_prefLabel</a></td>
+		</tr>
+		<tr id="rf_edmConceptPrefLabelLangAware">
+			<td><a href="skos:Concept/skos:prefLabel">edmConceptPrefLabelLangAware</a></td>
+			<td><a href="#json-langmap">LangMap</a></td>
+			<td><a href="#sf_cc_skos_prefLabel">cc_skos_prefLabel.*</a></td>
+		</tr>
+		<tr id="rf_edmConceptBroaderTerm">
+			<td><a href="skos:Concept/skos:broader">edmConceptBroaderTerm</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_cc_skos_broader">cc_skos_broader</a></td>
+		</tr>
+		<tr id="rf_edmConceptBroaderLabel">
+			<td><a href="skos:Concept/skos:broader">edmConceptBroaderLabel</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-langmap">LangMap</a>)</td>
+			<td><a href="#sf_cc_skos_broader">cc_skos_broader</a></td>
+		</tr>
+		<tr id="rf_edmTimespanLabel">
+			<td><a href="edm:TimeSpan/skos:prefLabel">edmTimespanLabel</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-langmap">LangMap</a>)</td>
+			<td><a href="#sf_ts_skos_prefLabel">ts_skos_prefLabel</a></td>
+		</tr>
+		<tr id="rf_edmTimespanLabelLangAware">
+			<td><a href="edm:TimeSpan/skos:prefLabel">edmTimespanLabelLangAware</a></td>
+			<td><a href="#json-langmap">LangMap</a></td>
+			<td><a href="#sf_ts_skos_prefLabel">ts_skos_prefLabel.*</a></td>
+		</tr>
+<!--
+		<tr>
+			<td>recordHashFirstSix</td>
+			<td></td>
+			<td>europeana_recordHashFirstSix</td>
+		</tr>
+-->
+		<tr id="rf_ugc">
+			<td><a href="ore:Aggregation/edm:ugc">ugc</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-boolean">Boolean</a>)</td>
+			<td><a href="#sf_UGC">UGC</a></td>
+		</tr>
+		<tr id="rf_completeness">
+			<td>completeness</td>
+			<td><a href="#json-number">Number</a></td>
+			<td><a href="#sf_COMPLETENESS">COMPLETENESS</a></td>
+		</tr>
+		<tr id="rf_country">
+			<td><a href="edm:EuropeanaAggregation/edm:country">country</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_COUNTRY">COUNTRY</a></td>
+		</tr>
+		<tr id="rf_europeanaCollectionName">
+			<td><a href="edm:datasetName" title="edm:datasetName">europeanaCollectionName</a><a href="#result-note1"><sup>1</sup></a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_europeana_collectionName">europeana_collectionName</a></td>
+		</tr>
+		<tr id="rf_edmDatasetName">
+			<td><a href="edm:datasetName" title="edm:datasetName">edmDatasetName</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_edm_datasetName">edm_datasetName</a></td>
+		</tr>
+		<tr id="rf_edmPlaceAltLabel">
+			<td><a href="edm:Place/skos:altLabel">edmPlaceAltLabel</a></td>
+			<td>???</td>
+			<td><a href="#sf_pl_skos_altLabel">pl_skos_altLabel</a></td>
+		</tr>
+		<tr id="rf_edmPlaceAltLabelLangAware">
+			<td><a href="edm:Place/skos:altLabel">edmPlaceAltLabelLangAware</a></td>
+			<td><a href="#json-langmap">LangMap</a></td>
+			<td><a href="#sf_pl_skos_altLabel">pl_skos_altLabel.*</a></td>
+		</tr>
+		<tr id="rf_dcLanguage">
+			<td><a href="ore:Proxy/dc:language">dcLanguage</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_proxy_dc_language">proxy_dc_language</a></td>
+		</tr>
+		<tr id="rf_dctermsIsPartOf">
+			<td><a href="edm:Place/dcterms:isPartOf">dctermsIsPartOf</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_pl_dcterms_isPartOf">pl_dcterms_isPartOf</a></td>
+		</tr>
+		<tr id="rf_timestamp">
+			<td>timestamp</td>
+			<td><a href="#json-number">Number</a></td>
+			<td><a href="#sf_timestamp">timestamp</a></td>
+		</tr>
+		<tr id="rf_timestampCreated">
+			<td>timestampCreated</td>
+			<td><a href="#json-string">String</a></td>
+			<td><a href="#sf_timestamp_created">timestamp_created</a></td>
+		</tr>
+		<tr id="rf_timestampUpdate">
+			<td>timestampUpdate</td>
+			<td><a href="#json-string">String</a></td>
+			<td><a href="#sf_timestamp_update">timestamp_update</a></td>
+		</tr>
+		<tr id="rf_language">
+			<td><a href="edm:EuropeanaAggregation/edm:language">language</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_LANGUAGE">LANGUAGE</a></td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr id="profile-portal">
+			<th colspan="3">Portal Profile</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="rf_dctermsSpatial">
+			<td><a href="edm:ProvidedCHO/dcterms:spatial">dctermsSpatial</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_proxy_dcterms_spatial">proxy_dcterms_spatial</a></td>
+		</tr>
+		<tr id="rf_edmPlace">
+			<td><a href="edm:Place/@rdf:about">edmPlace</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_edm_place">edm_place</a></td>
+		</tr>
+		<tr id="rf_edmTimespan">
+			<td><a href="edm:TimeSpan/@rdf:about">edmTimespan</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_edm_timespan">edm_timespan</a></td>
+		</tr>
+		<tr id="rf_edmAgent">
+			<td><a href="edm:Agent/@rdf:about">edmAgent</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_edm_agent">edm_agent</a></td>
+		</tr>
+		<tr id="rf_edmAgentLabel">
+			<td><a href="edm:Agent/skos:prefLabel">edmAgentLabel</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-langmap">LangMap</a>)</td>
+			<td><a href="#sf_ag_skos_prefLabel">ag_skos_prefLabel</a></td>
+		</tr>
+		<tr id="rf_dcContributor">
+			<td><a href="edm:ProvidedCHO/dc:contributor">dcContributor</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_proxy_dc_contributor">proxy_dc_contributor</a></td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr id="profile-rich">
+			<th colspan="3">Rich Profile</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="rf_edmIsShownBy">
+			<td><a href="ore:Aggregation/edm:isShownBy">edmIsShownBy</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_provider_aggregation_edm_isShownBy">provider_aggregation_edm_isShownBy</a></td>
+		</tr>
+		<tr id="rf_dcDescription">
+			<td><a href="edm:ProvidedCHO/dc:description">dcDescription</a></td>
+			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
+			<td><a href="#sf_proxy_dc_description">proxy_dc_description</a></td>
+		</tr>
+		<tr id="rf_dcDescriptionLangAware">
+			<td><a href="edm:ProvidedCHO/dc:description">dcDescriptionLangAware</a></td>
+			<td><a href="#json-langmap">LangMap</a></td>
+			<td><a href="#sf_proxy_dc_description">proxy_dc_description</a></td>
+		</tr>
+		<tr id="rf_edmLandingPage">
+			<td><a href="edm:EuropeanaAggregation/edm:landingPage">edmLandingPage</a></td>
+			<td></td>
+			<td><a href="#sf_europeana_aggregation_edm_landingPage">europeana_aggregation_edm_landingPage</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<p id="result-note1"><sup>1</sup> This field has been deprecated with edmDatasetName. This change followed the change in EDM to rename to edm:collectionName to edm:datasetName. We will keep support for edmCollectionName for a grace period, but on January 2018, we will return only edmDatasetName so please update your API client.<p>
+
+
+<h3>JSON Datatypes</h3>
+
+<p>The JSON output of this API uses the following datatypes:</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td id="json-boolean">Boolean</td>
+			<td>true or false</td>
+		</tr>
+		<tr>
+			<td id="json-number">Number</td>
+			<td>integer or double precision floating-point number</td>
+		</tr>
+		<tr>
+			<td id="json-string">String</td>
+			<td>double-quoted Unicode, with backslash escaping</td>
+		</tr>
+		<tr>
+			<td id="json-array">Array</td>
+			<td>an ordered sequence of values, comma-separated and enclosed in square brackets; the values do not need to be of the same type</td>
+		</tr>
+		<tr>
+			<td id="json-object">Object</td>
+			<td>an unordered collection of key:value pairs with the ':' character separating the key and the value, comma-separated and enclosed in curly braces; the keys must be strings and should be distinct from each other</td>
+		</tr>
+		<tr>
+			<td id="json-langmap">LangMap</td>
+			<td>A special datatype to provide values in various languages. It is an associative array where the keys are ISO language codes or "def" (where the language is not given), and the value is an array of strings. For example: <code>"dcTitle": {"por": ["Paris"]}</code>. Here the datatype of dcTitle is a LanguageMap: the language code is "por" (stands for Portuguese), and the value is a list with only one element: "Paris". For those familiar with Java notations: is it the JSON equivalent of <code> Map&lt;String,List&lt;String&gt;&gt;</code></td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: Include the broadest set of metadata in the search response:</h4>
+
+<blockquote style="word-wrap: break-word">
+https://www.europeana.eu/api/v2/search.json?query=Paris&amp;profile=rich (<a href="#function=search&amp;query=Paris&amp;profile=rich">try on console</a>)
+</blockquote>
+
+</section>

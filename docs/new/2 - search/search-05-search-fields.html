@@ -1,0 +1,874 @@
+anchor: Search Fields
+title: Query, Filter and Faceting Fields
+<section>
+
+<h3 id="search-fields-outside">Search Fields outside EDM</h3>
+
+<p>In addition to the fields defined in EDM, a handfull of other fields were defined for administrative reasons that can also be searched.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Search Field</th>
+			<th>Datatype</th>
+			<th>Result Field</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_europeana_id">
+			<td>europeana_id</td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_id">id</a></td>
+			<td>The Europeana ID of the record.</td>
+		</tr>
+		<tr id="sf_timestamp">
+			<td>timestamp</td>
+			<td><a href="#search-date">Date</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_timestamp_created">
+			<td>timestamp_created</td>
+			<td><a href="#search-date">Date</a></td>
+			<td><a href="#rf_timestamp_created">timestamp_created</a>
+			<br/><a href="#rf_timestamp_created_epoch">timestamp_created_epoch</a></td>
+			<td>The date when record were created (formated as <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>)</td>
+		</tr>
+		<tr id="sf_timestamp_update">
+			<td>timestamp_update</td>
+			<td><a href="#search-date">Date</a></td>
+			<td><a href="#rf_timestamp_update">timestamp_update</a>
+			<br/><a href="#rf_timestamp_update_epoch">timestamp_update_epoch</a></td>
+			<td>The date when record were last updated (formated as <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>)</td>
+		</tr>
+		<tr id="sf_europeana_completeness">
+			<td>europeana_completeness</td>
+			<td><a href="#search-number">Number</a></td>
+			<td><a href="rf_europeanaCompleteness">europeanaCompleteness</a></td>
+			<td rowspan="2">An internal Europeana measure of the completeness of the metadata of the record, based on the availability of mandatory and optional schema fields. It is measured as a number from 1 to 10 and serves as indicator of the metadata quality.</td>
+		</tr>
+		<tr id="sf_COMPLETENESS">
+			<td>COMPLETENESS</td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_completeness">completeness</a></td>
+		</tr>
+	<tbody>
+</table>
+
+<h3 id="search-fields-lang">Language-specific Search Fields</h3>
+
+<p>In EDM, most of the properties that accept a Literal may be language tagged, meaning having a language code that determine the language of the text using the <a href="http://www.loc.gov/standards/iso639-2/php/code_list.php">ISO 639-2</a> standard. To allow for a language specific search on such properties, the Search API defines a field for each of the language variations that appear in our repository while keeping the base field with all the values in all language variations. As opposed to the base field which typically has datatype Text (some fields may also be defined as String), the language specific fields are always of type String to allow for faceting with the complete value (with no tokenization), see <a href="#search-datatypes">datatypes</a> for more details. If a language specific field is part of a metadata set, it can also be <a href="#result-fields-lang">output in the response</a>.</p>
+
+<p>The following table shows the base and language specific search fields for the dc:creator property:</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Search Field</th>
+			<th>Search Datatype</th>
+			<th>Result Field</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a href="intro#dc:creator" title="dc:creator">proxy_dc_creator</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#rf_dcCreator">dcCreator</a></td>
+		</tr>
+		<tr>
+			<td><a href="intro#dc:creator" title="dc:creator">proxy_dc_creator.en<br/>proxy_dc_creator.fr<br/>...<br/>proxy_dc_creator.*</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_dcCreatorLangAware">dcCreatorLangAware</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="search-fields-edm">Search Fields defined in EDM</h3>
+
+<p>EDM defines an extensive list of class and properties. In the Search API only a subset of these, corresponding to the ones found to be the most commonly used, can be used to search in the repository. These fields are listed in this section.</>
+
+<p>The ML (ie. multilingual) column of the table below marks the fields that have <a href="#search-fields-lang">multilingual variations</a>.</p>
+
+<table class="listingtable rigid">
+	<thead>
+		<tr>
+			<th>Search Field</th>
+			<th style="width: 95px">Search Datatype</th>
+			<th style="width: 205px">Result Field</th>
+			<th style="width: 40px">ML</th>
+		</tr>
+	</thead>
+	<thead>
+		<tr>
+			<th colspan="4">ore:Proxy</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_proxy_dc_contributor">
+			<td><a href="intro#dc:contributor" title="dc:contributor">proxy_dc_contributor</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#rf_dcContributor">dcContributor</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_CONTRIBUTOR">
+			<td><a href="intro#dc:contributor" title="dc:contributor">CONTRIBUTOR</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_dcContributor">dcContributor</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_proxy_dc_coverage">
+			<td><a href="dc:coverage" title="dc:coverage">proxy_dc_coverage</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_creator">
+			<td><a href="dc:creator" title="dc:creator">proxy_dc_creator</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#rf_dcCreator">dcCreator</a><br/><a href="#rf_dcCreatorLangAware">dcCreatorLangAware</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_date">
+			<td><a href="dc:date" title="dc:date">proxy_dc_date</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_description">
+			<td><a href="dc:description" title="dc:description">proxy_dc_description</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#rf_dcDescription">dcDescription</a><br/><a href="#rf_dcDescriptionLangAware">dcDescriptionLangAware</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_format">
+			<td><a href="dc:format" title="dc:format">proxy_dc_format</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_identifier">
+			<td><a href="dc:identifier" title="dc:identifier">proxy_dc_identifier</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_language">
+			<td><a href="dc:language" title="dc:language">proxy_dc_language<br/>LANGUAGE</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_dcLanguage">dcLanguage</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_publisher">
+			<td><a href="dc:publisher" title="dc:publisher">proxy_dc_publisher</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_rights">
+			<td><a href="dc:rights" title="dc:rights">proxy_dc_rights</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_source">
+			<td><a href="dc:source" title="dc:source">proxy_dc_source</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_subject">
+			<td><a href="dc:subject" title="dc:subject">proxy_dc_subject</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_title">
+			<td><a href="dc:title" title="dc:title">proxy_dc_title</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#rf_dcTitleLangAware">dcTitleLangAware</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_type">
+			<td><a href="dc:type" title="dc:type">proxy_dc_type</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dc_type_search">
+			<td><a href="dc:type" title="dc:type">proxy_dc_type_search</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dcterms_alternative">
+			<td><a href="dcterms:alternative" title="dcterms:alternative">proxy_dcterms_alternative</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dcterms_created">
+			<td><a href="dcterms:created" title="dcterms:created">proxy_dcterms_created</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dcterms_hasPart">
+			<td><a href="dcterms:hasPart" title="dcterms:hasPart">proxy_dcterms_hasPart</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_dctermsHasPart">dctermsHasPart</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dcterms_isPartOf">
+			<td><a href="dcterms:isPartOf" title="dcterms:isPartOf">proxy_dcterms_isPartOf</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_dctermsIsPartOf">dctermsIsPartOf</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dcterms_issued">
+			<td><a href="dcterms:issued" title="dcterms:issued">proxy_dcterms_issued</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dcterms_medium">
+			<td><a href="dcterms:medium" title="dcterms:medium">proxy_dcterms_medium</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dcterms_provenance">
+			<td><a href="dcterms:provenance" title="dcterms:provenance">proxy_dcterms_provenance</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dcterms_spatial">
+			<td><a href="dcterms:spatial" title="dcterms:spatial">proxy_dcterms_spatial</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_dctermsSpatial">dctermsSpatial</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_dcterms_temporal">
+			<td><a href="dcterms:temporal" title="dcterms:temporal">proxy_dcterms_temporal</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_edm_currentLocation">
+			<td><a href="edm:currentLocation" title="edm:currentLocation">proxy_edm_currentLocation</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_edm_hasMet">
+			<td><a href="edm:hasMet" title="edm:hasMet">proxy_edm_hasMet</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_edm_isRelatedTo">
+			<td><a href="edm:isRelatedTo" title="edm:isRelatedTo">proxy_edm_isRelatedTo</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_proxy_edm_type">
+			<td><a href="edm:type" title="edm:type">proxy_edm_type<br/>TYPE</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td>type</td>
+			<td></td>
+		</tr>
+		<tr id="sf_proxy_edm_year">
+			<td><a href="edm:year" title="edm:year">proxy_edm_year<br/>YEAR</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td>year</td>
+			<td>✓</td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="4">ore:Aggregation</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_provider_aggregation_edm_dataProvider">
+			<td><a href="edm:dataProvider" title="edm:dataProvider">provider_aggregation_edm_dataProvider<br/>DATA_PROVIDER</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmDataProvider">edmDataProvider</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_provider_aggregation_edm_hasView">
+			<td><a href="edm:hasView" title="edm:hasView">provider_aggregation_edm_hasView</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_provider_aggregation_edm_intermediateProvider">
+			<td><a href="edm:intermediateProvider" title="edm:intermediateProvider">provider_aggregation_edm_intermediateProvider</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_provider_aggregation_edm_isShownAt">
+			<td><a href="edm:isShownAt" title="edm:isShownAt">provider_aggregation_edm_isShownAt</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmIsShownAt">edmIsShownAt</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_provider_aggregation_edm_isShownBy">
+			<td><a href="edm:isShownBy" title="edm:isShownBy">provider_aggregation_edm_isShownBy</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmIsShownBy">edmIsShownBy</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_provider_aggregation_edm_object">
+			<td><a href="edm:object" title="edm:object">provider_aggregation_edm_object</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmObject">edmObject</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_provider_aggregation_edm_provider">
+			<td><a href="edm:provider" title="edm:provider">provider_aggregation_edm_provider<br/>PROVIDER</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_provider">provider</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_provider_aggregation_dc_rights">
+			<td><a href="dc:rights" title="dc:rights">provider_aggregation_dc_rights</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_provider_aggregation_edm_rights">
+			<td><a href="edm:rights" title="edm:rights">provider_aggregation_edm_rights<br/>RIGHTS</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_rights">rights</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_edm_UGC">
+			<td><a href="edm:ugc" title="edm:ugc">edm_UGC<br/>UGC</a></td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td><a href="#rf_ugc">ugc</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_edm_previewNoDistribute">
+			<td>edm_previewNoDistribute</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td><a href="#rf_previewNoDistribute">previewNoDistribute</a></td>
+			<td></td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="4">edm:EuropeanaAggregation</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_europeana_collectionName">
+			<td><a href="edm:datasetName" title="edm:datasetName">europeana_collectionName</a><a href="#search-note1"><sup>1</sup></a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_europeanaCollectionName">europeanaCollectionName</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_edm_datasetName">
+			<td><a href="edm:datasetName" title="edm:datasetName">edm_datasetName</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmDatasetName">edmDatasetName</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_europeana_aggregation_edm_country">
+			<td><a href="edm:country" title="edm:country">europeana_aggregation_edm_country<br/>COUNTRY</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_country">country</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_europeana_aggregation_edm_language">
+			<td><a href="edm:language" title="edm:language">europeana_aggregation_edm_language</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_language">language</a></td>
+			<td>✓</td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="4">edm:WebResource</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_edm_webResource">
+			<td><a href="@rdf:about" title="@rdf:about">edm_webResource</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_wr_dc_rights">
+			<td><a href="dc:rights" title="dc:rights">wr_dc_rights</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_wr_dcterms_isReferencedBy">
+			<td><a href="dcterms:isReferencedBy" title="dcterms:isReferencedBy">wr_dcterms_isReferencedBy</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_wr_edm_isNextInSequence">
+			<td><a href="edm:isNextInSequence" title="edm:isNextInSequence">wr_edm_isNextInSequence</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_wr_edm_rights">
+			<td><a href="edm:rights" title="edm:rights">wr_edm_rights</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_wr_svcs_hasservice">
+			<td><a href="svcs:hasService" title="svcs:hasService">wr_svcs_hasservice</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="4">cc:License</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_wr_cc_license">
+			<td><a href="@rdf:about" title="@rdf:about">wr_cc_license</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_provider_aggregation_cc_license">
+			<td><a href="@rdf:about" title="@rdf:about">provider_aggregation_cc_license</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_provider_aggregation_odrl_inherited_from">
+			<td><a href="odrl:inheritedFrom" title="odrl:inheritedFrom">provider_aggregation_odrl_inherited_from</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_wr_cc_odrl_inherited_from">
+			<td><a href="odrl:inheritedFrom" title="odrl:inheritedFrom">wr_cc_odrl_inherited_from</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_wr_cc_deprecated_on">
+			<td><a href="cc:deprecatedOn" title="cc:deprecatedOn">wr_cc_deprecated_on</a></td>
+			<td><a href="#search-date">Date</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_provider_aggregation_cc_deprecated_on">
+			<td><a href="cc:deprecatedOn" title="cc:deprecatedOn">provider_aggregation_cc_deprecated_on</a></td>
+			<td><a href="#search-date">Date</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_provider_aggregation_cc_deprecated_on">
+			<td><a href="cc:deprecatedOn" title="cc:deprecatedOn">provider_aggregation_cc_deprecated_on</a></td>
+			<td><a href="#search-date">Date</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="4">svcs:Service</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_svcs_service">
+			<td><a href="@rdf:about" title="@rdf:about">svcs_service</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_sv_dcterms_conformsTo">
+			<td><a href="svcs:conformsTo" title="svcs:conformsTo">sv_dcterms_conformsTo</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="4">edm:Agent</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_edm_agent">
+			<td><a href="@rdf:about" title="@rdf:about">edm_agent</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmAgent">edmAgent</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_ag_skos_prefLabel">
+			<td><a href="skos:prefLabel" title="skos:prefLabel">ag_skos_prefLabel</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#rf_edmAgentLabel">edmAgentLabel</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_ag_skos_altLabel">
+			<td><a href="skos:altLabel" title="skos:altLabel">ag_skos_altLabel</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_ag_foaf_name">
+			<td><a href="foaf:name" title="foaf:name">ag_foaf_name</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_ag_rdagr2_dateOfBirth">
+			<td><a href="rdaGr2:dateOfBirth" title="rdaGr2:dateOfBirth">ag_rdagr2_dateOfBirth</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_ag_rdagr2_dateOfDeath">
+			<td><a href="rdaGr2:dateOfDeath" title="rdaGr2:dateOfDeath">ag_rdagr2_dateOfDeath</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_ag_rdagr2_placeOfBirth">
+			<td><a href="rdaGr2:placeOfBirth" title="rdaGr2:placeOfBirth">ag_rdagr2_placeOfBirth</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_ag_rdagr2_placeOfDeath">
+			<td><a href="rdaGr2:placeOfDeath" title="rdaGr2:placeOfDeath">ag_rdagr2_placeOfDeath</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_ag_rdagr2_professionOrOccupation">
+			<td><a href="rdaGr2:professionOrOccupation" title="rdaGr2:professionOrOccupation">ag_rdagr2_professionOrOccupation</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="4">skos:Concept</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_skos_concept">
+			<td><a href="@rdf:about" title="@rdf:about">skos_concept</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmConceptTerm">edmConceptTerm</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_cc_skos_prefLabel">
+			<td><a href="skos:prefLabel" title="skos:prefLabel">cc_skos_prefLabel</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmConceptPrefLabel">edmConceptPrefLabel</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_cc_skos_altLabel">
+			<td><a href="skos:altLabel" title="skos:altLabel">cc_skos_altLabel</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="4">edm:Place</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_edm_place">
+			<td><a href="@rdf:about" title="@rdf:about">edm_place</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmPlace">edmPlace</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_pl_wgs84_pos_lat">
+			<td><a href="wgs84_pos:lat" title="wgs84_pos:lat">pl_wgs84_pos_lat</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmPlaceLatitude">edmPlaceLatitude</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_pl_wgs84_pos_long">
+			<td><a href="wgs84_pos:long" title="wgs84_pos:long">pl_wgs84_pos_long</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmPlaceLongitude">edmPlaceLongitude</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_pl_wgs84_pos_alt">
+			<td><a href="wgs84_pos:alt" title="wgs84_pos:alt">pl_wgs84_pos_alt</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_pl_skos_prefLabel">
+			<td><a href="skos:prefLabel" title="skos:prefLabel">pl_skos_prefLabel</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#rf_edmPlaceLabel">edmPlaceLabel</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_pl_skos_altLabel">
+			<td><a href="skos:altLabel" title="skos:altLabel">pl_skos_altLabel</a></td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#rf_edmPlaceAltLabel">edmPlaceAltLabel</a></td>
+			<td>✓</td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="4">edm:TimeSpan</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_edm_timespan">
+			<td><a href="@rdf:about" title="@rdf:about">edm_timespan</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmTimespan">edmTimespan</a></td>
+			<td></td>
+		</tr>
+		<tr id="sf_ts_skos_prefLabel">
+			<td><a href="skos:prefLabel" title="skos:prefLabel">ts_skos_prefLabel</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmTimespanLabel">edmTimespanLabel</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_ts_skos_altLabel">
+			<td><a href="skos:altLabel" title="skos:altLabel">ts_skos_altLabel</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="4">foaf:Organization</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_foaf_organization">
+			<td><a href="@rdf:about" title="@rdf:about">foaf_organization</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="sf_ts_skos_prefLabel">
+			<td><a href="skos:prefLabel" title="skos:prefLabel">ts_skos_prefLabel</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td><a href="#rf_edmTimespanLabel">edmTimespanLabel</a></td>
+			<td>✓</td>
+		</tr>
+		<tr id="sf_ts_skos_altLabel">
+			<td><a href="skos:altLabel" title="skos:altLabel">ts_skos_altLabel</a></td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>✓</td>
+		</tr>
+	</tbody>
+</table>
+
+<p><b>Notes:</b></p>
+
+<p id="search-note1"><sup>1</sup> This fields has been deprecated with edmDatasetName. This change followed the change in EDM to rename to edm:collectionName to edm:datasetName. We will keep support for edmCollectionName for a grace period, but on January 2018, we will return only edmDatasetName so please update your API client.<p>
+
+<h3>Aggregated Fields</h3>
+
+<p>Europeana aggregates its data from cultural institutions that can use diverse, fine-grained systems and methodologies. As a result, a link between for example an object and a person may be stored in different specialized fields. To provide simpler views on this data, Europeana has introduced several general Aggregated Fields, such as: title, who, what, when, and where. In these fields, we gather together information from different record fields in order to make the discovery of objects easier. Title, for example, aggregates data from the dc:title and dcterms:alternative fields which are part of Dublin Core, a popular general standard for describing different types of resources.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Field Name</th>
+			<th>Search Datatype</th>
+			<th>Fields being Aggregated</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_title">
+			<td>title</td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#sf_proxy_dc_title">proxy_dc_title</a>, <a href="#sf_proxy_dcterms_alternative">proxy_dcterms_alternative</a></td>
+		</tr>
+		<tr>
+			<td>subject</td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#sf_proxy_dc_coverage">proxy_dc_coverage</a>, <a href="#sf_proxy_dc_subject">proxy_dc_subject</a>, <a href="#sf_proxy_dcterms_spatial">proxy_dcterms_spatial</a>, <a href="#sf_proxy_dcterms_temporal">proxy_dcterms_temporal</a></td>
+		</tr>
+		<tr>
+			<td>what</td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#sf_proxy_dc_format">proxy_dc_format</a>, <a href="#sf_proxy_dc_type">proxy_dc_type</a>, <a href="#sf_proxy_dc_subject">proxy_dc_subject</a>, <a href="#sf_proxy_dcterms_medium">proxy_dcterms_medium</a>, <a href="#sf_cc_skos_prefLabel">cc_skos_prefLabel</a>, <a href="#sf_cc_skos_altLabel">cc_skos_altLabel</a></td>
+		</tr>
+		<tr>
+			<td>when</td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#sf_proxy_dcterms_created">proxy_dcterms_created</a>, <a href="#sf_proxy_dcterms_temporal">proxy_dcterms_temporal</a>, <a href="#sf_proxy_dc_date">proxy_dc_date</a>, <a href="#sf_ts_skos_prefLabel">ts_skos_prefLabel</a>, <a href="#sf_ts_skos_altLabel">ts_skos_altLabel</a>, <a href="#sf_proxy_edm_year">proxy_edm_year</a>, <a href="#sf_proxy_dcterms_issued">proxy_dcterms_issued</a></td>
+		</tr>
+		<tr>
+			<td>where</td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#sf_proxy_dcterms_spatial">proxy_dcterms_spatial</a>, <a href="#sf_pl_skos_prefLabel">pl_skos_prefLabel</a>, <a href="#sf_pl_skos_altLabel">pl_skos_altLabel</a></td>
+		</tr>
+		<tr>
+			<td>who</td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#sf_proxy_dc_contributor">proxy_dc_contributor</a>, <a href="#sf_proxy_dc_creator">proxy_dc_creator</a>, <a href="#sf_ag_skos_prefLabel">ag_skos_prefLabel</a>, <a href="#sf_ag_skos_altLabel">ag_skos_altLabel</a>, ag_foaf_name</td>
+		</tr>
+		<tr>
+			<td>text</td>
+			<td><a href="#search-text">Text</a></td>
+			<td><a href="#sf_provider_aggregation_edm_dataProvider">provider_aggregation_edm_dataProvider</a>, <a href="#sf_provider_aggregation_edm_intermediateProvider">provider_aggregation_edm_intermediateProvider</a>, <a href="#sf_provider_aggregation_edm_provider">provider_aggregation_edm_provider</a>, <a href="#sf_proxy_dc_contributor">proxy_dc_contributor</a>, <a href="#sf_proxy_dc_coverage">proxy_dc_coverage</a>, <a href="#sf_proxy_dc_creator">proxy_dc_creator</a>, <a href="#sf_proxy_dc_date">proxy_dc_date</a>, <a href="#sf_proxy_dc_description">proxy_dc_description</a>, <a href="#sf_proxy_dc_format">proxy_dc_format</a>, <a href="#sf_proxy_dc_language">proxy_dc_language</a>, <a href="#sf_proxy_dc_publisher">proxy_dc_publisher</a>, <a href="#sf_proxy_dc_source">proxy_dc_source</a>, <a href="#sf_proxy_dc_subject">proxy_dc_subject</a>, <a href="#sf_proxy_dc_title">proxy_dc_title</a>, <a href="#sf_proxy_dc_type">proxy_dc_type</a>, <a href="#sf_proxy_dcterms_alternative">proxy_dcterms_alternative</a>, <a href="#sf_proxy_dcterms_created">proxy_dcterms_created</a>, <a href="#sf_proxy_dcterms_issued">proxy_dcterms_issued</a>, <a href="#sf_proxy_dcterms_medium">proxy_dcterms_medium</a>, <a href="#sf_proxy_dcterms_provenance">proxy_dcterms_provenance</a>, <a href="#sf_proxy_dcterms_spatial">proxy_dcterms_spatial</a>, <a href="#sf_proxy_dcterms_temporal">proxy_dcterms_temporal</a>, <a href="#sf_proxy_edm_currentLocation">proxy_edm_currentLocation</a>, <a href="#sf_proxy_edm_type">proxy_edm_type</a>, <a href="#sf_ag_skos_altLabel">ag_skos_altLabel</a>, <a href="#sf_ag_skos_prefLabel">ag_skos_prefLabel</a>, <a href="#sf_ag_foaf_name">ag_foaf_name</a>, <a href="#sf_ts_skos_altLabel">ts_skos_altLabel</a>, <a href="#sf_ts_skos_prefLabel">ts_skos_prefLabel</a>, <a href="#sf_pl_skos_altLabel">pl_skos_altLabel</a>, <a href="#sf_pl_skos_prefLabel">pl_skos_prefLabel</a>, <a href="#sf_cc_skos_altLabel">cc_skos_altLabel</a>, <a href="#sf_cc_skos_prefLabel">cc_skos_prefLabel</a>, <a href="#sf_proxy_dc_type_search">proxy_dc_type_search</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="technical-metadata-facets">Media Search</h3>
+
+<!--
+<p>Europeana extracts technical metadata from all media URL's within all the Europeana records (present within the edm:isShownBy and edm:hasView fields) in specific time intervals to verify whether all links still resolve and to extract technical metadata from these media files. This information is then made available for search and included in the record API. This information is updated on a continuous basis.</p>
+-->
+
+<p>The Search API allows not only to search on and retrieve metadata, but also offers powerful features based on technical metadata. Technical metadata is metadata which is extracted from media files such as images and videos which are associated to records, such as the width and height of an image. These features give you the possibility to search for and filter on Europeana records by media information, for instance to only search for records which have extra large images, high-quality audio files, or which images match a particular colour. Besides searching and filtering, faceting is also possible using technical metadata and, in fact, is part of the default facets provided by the facet profile. These features were developed as part of the Content Re-use Framework within the <a href="http://pro.europeana.eu/europeana-creative/">Europeana Creative</a> project.</p>
+
+<p>A Europeana metadata record can contain a reference to zero, one or more media files, this means that when a search is made on a technical metadata property or facet (such as image size), a record is returned if one of the media files present in the record match the search query. The following table list the fields that relate to the metadata extracted from the media resources:</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 187px;">Facet Name</th>
+			<th style="width: 87px;">Datatype</th>
+			<th style="width: 115px;">Media Type</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="sf_MEDIA">
+			<td>MEDIA</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td></td>
+			<td>To indicate whether an URL to the full media file is present in the edm:isShownBy or edm:hasView metadata and is resolvable.</td>
+		</tr>
+		<tr id="sf_MIME_TYPE">
+			<td>MIME_TYPE</td>
+			<td><a href="#search-string">String</a></td>
+			<td></td>
+			<td>Mime-type of the file, e.g. image/jpeg</td>
+		</tr>
+		<tr id="sf_IMAGE_SIZE">
+			<td>IMAGE_SIZE</td>
+			<td><a href="#search-string">String</a></td>
+			<td>Image</td>
+			<td>Size in megapixels of an image, values: small (&lt; 0.5MP), medium (0.5-1MP), large (1-4MP) and extra_large (&gt; 4MP)</td>
+		</tr>
+		<tr id="sf_IMAGE_COLOUR">
+			<td>IMAGE_COLOUR</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td>Image</td>
+			<td>Lists 'true' for colour images. An alias to this facet is IMAGE_COLOR, note that for non-colour images you cannot provide the 'false' value. Use the greyscale-facet instead.</td>
+		</tr>
+		<tr id="sf_IMAGE_GREYSCALE">
+			<td>IMAGE_GREYSCALE</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td>Image</td>
+			<td>Lists 'true' for greyscale images. An alias to this facet is IMAGE_GRAYSCALE, note that for colour images you cannot provide the 'false' value. Use the colour-facet instead.</td>
+		</tr>
+		<tr id="sf_COLOURPALETTE">
+			<td>COLOURPALETTE</td>
+			<td><a href="#search-string">String</a></td>
+			<td>Image</td>
+			<td>The most dominant colours present in images, expressed in HEX-colour codes. See <a href="#colour-palette">colour palette</a>.</td>
+		</tr>
+		<tr id="sf_IMAGE_ASPECTRATIO">
+			<td>IMAGE_ASPECTRATIO</td>
+			<td><a href="#search-string">String</a></td>
+			<td>Image</td>
+			<td>Portrait or landscape.</td>
+		</tr>
+		<tr id="sf_VIDEO_HD">
+			<td>VIDEO_HD</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td>Video</td>
+			<td>Lists 'true' for videos that have a resolution higher than 576p.</td>
+		</tr>
+		<tr id="sf_VIDEO_DURATION">
+			<td>VIDEO_DURATION</td>
+			<td><a href="#search-string">String</a></td>
+			<td>Video</td>
+			<td>Duration of the video, values: short (&lt; 4 minutes), medium (4-20 minutes) and long (&gt; 20 minutes).</td>
+		</tr>
+		<tr id="sf_SOUND_HQ">
+			<td>SOUND_HQ</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td>Sound</td>
+			<td>Lists 'true' for sound files where the bit depth is 16 or higher or if the file format is a lossless file type (ALAC, FLAC, APE, SHN, WAV, WMA, AIFF &amp; DSD). Note that 'false' does not work for this facet.</td>
+		</tr>
+		<tr id="sf_SOUND_DURATION">
+			<td>SOUND_DURATION</td>
+			<td><a href="#search-string">String</a></td>
+			<td>Sound</td>
+			<td>Duration of the sound file, values: very_short (&lt; 30 seconds), short (30 seconds - 3 minutes), medium (3-6 minutes) and long (&gt; 6 minutes).</td>
+		</tr>
+		<tr id="sf_TEXT_FULLTEXT">
+			<td>TEXT_FULLTEXT</td>
+			<td><a href="#search-boolean">Boolean</a></td>
+			<td>Text</td>
+			<td>Lists 'true' for text media types which are searchable, e.g. a PDF with text.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="colour-palette">Colour palette</h3>
+
+<p>From all records with images, the six most prominent colours are extracted. These colours are then mapped to one of the 120 colours that can be found in the listing <a href="http://www.w3.org/TR/css3-color/#svg-color">here</a>. To search for records where one of the images matches a particular colour you can use the colour palette parameter, you can provide it multiple times. You need to provide a Hex rgb code as value, such as #8A2BE2 or #FFE4C4.</p>
+
+<h3 id="search-datatypes">Datatypes for Search Fields</h3>
+
+<p>The following datatypes are defined for the search fields used for querying, filtering and faceting.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td id="search-boolean">Boolean</td>
+			<td>A true or false value.</td>
+		</tr>
+		<tr>
+			<td id="search-number">Number</td>
+			<td>A numeric value, typically with integer precision.</td>
+		</tr>
+		<tr>
+			<td id="search-date">Date</td>
+			<td>A point in time with millisecond precision. See Section X to learn more on how to query date fields.</td>
+		</tr>
+		<tr>
+			<td id="search-string">String</td>
+			<td>Values are preserved as they are present in the data, with no additional NLP processing. This datatype is typically more usefull for faceting.</td>
+		</tr>
+		<tr>
+			<td id="search-text">Text</td>
+			<td>A word tokenized with punctuation filtering and case sensitive value, with additional <a href="https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html">stemming</a> of words. This datatype is typically usefull for querying and filtering.</td>
+		</tr>
+	</tbody>
+</table>
+
+</section>
