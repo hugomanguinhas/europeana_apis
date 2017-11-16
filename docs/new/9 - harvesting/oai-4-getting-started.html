@@ -1,17 +1,9 @@
 
-In this section you will find all information necessary to get started using Europeana's OAI-PMH Service.
-
 <section>
-
-<h2>Access key</h2>
-
-<p>Ensure that you have obtained an <a href="/api/oai-pmh-access-key/">access key</a>, which is not the same as the access key for the REST API as long as the service is still in beta.</p>
-
-<h2>What you can do with this service</h2>
 
 <p>The Europeana OAI-PMH Service can be used to harvest metadata records from Europeana. Metadata records can be harvested all at once (all of Europeana's metadata), or selectively per dataset or date of creation/modification. Further down this page you will find some information on the structure and definitions of the repository.</p>
 
-<h2>Available requests</h2>
+<h3>Available requests</h3>
 
 <p>Below you can find the available requests. The base URL for all requests is <a href="http://oai.europeana.eu/" target="_blank">http://oai.europeana.eu/</a>. These links and requests return XML, for which you need to use an XML-aware browser or viewing application.</p>
 
@@ -24,14 +16,12 @@ In this section you will find all information necessary to get started using Eur
 	<li><a href="http://oai.europeana.eu/oaicat/listMetadataFormats.shtml">listMetadataFormats</a></li>
 </ul>
 
-<h3>Structure of the data</h3>
+<h3>Structure and Format of the Data</h3>
 
-<p>The records in the OAI-PMH service are structured into datasets (see <a href="intro#datasets">Intro page</a>). </p>
+<p>The records in the OAI-PMH service are grouped into <a href="intro#datasets">Datasets</a> and are available as EDM RDF/XML. An example of a dataset that is accepted by the OAI-PMH service is <i>2022608_Ag_NO_ELocal_DiMu</i>. The records are identified by their URIs. An example of such an identifier is <a href="http://data.europeana.eu/item/2022608/AAK_AAKS_2007_02_0206">http://data.europeana.eu/item/2022608/AAK_AAKS_2007_02_0206</a>. To learn more about data.europeana.eu and its resources please see the <a href="/api/linked-open-data/data-structure/">data structure page</a>.</p>
 
-<p>The data model used for the metadata is EDM. You can read about EDM and records on the <a href="/api/data-hierarchy">data hierarchy page</a>.</p>
+<h3 id="apikey">Access key</h3>
 
-<h2>Examples</h2>
-
-<p>An example of a dataset that is accepted by the OAI-PMH service is 2022608_Ag_NO_ELocal_DiMu. The records are identified by their Linked Data Cultural Heritage Object (CHO) URIs. An example of such an identifier is <a href="http://data.europeana.eu/item/2022608/AAK_AAKS_2007_02_0206">http://data.europeana.eu/item/2022608/AAK_AAKS_2007_02_0206</a>. To learn more about data.europeana.eu and its resources please see the <a href="/api/linked-open-data/data-structure/">data structure page</a>.</p>
+<p>To use this API you need to supply an API key using basic HTTP authentication. While in <a href="info#release-beta">Beta</a>, the API is restricted and can only be accessed on request. If you wish to start using it, please send an email to api@europeana.eu to request an access key for this service. Please note that this key is not the same as the API key for the REST API and therefore will not give you access to it.</p>
 
 </section>

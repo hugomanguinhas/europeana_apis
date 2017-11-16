@@ -2,28 +2,38 @@ Information about the collection of entities as available via the Entities API.
 
 <section>
 
-<h3>What are entities?</h3>
-
 <p>An entity is something that exists on itself, which can be a person, place or a thing. In the context of the Entities API, there is the notion of different kinds of entities such as persons (agents) such as <a href="http://data.europeana.eu/agent/base/146741" target="_blank">Leonardo da Vinci</a>, concepts (topics) such as <a href="http://data.europeana.eu/concept/base/96" target="_blank">Art Nouveau</a> and places such as <a href="http://data.europeana.eu/place/base/40964" target="_blank">Amsterdam</a>. In a later stage we will also add entities such as Time periods or Works. All these entities are part of the Europeana Entity Collection, a collection of entities in the context of Europeana harvested from and linked to controlled vocabularies such as ​<a href="http://geonames.org" target="_blank">Geonames</a> and <a href="http://dbpedia.org" target="_blank">Dbpedia</a> (soon also <a href="http://www.wikidata.org" target="_blank">Wikidata</a>).</p>
 
 <h3>Overview</h3>
 
-<p>The entities in the Europeana Entity Collection consist of different types of entities. As of the Public Alpha, the entities in the collection consist of aproximately:</p>
+<p>The entities in the Europeana Entity Collection consist of different types of entities. The data about these entities is gathered from several sources, in order to semantically enrich its data beyond the original object description given by data providers. As of the Public <a href="intro#release-alpha">Alpha</a>, the entities in the collection consist of the following (note that the numbers may slightly vary as entities are added or removed):</p>
 
-<ul>
-	<li>200,000 agents (people)</li>
-	<li>100,000 concepts (topics)</li>
-	<li>50,000 places</li>
-</ul>
-
-<h3>Sources</h3>
-
-<p>Europeana maintains data gathered from several sources about these entities, in order to semantically enrich its data beyond the original object description given by data providers. This data is 'harvested' from various external sources:</p>
-
-<ul>
-	<li><a href="http://geonames.org" target="_blank">Geonames</a>: a selection for places.</li>
-	<li><a href="http://dbpedia.org" target="_blank">DBpedia</a>: a handful of concepts and a selection of agents.</li>
-</ul>
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 120px">Type</th>
+			<th style="width: 100px">#</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Agents</td>
+			<td>165,005</td>
+			<td>Most of the entities of type “dbp:Artist” present in <a href="http://dbpedia.org" target="_blank">DBpedia</a> with the exception of some that have been filtered out as they were found to be irrelevant.</td>
+		</tr>
+		<tr>
+			<td>Concepts</td>
+			<td>1,572</td>
+			<td>A subset from <a href="http://dbpedia.org" target="_blank">DBpedia</a> is currently selected which comprises a handful of WWI battles, the “World War I” category and other categories being used for Europeana Collections, and also two vocabularies: one for music genres, forms and compositions obtained from Wikidata and the photography vocabulary maintained by the Photo Consortium.</td>
+		</tr>
+		<tr>
+			<td>Places</td>
+			<td>216,302</td>
+			<td>European countries and the most relevant places within them obtained from <a href="http://geonames.org" target="_blank">Geonames</a>.</td>
+		</tr>
+	</tbody>
+</table>
 
 <h3>Generating identifiers</h3>
 
@@ -31,6 +41,6 @@ Information about the collection of entities as available via the Entities API.
 
 <h3>Linking to other sources</h3>
 
-<p>In order to really benefit of the semantic web, each entity has often several "sameAs" values, which are references to the same entity in other data sources such as Wikidata, Geonames or DBpedia. This way, an API client can traverse through various data sources in an automated way to retrieve all known information about a certain entity.</p>
+<p>In order to really benefit of the <a href="https://www.w3.org/2013/data/">Web of Data</a>, each entity has often several owl:sameAs values, which are references to the same entity in other data sources such as Wikidata, Geonames or DBpedia. This way, an API client can traverse through various data sources in an automated way to retrieve all known information about a certain entity, but can also identify entities in our repository for the ones that the client may know if similar linkage is made.</p>
 
 </section>

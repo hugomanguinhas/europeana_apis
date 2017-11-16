@@ -1,0 +1,83 @@
+<section>
+
+<h4>Example 1: List of data providers which contributed content to Europeana</h4>
+
+<pre dir="ltr">
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT ?DataProvider
+WHERE { ?Aggregation edm:dataProvider ?DataProvider }`</pre>
+
+<h4>Example 2: List of datasets from Italy</h4>
+
+<pre dir="ltr">
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT DISTINCT ?Dataset
+WHERE {
+  ?Aggregation edm:datasetName ?Dataset ;
+      edm:country "Italy"
+}
+</pre>
+
+<h4>Example 3: Objects provided to Europeana from the 18th and from France</h4>
+
+<pre dir="ltr">
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT DISTINCT ?ProvidedCHO ?year
+WHERE {
+  ?Aggregation edm:aggregatedCHO ?ProvidedCHO ;
+      edm:country "France" .
+  ?Proxy ore:proxyFor ?ProvidedCHO ;
+      edm:year ?year .
+  FILTER (?year &gt; "1700" &amp;&amp; ?year &lt; "1800")
+}
+ORDER BY asc(?year)
+LIMIT 100</pre>
+
+<h4>Example 4: Listing of edm:Agent</h4>
+
+<pre dir="ltr">
+PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT ?Agent
+WHERE { ?Agent rdf:type edm:Agent }
+LIMIT 100</pre>
+
+<h4>Example 5: Objects provided to Europeana linking to edm:Place</h4>
+
+<pre dir="ltr">
+PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT DISTINCT ?ProvidedCHO
+WHERE {
+  ?Place rdf:type edm:Place .
+  ?Proxy ?property ?Place ;
+      ore:proxyIn ?Aggregation .
+  ?Aggregation edm:aggregatedCHO ?ProvidedCHO
+}</pre>
+
+<h4>Example 6: Objects provided to Europeana linking to skos:Concept from the Getty target vocabulary</h4>
+
+<pre dir="ltr">
+PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;
+PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+
+SELECT DISTINCT ?ProvidedCHO
+WHERE {
+  ?Concept rdf:type skos:Concept .
+  FILTER strstarts(str(?Concept), "http://vocab.getty.edu/aat/") .
+  ?Proxy ?property ?Concept ;
+      ore:proxyIn ?Aggregation .
+  ?Aggregation edm:aggregatedCHO ?ProvidedCHO
+}
+LIMIT 100</pre>
+
+</section>

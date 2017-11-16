@@ -34,7 +34,7 @@ https://www.europeana.eu/api/entities/suggest?wskey=xxxxx&amp;text=*:*
 
 <h3 id="api-key">Access key</h3>
 
-<p>To use this API and like most Europeana APIs, you need to supply an API key using the <i>wskey</i> parameter. While in Alpha, the API is only accessible using the <i>apidemo</i> key</p>
+<p>To use this API and like most Europeana APIs, you need to supply an API key using the <i>wskey</i> parameter. While in <a href="intro#release-alpha">Alpha</a>, the API is only accessible using the <i>apidemo</i> key</p>
 
 <h3 id="error-codes">Error Codes</h3>
 
@@ -101,6 +101,29 @@ https://www.europeana.eu/api/entities/suggest?wskey=xxxxx&amp;text=*:*
 		<tr>
 			<td>500</td>
 			<td>Internal Server Error. Something has gone wrong, which we will correct.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="request-datatypes">Datatypes for request parameters</h3>
+
+<p>The following datatypes are defined for the request parameters used in each method.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td id="request-number">Number</td>
+			<td>A numeric value, typically with integer precision.</td>
+		</tr>
+		<tr>
+			<td id="request-string">String</td>
+			<td>Values are preserved as they are present in the data.</td>
 		</tr>
 	</tbody>
 </table>

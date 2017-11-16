@@ -1,9 +1,10 @@
+<section>
 
 <h3 id="registration">Registration</h3>
 
 <p>To start using the API you need to register for a key at the <a href="/get-api">registration page</a>. Upon registration, you will get your individual private and public authentication key. This key must then be used when calling API methods, see <a href="#access">Access using an API key</a>. We use these keys to anonymously gather relevant statistics about the usage of the API so that we can better improve it. <i>Please do not share these keys with third parties as the API keys are confidential and are for use by the client or user only.</i></p>
 
-<p>This API key will give you access to all APIs that are in a Stable version. APIs such as OAI-PMH, Entity API, and Annotations API use different keys that can either obtained on request or use a demonstration key.</p>
+<p>This API key will give you access to all APIs that are in a <a href="intro#release-stable">Stable</a> version. APIs such as OAI-PMH, Entity API, and Annotations API use different keys that can either obtained on request or use a demonstration key.</p>
 
 <h3 id="access">Access using an API key</h3>
 
@@ -34,14 +35,33 @@
 
 <p>Please see here our <a href="http://www.europeana.eu/portal/rights/api-terms-of-use.html">Terms of Use</a>.</p>
 
-<h3>API Console</h3>
+<h3 id="console">API Console</h3>
 
 <p>Each API documentation page provides a console that allows developers to easily see how the API works and test it for their needs. This is an interactive tool that allows filling method parameters in an online form and sees both the expected results and the exact format of the call that should be used by an application to get these results. The API console has been built by us for developers’ convenience. You are encouraged to use it and provide us feedback about its usability for the developer community.</p>
 
-<h3>Releases</h3>
+<h3 id="releases">Releases</h3>
 
-<p>We deploy new versions of each API quite regularly. These are minor releases in order to fix issues or make small improvements to the existing or new functionality but without breaking backwards compatibility. For major releases we follow the standard practices . </p>
+<p>We deploy new versions of each API quite regularly. These are minor releases in order to fix issues or make small improvements to the existing or new functionality but without breaking backwards compatibility. For major releases we follow the standard practices: </p>
 
-<h3>Discussion and Contact</h3>
+<table class="listingtable">
+	<tbody>
+		<tr>
+			<td id="release-alpha">Alpha</td>
+			<td>A release is done when functionality is made available in an early stage for the purpose of receiving feedback from users, which may result on bug fixes or proposals to add, change or remove features. It is expected that not all functionality is made available, just the core features.</td>
+		</tr>
+		<tr>
+			<td id="release-beta">Beta</td>
+			<td>This release is done when all product features are completed and all major bugs have been addressed. It may still contain some bugs and potential performance issues, and functionality can still be changed.</td>
+		</tr>
+		<tr>
+			<td id="release-stable">Stable (official)</td>
+			<td>This release is done when all product features are completed and all major bugs have been addressed. From this point on, any changes made to the functionality need to be backward compatible with previous versions.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 id="discussion">Discussion and Contact</h3>
 
 <p>Join the <a href="https://groups.google.com/forum/?pli=1#!forum/europeanaapi">Europeana API discussion group at Google Groups</a> and get regular updates about the Europeana API, provide feedback and discuss it with other developers. If you wish you can also contact us directly via <a href="mailto:api@europeana.eu">api@europeana.eu</a>.</p>
+
+</section>

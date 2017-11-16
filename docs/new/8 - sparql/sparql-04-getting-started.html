@@ -1,0 +1,101 @@
+<section>
+
+<h3>Things to know before starting</h3>
+
+<ul>
+	<li>Europeana data is represented as a triple:</li>
+</ul>
+
+<pre>
+&lt;subject&gt; &lt;predicate&gt; &lt;object&gt;</pre>
+
+<p>Each subject, predicate and an object represent a node within Europeana’s network of resources. These statements are usually represented as URIs to which certain labels might correspond.</p>
+
+<p>For instance</p>
+
+<pre><code>&lt;http://data.europeana.eu/item/2021604/C2D27CB79870761BE291A3FACAB963F62D7CA39B&gt; &lt;http://purl.org/dc/terms/creator&gt; "Moltzheim, A. de" .</code></pre>
+
+<ul>
+	<li>A SPARQL query requires the declaration of PREFIXes that are shortcuts to the labels of given predicates.</li>
+</ul>
+
+<ul>
+	<li>The different packages of information contained in the Europeana data are described using several classes in the Europeana Data Model (EDM). We invite you to consult our <a href="http://labs.europeana.eu/api/linked-open-data-data-structure/">Data structure</a> page and the <a href="http://pro.europeana.eu/edm-documentation">EDM documentation</a> if you need more details on the model.</li>
+
+	<li>When formulating a query don’t forget to adjust the LIMIT value which indicates the number of results to be returned by the query. Note that the query may take longer if the number of results asked is high.</li>
+
+	<li>If you set a LIMIT value but still want to be able to select the range of results you will get within the dataset, adjust the OFFSET value.</li>
+</ul>
+
+<h3>A first query</h3>
+
+<h4>1. Add your prefixes by selecting them in the SPARQL editor as described above.</h4>
+
+<p>For instance a selection of the namespaces dc, edm and ore will give you:</p>
+
+<pre><code>PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;</code></pre>
+
+<h4>2. Then SELECT the things you want to find and define names for these variables.</h4>
+
+<p>We want all the results with a title, a creator, a media URL and a year.</p>
+
+<pre><code>SELECT ?title ?creator ?mediaURL ?year</code></pre>
+
+<h4>3. Define the variables</h4>
+
+<pre><code>WHERE {
+  ?item edm:type "SOUND" ;
+      ore:proxyIn ?proxy;
+      dc:title ?title ;
+      dc:creator ?creator .
+  ?proxy edm:isShownBy ?mediaURL .
+  ?EuropeanaProxy edm:year ?year .
+}</code></pre>
+
+<p dir="ltr">In this example you restrict the results to the resources with the edm:type SOUND.</p>
+
+<h4>4. Define a LIMIT</h4>
+
+<pre><code>PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;
+SELECT ?title ?creator ?mediaURL ?date
+WHERE {
+  ?CHO edm:type "SOUND" ;
+      ore:proxyIn ?proxy;
+      dc:title ?title ;
+      dc:creator ?creator ;
+      dc:date ?date .
+  ?proxy edm:isShownBy ?mediaURL .
+}
+LIMIT 100</code></pre>
+
+<p dir="ltr">You obtain all the first 100 SOUND resources which have a title, a creator, a media URL and a year.</p>
+
+<h3 dir="ltr">How to define more complex queries</h3>
+
+<p dir="ltr">You can start defining more complex queries which will group, list, filter or order your results. The commands COUNT, GROUP BY and ORDER BY can be used for this purpose.</p>
+
+<p dir="ltr">For instance we want to order our results by year (ascending order)</p>
+
+<pre><code>PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+PREFIX edm: &lt;http://www.europeana.eu/schemas/edm/&gt;
+PREFIX ore: &lt;http://www.openarchives.org/ore/terms/&gt;
+SELECT ?title ?creator ?mediaURL ?date
+WHERE {
+  ?CHO edm:type "SOUND" ;
+      ore:proxyIn ?proxy;
+      dc:title ?title ;
+      dc:creator ?creator;
+      dc:date ?date .
+  ?proxy edm:isShownBy ?mediaURL .
+  FILTER (?date &gt; "1780" &amp;&amp; ?date &lt; "1930")
+}
+ORDER BY asc (?date)
+LIMIT 100</code></pre>
+
+<p dir="ltr">You will notice that this type of query takes longer as we are asking to the database to not only return results but also to order them.</p>
+
+</section>
