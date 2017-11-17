@@ -1,12 +1,10 @@
-Retrieving thumbnails from media resources
-
 <section>
 
-<p>The Thumbnail API is an extension of the Record API to allow the retrieval of cached thumbnails that are generated upon ingestion of the metadata by Europeana. Thumbnails are only generated for media resources that are referred through the edm:isShownBy, edm:isShownAt or edm:object properties.</p>
+<p>The Thumbnail API is an extension of the Record API to allow the retrieval of cached thumbnails that are generated upon ingestion of the metadata by Europeana. Thumbnails are only generated for media resources that are referred through by <a href="intro#ore:Aggregation/edm:isShownBy">edm:isShownBy</a>, <a href="intro#ore:Aggregation/edm:isShownAt">edm:isShownAt</a> or <a href="intro#ore:Aggregation/edm:object">edm:object</a> properties which are then supplied using the <a href="intro#edm:EuropeanaAggregation/edm:preview">edm:preview</a> property.</p>
 
 <h3 id="request">Request</h3>
 
-<p>The Thumbnail API doesn't require any form of authentication, providing your API key is optional. It always returns an image, whether the thumbnail exists or not. To use the Search API to verify whether a thumbnail exists you can add <i>has_thumbnail=true</i> to your search query, or check if the <i>edmPreview</i> field in the search or record response has a value (which is the URL of the thumbnail).</p>
+<p>The Thumbnail API doesn't require any form of authentication, providing your <a href="intro#access">API key</a> is optional. It always returns an image, whether the thumbnail exists or not. To use the <a href="search">Search API</a> to verify whether a thumbnail exists you can add <i>has_thumbnail=true</i> to your search query, or check if the <i>edmPreview</i> field in the search or record response has a value (which is the URL of the thumbnail).</p>
 
 <p>Every call to the Thumbnail API is an HTTP request in the following URL signature:</p>
 
@@ -25,17 +23,17 @@ where the variables in the URL path mean:
 	<tbody>
 		<tr>
 			<td>size</td>
-			<td>String</td>
+			<td><a href="#request-string">String</a></td>
 			<td>The size of the thumbnail, can either be w200 (width 200) or w400 (width 400).</td>
 		</tr>
 		<tr>
 			<td>type</td>
-			<td>String</td>
-			<td>Type of the default thumbnail (media image) in case the thumbnail does not exists, can be: IMAGE, SOUND, VIDEO, TEXT or 3D.</td>
+			<td><a href="#request-string">String</a></td>
+			<td>Type of the default thumbnail (media image) in case the thumbnail does not exists, can be: <a href="intro#ore:Proxy/edm:type">IMAGE, SOUND, VIDEO, TEXT or 3D</a>.</td>
 		</tr>
 		<tr>
 			<td>uri</td>
-			<td>String</td>
+			<td><a href="#request-string">String</a></td>
 			<td>The URL of the media resource of which a thumbnail should be returned. Note that the URL should be encoded.</td>
 		</tr>
 	</tbody>
@@ -52,6 +50,25 @@ where the variables in the URL path mean:
 <blockquote style="word-wrap: break-word">
 https://www.europeana.eu/api/v2/thumbnail-by-url.json?size=w400&amp;type=IMAGE&amp;uri=https%3A%2F%2Fwww.dropbox.com%2Fs%2F8gpbipwr4ipwj37%2FAustria_Gerstl.jpg%3Fraw%3D1
 </blockquote>
+
+<h3 id="request-datatypes">Datatypes for request parameters</h3>
+
+<p>The following datatypes are defined for the request parameters used in this method.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td id="request-string">String</td>
+			<td>Values are preserved as they are present in the data.</td>
+		</tr>
+	</tbody>
+</table>
 
 </section>
 

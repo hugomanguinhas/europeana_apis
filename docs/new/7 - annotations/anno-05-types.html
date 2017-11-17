@@ -1,0 +1,190 @@
+<section>
+
+<p>The Annotations API supports different types of annotations. This page explains the types of annotations that are currently supported, providing examples on how to represent them in the API.</p>
+
+<blockquote>The examples used in this Section are shortened versions of the Annotation, see the complete version on <a href="#data-model">Data Model</a>.</blockquote>
+
+<h3>Simple tags (without language)</h3>
+
+<p>A simple tag is a short textual description of a resource. This scenario only applies when the language of the tag is not know, otherwise see the scenario described in the next Section.</p>
+
+<table class="listingtable">
+	<tbody>
+		<tr>
+			<td>Examples:</td>
+			<td>church<br />
+			blue<br />
+			black and white</td>
+		</tr>
+		<tr>
+			<td>Requirement:</td>
+			<td>A maximum of 64 characters is allowed for a simple tag.<br />
+			A tag cannot be a URL.</td>
+		</tr>
+		<tr>
+			<td>In the API:</td>
+			<td>Set the "motivation" to "tagging" and set the tag within the "bodyValue" field.</td>
+		</tr>
+		<tr>
+			<td>Availability:</td>
+			<td>Simple tags are available since version 0.2.1.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: tagging a Europeana item with the word "painting".</h4>
+
+<pre><code>{
+  "motivation": "tagging",
+  "bodyValue": "painting",
+  "target": "http://data.europeana.eu/item/92062/BibliographicResource_1000126189360"
+}</code></pre>
+
+
+<h3>Simple tags (with language)</h3>
+
+<p>A simple tag is a short textual description of a resource.</p>
+
+<table class="listingtable">
+	<tbody>
+		<tr>
+			<td>Examples:</td>
+			<td>church<br />
+			blue<br />
+			black and white</td>
+		</tr>
+		<tr>
+			<td>Requirement:</td>
+			<td>A maximum of 64 characters is allowed for a simple tag.<br />
+			A tag cannot be a URL.<br />
+			The language information must be specified.</td>
+		</tr>
+		<tr>
+			<td>In the API:</td>
+			<td>Set the "motivation" to "tagging" and set the tag within the "body" field as a Textual Body.</td>
+		</tr>
+		<tr>
+			<td>Availability:</td>
+			<td>Simple tags are available since version 0.2.1.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: tagging a Europeana item with the English word "painting" </h4>
+
+<pre><code>{
+  "motivation": "tagging",
+  "body": {
+    "type": "TextualBody",
+    "value": "painting",
+    "language": "en"
+ },
+  "target": "http://data.europeana.eu/item/92062/BibliographicResource_1000126189360"
+}</code></pre>
+
+
+<h3>Semantic tags</h3>
+
+<p>A semantic tag is a tag to a resource from a controlled vocabulary, making it machine-interpretable.</p>
+
+<table class="listingtable">
+	<tbody>
+		<tr>
+			<td>Example:</td>
+			<td>This <a href="http://www.europeana.eu/portal/record/09102/_UEDIN_214.html" target="_blank">object in Europeana</a> is somehow related to <a href="http://sws.geonames.org/2988507" target="_blank">France (http://sws.geonames.org/2988507)</a>.</td>
+		</tr>
+		<tr>
+			<td>Requirement:</td>
+			<td>Any URI is accepted as semantic resource. In the future, it will be limited to a controlled list of acceptable domains.</td>
+		</tr>
+		<tr>
+			<td>In the API:</td>
+			<td>Set the "motivation" to "tagging" and set as body the URI for the semantic resource taken from a contolled vocabulary.</td>
+		</tr>
+		<tr>
+			<td>Availability:</td>
+			<td>Semantic tags are available since version 0.2.1.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: tagging a Europeana item with the semantic resource for <a href="http://sws.geonames.org/2988507">Paris</a> from Geonames.</h4>
+
+<pre><code>{
+  "motivation": "tagging",
+  "body": "http://sws.geonames.org/2988507",
+  "target": "http://data.europeana.eu/item/09102/_UEDIN_214"
+}</code></pre>
+
+
+<h3>Object links</h3>
+
+<p>An object link is a relationship between two (Europeana) objects. This relationship can be any.</p>
+
+<table class="listingtable">
+	<tbody>
+		<tr>
+			<td>Example:</td>
+			<td>This <a href="http://www.europeana.eu/portal/record/92062/BibliographicResource_1000126189361.html" target="_blank">object in Europeana</a> is (in some way) similar to <a href="http://www.europeana.eu/portal/record/92062/BibliographicResource_1000126189360.html" target="_blank">this object</a>.</td>
+		</tr>
+		<tr>
+			<td>Requirement:</td>
+			<td>An object link can only be made between two Europeana objects.</td>
+		</tr>
+		<tr>
+			<td>In the API:</td>
+			<td>Set the "motivation" to "linking" and set as target an array containing the URIs of both objects.</td>
+		</tr>
+		<tr>
+			<td>Availability:</td>
+			<td>Object linking is available since version 0.2.1.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: linking two Europeana items together.</h4>
+
+<pre><code>{
+  "motivation": "linking",
+  "target": [
+      "http://data.europeana.eu/item/92062/BibliographicResource_1000126189360",
+      "http://data.europeana.eu/item/92062/BibliographicResource_1000126189361"
+  ]
+}</code></pre>
+
+
+<h3>Geo Tags</h3>
+
+<p>A geo-tag adds a geographical location to an item.</p>
+
+<table class="listingtable">
+	<tbody>
+		<tr>
+			<td>Example:</td>
+			<td>This <a href="http://www.europeana.eu/portal/record/92034/GVNRC_NFA03_kop_6_3.html" target="_blank">object in Europeana</a> was located at latitude 52.081131 and longitude 4.324053. .</td>
+		</tr>
+		<tr>
+			<td>In the API:</td>
+			<td style="width: 731px;">Set the "motivation" to "tagging" and include the "type", "lat" and "long" attributes in the body as per the example below.</td>
+		</tr>
+		<tr>
+			<td>Availability:</td>
+			<td style="width: 731px;">Object linking is available since version 0.2.2.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: tagging a Europeana item with a geographical location.</h4>
+
+<pre><code>{
+  "motivation": "tagging",
+  "body": {
+    "@context": "http://www.europeana.eu/schemas/context/entity.jsonld",
+    "type": "Place",
+    "lat": "52.081131",
+    "long": "4.324053"
+  },
+  "target": "http://data.europeana.eu/item/92034/GVNRC_NFA03_kop_6_3"
+}</code></pre>
+
+</section>

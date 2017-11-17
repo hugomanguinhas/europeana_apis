@@ -4,7 +4,7 @@
 
 <blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/record/[RECORD_ID].[FORMAT]</blockquote>
 
-where the variables in the URL path mean:
+<p>Where the variables in the URL path mean:</p>
 
 <table class="listingtable">
 	<tbody>
@@ -19,15 +19,7 @@ where the variables in the URL path mean:
 	</tbody>
 </table>
 
-<!--
-		<tr>
-			<td>callback</td>
-			<td>String</td>
-			<td>Name of a <a href="https://labs.europeana.eu/api/search/#callback-function">client side callback function</a>.</td>
-		</tr>
-
-<p>For obligatory request parameters look into the documentation of specific calls. The <a href="#authentication">authentication</a> section provides information on the obligatory authentication parameter <em>wskey</em>.</p>
--->
+<p>Additional parameters may apply to the request above such as the <a href="#access">API key</a> and <a href="intro#browsers">Browser access</a>.</p>
 
 <h3 id="formats">Supported Output Formats</h3>
 
@@ -75,22 +67,22 @@ where the variables in the URL path mean:
 	<tbody>
 		<tr>
 			<td>apikey</td>
-			<td>String</td>
+			<td><a href="#json-string">String</a></td>
 			<td>The authentication parameter sent out by the client (the wskey parameter)</td>
 		</tr>
 		<tr>
 			<td>success</td>
-			<td>Boolean</td>
+			<td><a href="#json-boolean">Boolean</a></td>
 			<td>A boolean (true/false) flag denoting the successful execution of the call</td>
 		</tr>
 		<tr>
 			<td>statsDuration</td>
-			<td>Number</td>
+			<td><a href="#json-number">Number</a></td>
 			<td>The time (in milliseconds) taken to serve the request</td>
 		</tr>
 		<tr>
 			<td>error</td>
-			<td>String</td>
+			<td><a href="#json-string">String</a></td>
 			<td>If the call was not successful, this fields will contain a detailed text message. See <a href="#error-codes">Error Codes</a> for more information.</td>
 		</tr>
 <!--

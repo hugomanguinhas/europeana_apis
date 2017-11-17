@@ -1,0 +1,388 @@
+<section>
+
+<h2 id="search">Search</h2>
+
+<p>Search for annotations.</p>
+
+<blockquote>
+GET /search
+</blockquote>
+
+<h3>Request</h3>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 112px;">Parameter</th>
+			<th style="width: 114px;">Datatype</th>
+			<th style="width: 656px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="width: 112px;">query</td>
+			<td style="width: 114px;">String</td>
+			<td style="width: 656px;">The search term(s), this is mandatory.</td>
+		</tr>
+		<tr>
+			<td style="width: 112px;">profile</td>
+			<td style="width: 114px;">String</td>
+			<td style="width: 656px;">The search profile which determines the extent of information returned as search result. Currently, two options are supported: "minimal" which returns only the identifier of the annotation; and "standard" (the default) which returns the annotation as it was sent to the API.</td>
+		</tr>
+		<tr>
+			<td style="width: 112px;">qf</td>
+			<td style="width: 114px;">String</td>
+			<td style="width: 656px;">Query filter, to search on specific fields. The list of fields is presented below.</td>
+		</tr>
+		<tr>
+			<td style="width: 112px;">facet</td>
+			<td style="width: 114px;">String</td>
+			<td style="width: 656px;">Includes a field to be used as facet in the response (see below which fields can be used as facets). More than one field can be added if separated by a space.</td>
+		</tr>
+		<tr>
+			<td style="width: 112px;">pageSize</td>
+			<td style="width: 114px;">Number</td>
+			<td style="width: 656px;">The number of records to return per page. For minimal profile, the maximum is 10.000 while for the standard profile is 100, with 10 as default for both profiles.</td>
+		</tr>
+		<tr>
+			<td style="width: 112px;">page</td>
+			<td style="width: 114px;">Number</td>
+			<td style="width: 656px;">The page of the search results, defaults to 0 (first page).</td>
+		</tr>
+		<tr>
+			<td style="width: 112px;">sort</td>
+			<td style="width: 114px;">String</td>
+			<td style="width: 656px;">Includes a field to be used for sorting. One of: created, generated or modified.</td>
+		</tr>
+		<tr>
+			<td style="width: 112px;">sortOrder</td>
+			<td style="width: 114px;">String</td>
+			<td style="width: 656px;">Order of sorting, either "asc" (ascending) or "desc" (descending).</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Search and Facet fields</h3>
+
+<p>The following table shows the fields that can be used for searching annotations and the ones that can be used for faceting:</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th style="width: 112px;">Field</th>
+			<th style="width: 112px;">Datatype</th>
+			<th style="width: 114px;">Used for Facetting</th>
+			<th style="width: 656px;">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>motivation</td>
+			<td>keyword</td>
+			<td>yes</td>
+			<td>motivation of the Annotation</td>
+		</tr>
+		<tr>
+			<td>anno_uri</td>
+			<td>keyword</td>
+			<td></td>
+			<td>complete identifier of an Annotation</td>
+		</tr>
+		<tr>
+			<td>anno_id</td>
+			<td>keyword</td>
+			<td></td>
+			<td>local identifier of an Annotation (/&lt;provider&gt;/&lt;identifier&gt;)</td>
+		</tr>
+		<tr>
+			<td>generator_uri</td>
+			<td>keyword</td>
+			<td>yes</td>
+			<td>complete identifier of the generator</td>
+		</tr>
+		<tr>
+			<td>generator_name</td>
+			<td>keyword</td>
+			<td>yes</td>
+			<td>name of the generator</td>
+		</tr>
+		<tr>
+			<td>generated</td>
+			<td>date</td>
+			<td></td>
+			<td>date on which the Annotation was first provided to the API</td>
+		</tr>
+		<tr>
+			<td>creator_uri</td>
+			<td>keyword</td>
+			<td>yes</td>
+			<td>complete identifier of the creator</td>
+		</tr>
+		<tr>
+			<td>creator_name</td>
+			<td>keyword</td>
+			<td>yes</td>
+			<td>name of the user that created the annotation</td>
+		</tr>
+		<tr>
+			<td>created</td>
+			<td>date</td>
+			<td></td>
+			<td>date on which the Annotation was created by the annotation client application</td>
+		</tr>
+		<tr>
+			<td>modified</td>
+			<td>date</td>
+			<td></td>
+			<td>date on which the Annotation was last modified</td>
+		</tr>
+		<tr>
+			<td>moderation_score</td>
+			<td>integer</td>
+			<td>yes</td>
+			<td>sum of all reports made to an Annotation by other users</td>
+		</tr>
+		<tr>
+			<td>text</td>
+			<td>text</td>
+			<td></td>
+			<td>searches in all searchable text in an Annotation</td>
+		</tr>
+		<tr>
+			<td>body_value</td>
+			<td>text</td>
+			<td>yes</td>
+			<td>value within the body of an Annotation, applies to e.g. simple tagging</td>
+		</tr>
+		<tr>
+			<td>body_uri</td>
+			<td>keyword</td>
+			<td>yes</td>
+			<td>complete identifier of the resource within the body of an Annotation, applies to e.g. semantic tagging</td>
+		</tr>
+		<tr>
+			<td>target_uri</td>
+			<td>keyword</td>
+			<td>yes</td>
+			<td>complete identified of the target(s) of an Annotation</td>
+		</tr>
+		<tr>
+			<td>target_record_id</td>
+			<td>keyword</td>
+			<td>yes</td>
+			<td>local identifier of a record when the target is a record (/collectionId/objectId)</td>
+		</tr>
+		<tr>
+			<td>link_resource_uri</td>
+			<td>keyword</td>
+			<td>yes</td>
+			<td>complete identifier of the resource being linked to (ie. through the relation property)</td>
+		</tr>
+		<tr>
+			<td>link_relation</td>
+			<td>keyword</td>
+			<td>yes</td>
+			<td>property being used to link two resources.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3>Response</h3>
+
+<pre><code>
+{
+  "@context": "http://www.w3.org/ns/anno.jsonld",
+  "id": "http://annotations.europeana.eu/annotation/search?wskey=xxxxx&amp;query=*:*&amp;page=0&amp;pageSize=10",
+  "items": [
+    "http://data.europeana.eu/annotation/base/1",
+    "http://data.europeana.eu/annotation/base/2",
+    [..]
+  ],
+  "next": "http://annotations.europeana.eu/annotation/search?wskey=xxxxx&amp;query=*:*&amp;page=1&amp;pageSize=10",
+  "partOf": {
+     "id": "http://annotations.europeana.eu/annotation/search?wskey=xxxxx&amp;query=*:*",
+     "total": 135610
+  },
+  "total": 10,
+  "type": "AnnotationPage"
+}</code></pre>
+
+
+<h4>Example: Search for recently added tags:</h4>
+
+<blockquote style="word-wrap: break-word">
+/search?wskey=xxxxx&amp;profile=minimal&amp;query=*:*&amp;qf=motivation:tagging&amp;sort=created&amp;sortOrder=desc
+</blockquote>
+
+<h4>Example: Search for tags for Europeana record ID /92028/532E53363138382D2F290A40B3CA26B3889A6907:</h4>
+
+<blockquote style="word-wrap: break-word">
+/search?wskey=xxxxx&amp;profile=minimal&amp;query=target_id:"/92028/532E53363138382D2F290A40B3CA26B3889A6907"
+</blockquote>
+
+<h4>Example: Don't show annotations which are reported by two or more different users:</h4>
+
+<blockquote style="word-wrap: break-word">
+/search?wskey=xxxxx&amp;profile=minimal&amp;query=*:*&amp;qf=moderation_score:[-1 TO *]
+</blockquote>
+
+<p>Note that providing *:* as a search query means you will get all annotations.</p>
+
+
+<h2 id="create">Create</h2>
+
+<p>The API has a generic method available for the creation of annotations. The creation method expects a body payload in the request with the full annotation. Alternatively you can provide this information as part of the body parameter.</p>
+
+<blockquote style="word-wrap: break-word">
+POST http://annotations.europeana.eu/annotation/
+</blockquote>
+
+<h3>Request</h3>
+
+<p>An example to create a simple tag:</p>
+
+<pre><code>POST  http://annotations.europeana.eu/annotation/?wskey=YOUR_KEY&amp;userToken=YOUR_TOKEN HTTP/1.1
+Accept: application/ld+json
+Content-Type: application/ld+json
+Content-Length: 999
+{
+  "motivation": "tagging",
+  "bodyValue": "Trombone",
+  "target": "http://data.europeana.eu/item/09102/_UEDIN_214"
+}</code></pre>
+
+<p>Note that the motivation for a simple and a semantic tag is always "tagging", whereas the motivation for object linking scenarios is "linking".</p>
+
+<h3>Response</h3>
+
+<p>Response to the example request:</p>
+
+<pre><code>
+Content-Type: application/ld+json
+ETag: "_87e52ce126126"
+Link: &lt;http://www.w3.org/ns/ldp#Resource&gt;l; rel="type"
+Allow: POST,GET,OPTIONS,HEAD
+Vary: Accept
+Content-Length: 999
+{
+  "@context": "http://www.w3.org/ns/anno.jsonld",
+  "id": "http://data.europeana.eu/annotation/base/1",
+  "type": "Annotation",
+  "created": "2016-01-31T12:03:45Z",
+  "creator": "http://data.europeana.eu/user/55376",
+  "generated": "2016-01-31T12:04:00Z",
+  "generator": "http://data.europeana.eu/provider/historypin",
+  "bodyValue": "Trombone",
+  "motivation": "tagging",
+  "target": "http://data.europeana.eu/item/09102/_UEDIN_214"
+}
+</code></pre>
+
+<p>For more examples and information on the data model for an annotation, see <a href="/api/annotations-data-model/">data model</a>.</p>
+
+<h2 id="retrieval">Read</h2>
+
+<p>Retrieve annotations by their identifier.</p>
+
+<blockquote style="word-wrap: break-word">
+GET /{provider}/{identifier}
+</blockquote>
+
+<h3>Response</h3>
+
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/ld+json
+{
+  "@context": "http://www.w3.org/ns/anno.jsonld",
+  "id": "http://data.europeana.eu/annotation/base/1",
+  "type": "Annotation",
+  "created": "2016-01-31T12:03:45Z",
+  "generated": "2016-01-31T12:04:00Z",
+  "generator": "http://www.europeana.eu",
+  "bodyValue": "Trombone",
+  "motivation": "tagging",
+  "target": "http://data.europeana.eu/item/09102/_UEDIN_214"
+}
+</code></pre>
+
+<p>See <a href="/api/annotations-data-model/">data model</a> for more information on the representation of an annotation.</p>
+
+<h2 id="update">Update</h2>
+
+<p>Update the contents of an annotation. For this you can send a PUT request to the ID of the annotation. You can only update the annotations you have created yourself.</p>
+
+<blockquote style="word-wrap: break-word">
+PUT /base/1
+</blockquote>
+
+<h3>Request</h3>
+
+<p>You can provide the same contents as for the creation of annotations. Note that you have to provide the full annotation body, you currently cannot update parts of the annotation.</p>
+
+<pre><code>PUT /base/1 HTTP/1.1
+Accept: application/ld+json
+{
+  "bodyValue": "Trombone",
+  "motivation": "tagging",
+  "target": "http://data.europeana.eu/item/09102/_UEDIN_214"
+}</code></pre>
+
+<h3>Response</h3>
+
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/ld+json
+{
+  "@context": "http://www.w3.org/ns/anno.jsonld",
+  "id": "http://data.europeana.eu/annotation/base/1",
+  "type": "Annotation",
+  "created": "2016-01-31T12:03:45Z",
+  "generated": "2016-01-31T12:04:00Z",
+  "generator": "http://www.europeana.eu",
+  "bodyValue": "Trombone",
+  "motivation": "tagging",
+  "target": "http://data.europeana.eu/item/09102/_UEDIN_214"
+}</code></pre>
+
+<h2 id="delete">Delete</h2>
+
+<p>Delete an annotation. For this you can send a DELETE http request using the ID of the annotation. You can only delete the annotations you have created yourself. Deletion means the annotation will not be available anymore for search, and only available for retrieval based on the ID of the annotation.</p>
+
+<blockquote style="word-wrap: break-word">
+DELETE /base/1
+</blockquote>
+
+<h3>Request</h3>
+
+<pre><code>DELETE /collections/1 HTTP/1.1</code></pre>
+
+<h3>Response</h3>
+
+<pre><code>HTTP/1.1 204 NO CONTENT
+Content-Length: 0
+</code></pre>
+
+
+<!--
+<h2 id="report">Report</h2>
+
+<p>Europeana has implemented a moderation framework where users can report annotations which have no relevance to the annotated subject. When an annotation has been reported the moderation score of the annotation will be deducted with 1, allowing other API clients to filter our annotations with a certain amount of reports. For reporting you need to append /report to the annotation URI. See the <a href="#search">search section</a> on how to filter on moderation scores.</p>
+
+<blockquote>
+<p>POST /base/1/report</p>
+</blockquote>
+
+<h3>Request</h3>
+
+<p>You can provide an empty request.</p>
+
+<pre>
+DELETE /base/1 HTTP/1.1 204 NO CONTENT
+Content-Length: 0
+</pre>
+
+<h3>Response</h3>
+
+<pre>
+HTTP/1.1 200 OK
+</pre>
+--></section>
