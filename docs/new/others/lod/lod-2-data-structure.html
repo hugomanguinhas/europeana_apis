@@ -1,0 +1,93 @@
+<section>
+
+<p>We assume that the reader has extensive knowledge of <a href="http://linkeddata.org/">Linked Data</a> technology. Data.europeana.eu has also been described in the <a href="http://dcevents.dublincore.org/index.php/IntConf/dc-2011/paper/view/55">technical paper</a> presented at the Dublin Core 2011 conference.</p>
+
+<h3>Background - The Europeana Data Model (EDM)</h3>
+
+<p>The Europeana Data Model has replaced the previous model Europeana Semantic Elements (ESE). It is a much more flexible and precise model than ESE, and offers the opportunity to attach every statement to the specific resource it applies to, and to reflect some basic form of data provenance. The main EDM requirements include:</p>
+
+<ul>
+	<li>
+	<p>distinguishing between a 'provided item' (painting, book) and its digital representations</p>
+	</li>
+	<li>
+	<p>distinguishing between an item and the metadata record describing it</p>
+	</li>
+	<li>
+	<p>allowing the ingestion of multiple records for the same item, which may contain contradictory statements about it</p>
+	</li>
+</ul>
+
+<p>As a consequence of EDM having to meet these requirements, EDM data has a level of complexity above that which Europeana currently maintains. This level of complexity is comparable to what can be found in the data of many Europeana providers, and thus, we argue, it enables better exploitation of that data. Note also that, as much as possible, EDM re-uses elements coming from already-established vocabularies, such as Dublin Core, OAI-ORE, SKOS and CIDOC-CRM, thus lowering the cost of its creation and, hopefully, its adoption.</p>
+
+<p>For more information on EDM, we refer to the <em>EDM Definitions</em> and <em>EDM Primer</em> on Europeana's <a href="http://pro.europeana.eu/edm-documentation">technical documents</a> page. The EDM OWL ontology is accessible through content negotiation but it is also <a href="https://github.com/europeana/corelib/blob/master/corelib-edm-definitions/src/main/resources/eu/rdf/edm.owl">directly available</a>. Please be aware that both data.europeana.eu and those documents are under constant revision. There could therefore be some (minor) discrepancies between them!</p>
+
+<h3>Generating EDM data for Europeana</h3>
+
+<p>Data.europeana.eu includes semantic connections to external (linked data) sources. The vast majority of external links come from semantic enrichment realised at the Europeana Office, connecting Europeana items to places (as provided by <a href="http://geonames.org">GeoNames</a>), concepts (from the <a href="http://www.eionet.europa.eu/gemet">GEMET</a> thesaurus), persons (from <a href="http://dbpedia.org">DBpedia</a>) and time periods (from an adhoc time period vocabulary). But the number of external links provided by data providers is constantly growing including links to <a href="http://vocab.getty.edu/">AAT </a>, <a href="http://www.dnb.de/EN/Standardisierung/GND/gnd_node.html">GND</a>, <a href="http://www.iconclass.org/">Iconclass</a>, <a href="http://viaf.org/">VIAF</a>) or any domain vocabulary following the EDM recommendations for metadata on contextual resources.</p>
+
+<h3>A walk through the resources served at data.europeana.eu</h3>
+
+<p>The core EDM classes, together with the properties we expect to be applied to their instances, are presented in these <a href="http://europeanalabs.eu/wiki/EDMObjectTemplatesEuropeana">templates</a>. Of course it is unrealistic that all of the EDM properties are used for any single object exposed in Europeana. The EDM data harvested from Europeana providers, as well as the enrichment work by Europeana, allow us to create and describe a network of EDM resources for every Europeana object, as shown in this <a href="http://www.few.vu.nl/%7Eaisaac/edm/ese2edm_mapping.png">big picture example</a>. The following explains in more detail the data that can be found for every class of resource served by data.europeana.eu:</p>
+
+<p><strong>Item (Provided Cultural Heritage Object)</strong>: Item resources represent objects (painting, book, etc.) for which institutions provide digital representations to be accessed through Europeana. Provided Cultural Heritage Object (CHO) URIs (e.g. <code style="word-wrap: break-word;">http://data.europeana.eu/item/92037/_http___www_bl_uk_onlinegallery_onlineex_crace_t_zoomify87870_html3</code> are the main entry points in data.europeana.eu. A provided CHO is the hub of the network of relevant resources (cf. below). When applicable, the Europeana URIs for these objects also link, via 'owl:sameAs' statements, to other linked data resources about the same object. In data.europeana.eu, no descriptive metadata (creator, subject, etc.) is directly attached to item URIs. It is instead attached to the <em>proxies</em> that represent a view of the object, from a specific institution's perspective (either a Europeana provider or Europeana itself).</p>
+
+<p><img alt="Item" style="width:100%" src="/files/labs.europeana.eu/labs/api/Linked-Open-Data/City-Item.png" /></p>
+
+<p><strong>Provider's proxy</strong>: These resources (e.g. <code style="word-wrap: break-word;">http://data.europeana.eu/proxy/provider/92037/_http___www_bl_uk_onlinegallery_onlineex_crace_t_zoomify87870_html</code>) are used as subjects of descriptive statements (creator, subject, date of creation, etc.) for the item, which are contributed by a Europeana provider. In the <a href="http://www.openarchives.org/ore/">OAI-ORE</a> model, proxies enable the separation of different views for the same resource, in the context of different aggregations. This allows us to distinguish the original metadata for the object from the metadata that is created by Europeana, an important requirement for us. Descriptive properties that apply to these proxies mostly come from <a href="http://dublincore.org/">Dublin Core</a> : <a href="http://data.europeana.eu/proxy/provider/92037/_http___www_bl_uk_onlinegallery_onlineex_crace_t_zoomify87870_html">view an example</a>. Proxies are connected to the item they represent a facet of using the 'ore:proxyFor' property. They are attached to the aggregation that contextualises them using 'ore:proxyIn'. <em>Note to the reader: given the lack of support for named graphs (aka 'quadruples') in the RDF standard, <a href="http://www.openarchives.org/ore/">ORE</a> introduced proxies in order to support referencing resources in the context of a graph. Eventually, named graphs may be natively supported by RDF, which would lead to obsolescence of the proxy construct.</em></p>
+
+<p><img style="width:100%;max-width:900px" alt="Providers Proxy" src="/files/Images/API/providerproxyscreenshot.png"/></p>
+
+<p><strong>Provider's aggregation</strong>: These resources (e.g. <code style="word-wrap: break-word;">http://data.europeana.eu/aggregation/provider/92037/_http___www_bl_uk_onlinegallery_onlineex_crace_t_zoomify87870_html</code> provide data related to a Europeana provider's gathering of digitised representations and descriptive metadata for an item. As shown in <a href="http://data.europeana.eu/aggregation/provider/92037/_http___www_bl_uk_onlinegallery_onlineex_crace_t_zoomify87870_html">this data</a>, they are related to digital resources about the item, be they files directly representing it ('edm:object' and 'edm:isShownBy') or webpages showing the object in context ('edm:isShownAt'). They may also provide controlled rights information applying to these resources ('edm:rights'). Other statements provided in the same ESE record as the descriptive metadata for the item – but that do not always clearly apply to it – are also attached to aggregations. Finally, provenance data is given in statements using 'edm:provider' (the direct provider to Europeana in the data aggregation chain) or 'edm:dataProvider' (the cultural institution that curates the object). The aggregation is connected to the item resource using the 'edm:aggregatedCHO' property.</p>
+
+<p><img style="width:100%;max-width:900px" alt="Providers Aggregation" src="/files/Images/API/provideraggregation1.png"/></p>
+
+<p><strong>Europeana's proxy</strong>: The second type of proxies served at data.europeana.eu. are Europeana proxies (e.g. <code style="word-wrap: break-word;">http://data.europeana.eu/proxy/europeana/92037/_http___www_bl_uk_onlinegallery_onlineex_crace_t_zoomify87870_html</code> which provide access to the metadata created by Europeana for a given item, distinct from the metadata provided by the provider. Here one can find 'edm:year' statements, indicating a normalised date associated with the object. We also serve millions of generic 'edm:hasMet' enrichments, created by Europeana from a range of ESE descriptive fields (<a href="http://old.europeanalabs.eu/wiki/EDMPrototypingTask21#RelevantWorkdone:EuropeanaOffice">read documentation</a>). These statements connect a Europeana proxy to places from <a href="http://geonames.org/">GeoNames</a>, concepts from the <a href="http://www.eionet.europa.eu/gemet">GEMET</a> thesaurus, persons from <a href="http://dbpedia.org">DBpedia</a> and periods from an adhoc time vocabulary. Finally, a proxy is connected to the item it represents a facet of, using the 'ore:proxyFor' property, as well as to the aggregation that contextualises it, using 'ore:proxyIn'.</p>
+
+<p><img style="width:100%;max-width:900px" alt="Europeana Proxy" src="/files/Images/API/Europeana's proxy.png"/></p>
+
+<p><strong>Europeana's aggregation</strong>: a Europeana aggregation (e.g. <code style="word-wrap: break-word;">http://data.europeana.eu/aggregation/europeana/92037/_http___www_bl_uk_onlinegallery_onlineex_crace_t_zoomify87870_html</code> bundles together the result of all data creation and aggregation efforts for a given item. It aggregates the provider's aggregation (using ore:aggregates), which in turn will connect to the provider's proxy. Next to the provider aggregation, one can find the digitised resources Europeana.eu serves for the item, i.e., an object page ('edm:landingPage') and a thumbnail (using a combination of 'edm:hasView' and 'foaf:thumbnail'). The Europeana proxy is also connected to this aggregation, as mentioned above.</p>
+
+<p><img style="width:100%;max-width:900px" alt="Europeana Aggregation" src="/files/Images/API/Europeana's aggregation.png"/></p>
+
+<h3>Namespaces used in data.europeana.eu</h3>
+
+<p>The following RDF namespace abbreviations are currently used in data.europeana.eu:</p>
+
+<ul>
+	<li>
+	<p>rdf:<a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#">http://www.w3.org/1999/02/22-rdf-syntax-ns#</a></p>
+	</li>
+	<li>
+	<p>owl:<a href="http://www.w3.org/2002/07/owl#">http://www.w3.org/2002/07/owl#</a></p>
+	</li>
+	<li>
+	<p>dc:<a href="http://purl.org/dc/elements/1.1">http://purl.org/dc/elements/1.1</a></p>
+	</li>
+	<li>
+	<p>dcterms:<a href="http://purl.org/dc/terms/">http://purl.org/dc/terms/</a></p>
+	</li>
+	<li>
+	<p>ore:<a href="http://www.openarchives.org/ore/terms/">http://www.openarchives.org/ore/terms/</a></p>
+	</li>
+	<li>
+	<p>foaf:<a href="http://xmlns.com/foaf/0.1/">http://xmlns.com/foaf/0.1/</a></p>
+	</li>
+	<li>
+	<p>edm:<a href="http://www.europeana.eu/schemas/edm/">http://www.europeana.eu/schemas/edm/</a></p>
+	</li>
+	<li>
+	<p>skos: <a href="http://www.w3.org/2004/02/skos/core#">http://www.w3.org/2004/02/skos/core#</a></p>
+	</li>
+	<li>
+	<p>rdau: <a href="http://www.rdaregistry.info/Elements/u/">http://www.rdaregistry.info/Elements/u/</a></p>
+	</li>
+	<li>
+	<p>wgs84_pos: <a href="http://www.w3.org/2003/01/geo/wgs84_pos#">http://www.w3.org/2003/01/geo/wgs84_pos#</a></p>
+	</li>
+	<li>
+	<p>cc: <a href="https://creativecommons.org/ns#">https://creativecommons.org/ns#</a></p>
+	</li>
+</ul>
+
+</section>
