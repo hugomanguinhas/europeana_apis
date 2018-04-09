@@ -2,13 +2,13 @@
 
 <h3 id="registration">Registration</h3>
 
-<p>To start using the API you need to register for a key at the <a href="/get-api">registration page</a>. Upon registration, you will get your individual private and public authentication key. This key must then be used when calling API methods, see <a href="#access">Access using an API key</a>. We use these keys to anonymously gather relevant statistics about the usage of the API so that we can better improve it. <i>Please do not share these keys with third parties as the API keys are confidential and are for use by the client or user only.</i></p>
+<p>To start using the API you need to register for a key at the <a href="/get-api">registration page</a>. Upon registration, you will get your individual private and public authentication key. The private key is used for specific methods that require additional user authentication while the public key must be used by all other API methods, see <a href="#access">Access using an API key</a>. We use these keys to anonymously gather relevant statistics about the usage of the API so that we can better improve it. <i>Please do not share these keys with third parties or expose it in user interfaces or in markup as the API keys are confidential and are for use by the client or user only.</i></p>
 
 <p>This API key will give you access to all APIs that are in a <a href="intro#release-stable">Stable</a> version. APIs such as OAI-PMH, Entity API, and Annotations API use different keys that can either be obtained on request or use a demonstration key.</p>
 
 <h3 id="access">Access using an API key</h3>
 
-<p>You need to provide an access key when making a request to any of the methods made available by the API. This is done by using the wskey parameter described below. The only exception is the Thumbnail method of the Search API.</p>
+<p>You need to provide an access key (corresponding to your public authentication key) when making a request to any of the methods made available by the Europeana REST APIs. This is done by using the wskey parameter described below. The only exception is the Thumbnail method of the Search API which does not require an access key.</p>
 
 <table class="listingtable">
 	<thead>

@@ -1,8 +1,8 @@
 <section>
 
-<p>The number of records that Europeana contains is very big and growing. Therefore we need efficient ways to allow our users to discover what they need easily. One such technique is a faceted indexing system that classifies each record along multiple dimensions. The facets, seen on the left side of the <a href="http://www.europeana.eu">Europeana Collections Portal</a>, can be useful for filtering search results and can also be used by API clients. If you would conduct a search for the keyword "paris" and have a look at the TYPE facet, this facet would tell how much items exist within your search result grouped by TYPE (such as IMAGE, VIDEO etc.). All search fields can also be facetted on.</p>
+<p>The number of records that Europeana contains is very big and growing. Therefore we need efficient ways to allow our users to discover what they need easily. One such technique is a faceted indexing system that classifies each record along multiple dimensions. The facets, seen on the left side of the <a href="http://www.europeana.eu">Europeana Collections Portal</a>, can be useful for filtering search results and can also be used by API clients. If you conduct a search for the keyword "paris" and have a look at the TYPE facet, this facet would tell how many items exist within your search result grouped by TYPE (such as IMAGE, VIDEO etc.). All search fields can also be faceted on.</p>
 
-<p>When you search within your result set for a specific facet, the other items in your facet would still exist (you search for TYPE:IMAGE, then you can still see how many results there are for TYPE:VIDEO etc.). This last functionality, called multi-facets, is not supported for the <a href="#technical-metadata-facets">Technical Metadata fields</a>.</p>
+<p>When you search within your result set for a specific facet, the other items in your facet would still exist (if you search for TYPE:IMAGE, then you can still see how many results there are for TYPE:VIDEO etc.). This last functionality, called multi-facets, is not supported for the <a href="#technical-metadata-facets">Technical Metadata fields</a>.</p>
 
 <h3 id="requesting-facets">Requesting Facets</h3>
 
@@ -118,23 +118,23 @@
 
 <h4>Example: Requesting an individual facet</h4>
 
-<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?search=*&amp;facet=proxy_dc_contributor&amp;profile=facets</blockquote>
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?query=*&amp;facet=proxy_dc_contributor&amp;profile=facets</blockquote>
 
 <h4>Example: Requesting the default plus an additional individual facet</h4>
 
-<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?search=*&amp;facet=DEFAULT+proxy_dc_contributor&amp;profile=facets</blockquote>
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?query=*&amp;facet=DEFAULT+proxy_dc_contributor&amp;profile=facets</blockquote>
 
 <h3 id="facets-multiple">Multiple Individual Facets</h3>
 
-<p>A client can request for one or more facet in one query. This can be done by either duplicating the <a href="#param-facet">facet parameter</a> or by combining all the fields needed for faceting as a comma separated String.</p>
+<p>A client can request for one or more facet in one query. This can be done by either duplicating the <a href="#param-facet">facet parameter</a> or by combining all the fields needed for faceting as a comma-separated String.</p>
 
 <h4>Example: a) requesting multiple facets by duplicating the facet parameter.</h4>
 
-<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?search=*&amp;proxy_dc_coverage&amp;facet=proxy_dc_contributor&amp;profile=facets</blockquote>
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?query=*&amp;proxy_dc_coverage&amp;facet=proxy_dc_contributor&amp;profile=facets</blockquote>
 
 <h4>Example: b) requesting multiple facets through a comma separated list.</h4>
 
-<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?search=*&amp;facet=proxy_dc_coverage,proxy_dc_contributor&amp;profile=facets</blockquote>
+<blockquote style="word-wrap: break-word">https://www.europeana.eu/api/v2/search.json?query=*&amp;facet=proxy_dc_coverage,proxy_dc_contributor&amp;profile=facets</blockquote>
 
 <h3 id="facets-config">Offset and limit for Facets</h3>
 
@@ -152,12 +152,12 @@
 		<tr id="param-facet-limit">
 			<td>f.[FACET_NAME].facet.limit</td>
 			<td><a href="#search-number">Number</a></td>
-			<td>Number of values an <a href="#individual-facets">individual facet</a> should contain. Set a limit of "0" to not return anything for that facet. By default, the limit of values of an individual facet is 50. This can be overriden by setting a custom limit e.g. via <code>&amp;f.DEFAULT.facet.limit=100</code>.</td>
+			<td>Number of values an <a href="#facets-individual">individual facet</a> should contain. Set a limit of "0" to not return anything for that facet. By default, the limit of values of an individual facet is 50. This can be overriden by setting a custom limit e.g. via <code>&amp;f.DEFAULT.facet.limit=100</code>.</td>
 		</tr>
 		<tr id="param-facet-offset">
 			<td>f.[FACET_NAME].facet.offset</td>
 			<td><a href="#search-number">Number</a></td>
-			<td>The offset of the first value in an <a href="#individual-facets">individual facet</a>. The default offset value is "0", starting from the first item in the list while value "1" offsets the list by one, so the first item to return is the second and so on.</td>
+			<td>The offset of the first value in an <a href="#facets-individual">individual facet</a>. The default offset value is "0", starting from the first item in the list while value "1" offsets the list by one, so the first item to return is the second and so on.</td>
 		</tr>
 	</tbody>
 </table>

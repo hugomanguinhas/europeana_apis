@@ -18,12 +18,12 @@ with the following parameters:
 		<tr id="param-query">
 			<td>query</td>
 			<td><a href="#search-string">String</a></td>
-			<td>The search term(s). See <a href="#query-syntax">Query Syntax</a> for information on forming complex queries and examples.</td>
+			<td>The search term(s). See <a href="#syntax">Query Syntax</a> for information on forming complex queries and examples.</td>
 		</tr>
 		<tr id="param-qf">
 			<td>qf</td>
 			<td><a href="#search-string">String</a></td>
-			<td>Facet filtering query. This parameter can be defined more than once. See <a href="#query-syntax">Query Syntax</a> page for more information.</td>
+			<td>Facet filtering query. This parameter can be defined more than once. See <a href="#syntax">Query Syntax</a> page for more information.</td>
 		</tr>
 		<tr id="param-reusability">
 			<td><a href="#reusability">reusability</a></td>
@@ -78,7 +78,7 @@ with the following parameters:
 		<tr id="param-callback">
 			<td>callback</td>
 			<td><a href="#search-string">String</a></td>
-			<td>Name of a client side <a href="intro#callback-function">callback function</a>.</td>
+			<td>Name of a client side callback function, see <a href="intro#JSONP">JSONP</a>.</td>
 		</tr>
 	</tbody>
 </table>
@@ -86,12 +86,12 @@ with the following parameters:
 <h4>Example: Search for all openly licensed records with a direct link to the full media file:</h4>
 
 <blockquote style="word-wrap: break-word">
-https://www.europeana.eu/api/v2/search.json?query=Paris&amp;reusability=open&amp;media=true (<a href="#console?function=search&amp;query=Paris&amp;reusability=open&amp;media=true">Try on Console</a>)
+https://www.europeana.eu/api/v2/search.json?query=Paris&amp;reusability=open&amp;media=true (<a href="/page/api-rest-console?function=search&amp;query=Paris&amp;reusability=open&amp;media=true">Try on Console</a>)
 </blockquote>
 
 <h3>Response</h3>
 
-<p>A response to the Search API is always formated in JSON and will contain a number of fields that present information about the handling of the request, while the concrete information about the record is presented in the "items" field (see <a href="#metadata-sets">Metadata Sets</a>).</p>
+<p>A response to the Search API is always formatted in JSON and will contain a number of fields that present information about the handling of the request, while the concrete information about the record is presented in the "items" field (see <a href="#metadata-sets">Metadata Sets</a>).</p>
 
 <table class="listingtable">
 	<thead>
@@ -149,7 +149,7 @@ https://www.europeana.eu/api/v2/search.json?query=Paris&amp;reusability=open&amp
 		</tr>
 		<tr id="rf-items">
 			<td>items</td>
-			<td><a href="#search-array">Array</a> (<a href="#item">Item</a>)</td>
+			<td><a href="#search-array">Array</a> (<a href="#metadata-sets">Item</a>)</td>
 			<td>This is a collection of search results. Each item is represented by a summary of the metadata record. The actual content is dependent of the profile parameter.</td>
 		</tr>
 		<tr id="rf-facets">
@@ -159,7 +159,7 @@ https://www.europeana.eu/api/v2/search.json?query=Paris&amp;reusability=open&amp
 		</tr>
 		<tr>
 			<td>breadcrumbs</td>
-			<td><a href="#search-array">Array</a> (<a href="#breadcrumb">Breadcrumb</a>)</td>
+			<td><a href="#search-array">Array</a> (<a href="#profile-breadcrumbs">Breadcrumb</a>)</td>
 			<td>A collection of search queries that were applied in this call.</td>
 		</tr>
 	</tbody>

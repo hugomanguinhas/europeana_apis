@@ -1,5 +1,9 @@
 <section>
 
+<h3>What are annotations?</h3>
+
+<p>Annotations (in the Europeana context) are user-contributed or system-generated enhancements to (a selection of) metadata or media. The most well-known type of annotation is the "tag", a short textual depiction of something. Annotations allow for the creation of meaningful connections across Europeana and will also offer up new ways to explore or find the content you're looking for.</p>
+
 <p>The Annotations API adopted the <a href="https://www.w3.org/TR/annotation-model/" target="_blank">Web Annotation Data Model</a> (or simply WA) as a base model for exchanging annotations between client applications and the API. It is a W3C recommendation that describes a model and format to share annotations across different platforms.</p>
 
 <p>Please note that, even though we have adopted WA as underlying data model for this API, it is not expected that we support the full extent of the model. We thus advise to look at the <a href="https://docs.google.com/document/d/1V-XjlQXPOQLZo7-c6UBzqYEc0mNPtCBfXFCWdquuUvc">EDM Annotations Profile</a> which describes the basics of our implementation and, in particular, the section on <a href="#scenarios">Annotation Scenarios</a> for a comprehensive list of the different kinds of annotations that we support.</p>
@@ -61,7 +65,7 @@
 		<tr>
 			<td>motivation</td>
 			<td>String</td>
-			<td>Expresses the reason why the annotation was created. The value can be either "tagging" or "linking".</td>
+			<td>Expresses the reason why the annotation was created. The value can be either "tagging", "linking" or "transcribing".</td>
 		</tr>
 		<tr>
 			<td>body</td>
@@ -75,8 +79,8 @@
 		</tr>
 		<tr>
 			<td>target</td>
-			<td>String or Array (String)</td>
-			<td>The URL of the resource that is being annotated. An array of URLs may also be set (mostly used for the object linking).</td>
+			<td>String, <a href="#media-resource">Media Resource</a> or Array (String)</td>
+			<td>The URL of the resource that is being annotated, or a specific resource in the case of media annotations. An array of URLs may also be set (mostly used for the object linking).</td>
 		</tr>
 		<tr>
 			<td>via</td>
@@ -147,6 +151,38 @@
 		</tr>
 	</tbody>
 </table>
+
+<h3 id="media-resource">Media Resource</h3>
+
+<p>Annotations that refer to a media resource require that a oa:SpecificResource object is defined so that the context in which the annotation was made is captured by the annotation. Besides context, a Specific Resource can be used to capture any additional information about how a target is used in the Annotation. The following table lists the properties supported by this class.</p>
+
+<table class="listingtable">
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Datatype</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>type</td>
+			<td>String</td>
+			<td>Always "SpecificResource".</td>
+		</tr>
+		<tr>
+			<td>source</td>
+			<td>String (URL)</td>
+			<td>The URL that identifies the media resource which is the ultimate target of the annotation.</td>
+		</tr>
+		<tr>
+			<td>scope</td>
+			<td>String (URI)</td>
+			<td>The unique identifier of the Europeana item to which this media resource is associated to. In more general terms, scope is used to define the context in which the annotation was made, in terms of the resources that the annotator was viewing or using at the time.</td>
+		</tr>
+	</tbody>
+</table>
+
 
 <h3 id="optional-mandatory-fields">Optional and mandatory fields</h3>
 
@@ -259,6 +295,6 @@
   "motivation": "tagging",
   "bodyValue": "MyBeautifulTag",
   "target": "http://data.europeana.eu/item/92062/BibliographicResource_1000126189360"
-}<code></pre>
+}</code></pre>
 
 </section>

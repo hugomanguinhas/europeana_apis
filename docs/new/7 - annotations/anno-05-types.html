@@ -18,8 +18,7 @@
 		</tr>
 		<tr>
 			<td>Requirement:</td>
-			<td>A maximum of 64 characters is allowed for a simple tag.<br />
-			A tag cannot be a URL.</td>
+			<td>A maximum of 64 characters is allowed for a simple tag. A tag cannot be a URL.</td>
 		</tr>
 		<tr>
 			<td>In the API:</td>
@@ -27,7 +26,7 @@
 		</tr>
 		<tr>
 			<td>Availability:</td>
-			<td>Simple tags are available since version 0.2.1.</td>
+			<td>Since version 0.2.1.</td>
 		</tr>
 	</tbody>
 </table>
@@ -55,9 +54,7 @@
 		</tr>
 		<tr>
 			<td>Requirement:</td>
-			<td>A maximum of 64 characters is allowed for a simple tag.<br />
-			A tag cannot be a URL.<br />
-			The language information must be specified.</td>
+			<td>A maximum of 64 characters is allowed for a simple tag. A tag cannot be a URL and the language information must be specified.</td>
 		</tr>
 		<tr>
 			<td>In the API:</td>
@@ -65,7 +62,7 @@
 		</tr>
 		<tr>
 			<td>Availability:</td>
-			<td>Simple tags are available since version 0.2.1.</td>
+			<td>Since version 0.2.1.</td>
 		</tr>
 	</tbody>
 </table>
@@ -103,7 +100,7 @@
 		</tr>
 		<tr>
 			<td>Availability:</td>
-			<td>Semantic tags are available since version 0.2.1.</td>
+			<td>Since version 0.2.1.</td>
 		</tr>
 	</tbody>
 </table>
@@ -137,7 +134,7 @@
 		</tr>
 		<tr>
 			<td>Availability:</td>
-			<td>Object linking is available since version 0.2.1.</td>
+			<td>Since version 0.2.1.</td>
 		</tr>
 	</tbody>
 </table>
@@ -165,11 +162,11 @@
 		</tr>
 		<tr>
 			<td>In the API:</td>
-			<td style="width: 731px;">Set the "motivation" to "tagging" and include the "type", "lat" and "long" attributes in the body as per the example below.</td>
+			<td>Set the "motivation" to "tagging" and include the "type", "lat" and "long" attributes in the body as per the example below.</td>
 		</tr>
 		<tr>
 			<td>Availability:</td>
-			<td style="width: 731px;">Object linking is available since version 0.2.2.</td>
+			<td>Since version 0.2.2.</td>
 		</tr>
 	</tbody>
 </table>
@@ -186,5 +183,68 @@
   },
   "target": "http://data.europeana.eu/item/92034/GVNRC_NFA03_kop_6_3"
 }</code></pre>
+
+<h3>Annotating media resources</h3>
+
+<p>Annotating a media resource means that the target of the annotation is not the Europeana item but instead a specific media resource within that item.</p>
+
+<table class="listingtable">
+	<tbody>
+		<tr>
+			<td>In the API:</td>
+			<td>Set the "target" of the annotation to a JSON object with the "scope" holding the unique identifier of the Europeana item and the "source" field the URL of the actual media resource being annotated.</td>
+		</tr>
+		<tr>
+			<td>Availability:</td>
+			<td>Since version 0.2.8.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: tagging a <a href="http://comhaltasarchive.ie/tracks/12535">sound track</a> of an <a href="http://data.europeana.eu/item/2059207/data_sounds_T471_5">Europeana item</a> with the simple tag "Folk Music".</h4>
+
+<pre><code>{
+  "motivation": "tagging",
+  "bodyValue": "Folk Music",
+  "target": {
+    "type": "SpecificResource",
+    "scope": "http://data.europeana.eu/item/2059207/data_sounds_T471_5",
+    "source": "http://comhaltasarchive.ie/tracks/12535"
+  }
+}</code></pre>
+
+<h3>Transcriptions</h3>
+
+<p>A transcription is typically an annotation expressing a relation between an image and the text that is represented on that image. Besides the text, the annotation can also refer to a page where the text is displayed, like in the example below.</p>
+
+<table class="listingtable">
+	<tbody>
+		<tr>
+			<td>In the API:</td>
+			<td>Set the "motivation" to "transcribing" and apply the same criteria as for media resources.</td>
+		</tr>
+		<tr>
+			<td>Availability:</td>
+			<td>Since version 0.2.8.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>Example: annotating the <a href="http://www.europeana1914-1918.eu/attachments/2020601/20841.235882.full.jpg">image</a> of an <a href="http://data.europeana.eu/item/2020601/contributions_20841">Europeana item</a> with the <a href="https://transcribathon.com/en/documents/id-20841/item-235882/">transcription page</a> available at <a href="https://transcribathon.com">Transcribathon</a>.</h4>
+
+<pre><code>{
+  "motivation": "transcribing",
+  "body": {
+    "id": "https://transcribathon.com/en/documents/id-20841/item-235882/",
+    "language": "de",
+    "format": "text/html"
+  },
+  "target": {
+    "scope": "http://data.europeana.eu/item/2020601/contributions_20841",
+    "source": 
+    "http://www.europeana1914-1918.eu/attachments/2020601/20841.235882.full.jpg"
+  }
+}</code></pre>
+
 
 </section>

@@ -2,7 +2,7 @@
 
 <h3 id="search-fields-outside">Search Fields outside EDM</h3>
 
-<p>In addition to the fields defined in EDM, a handfull of other fields were defined for administrative reasons that can also be searched.</p>
+<p>In addition to the fields defined in EDM, a handful of other fields were defined for administrative reasons which can also be used to search.</p>
 
 <table class="listingtable">
 	<thead>
@@ -31,14 +31,14 @@
 			<td><a href="#search-date">Date</a></td>
 			<td><a href="#rf_timestamp_created">timestamp_created</a>
 			<br/><a href="#rf_timestamp_created_epoch">timestamp_created_epoch</a></td>
-			<td>The date when record were created (formated as <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>)</td>
+			<td>The date when record was created (formatted as <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>)</td>
 		</tr>
 		<tr id="sf_timestamp_update">
 			<td>timestamp_update</td>
 			<td><a href="#search-date">Date</a></td>
 			<td><a href="#rf_timestamp_update">timestamp_update</a>
 			<br/><a href="#rf_timestamp_update_epoch">timestamp_update_epoch</a></td>
-			<td>The date when record were last updated (formated as <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>)</td>
+			<td>The date when record was last updated (formatted as <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>)</td>
 		</tr>
 		<tr id="sf_europeana_completeness">
 			<td>europeana_completeness</td>
@@ -70,12 +70,12 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td><a href="intro#dc:creator" title="dc:creator">proxy_dc_creator</a></td>
+			<td><a href="intro#ore:Proxy/dc:creator" title="dc:creator">proxy_dc_creator</a></td>
 			<td><a href="#search-text">Text</a></td>
 			<td><a href="#rf_dcCreator">dcCreator</a></td>
 		</tr>
 		<tr>
-			<td><a href="intro#dc:creator" title="dc:creator">proxy_dc_creator.en<br/>proxy_dc_creator.fr<br/>...<br/>proxy_dc_creator.*</a></td>
+			<td><a href="intro#ore:Proxy/dc:creator" title="dc:creator">proxy_dc_creator.en<br/>proxy_dc_creator.fr<br/>...<br/>proxy_dc_creator.*</a></td>
 			<td><a href="#search-string">String</a></td>
 			<td><a href="#rf_dcCreatorLangAware">dcCreatorLangAware</a></td>
 		</tr>
@@ -128,7 +128,7 @@
 			<td>✓</td>
 		</tr>
 		<tr id="sf_proxy_dc_date">
-			<td><a href="dc:date" title="dc:date">proxy_dc_date</a></td>
+			<td><a href="intro#ore:Proxy/dc:date" title="dc:date">proxy_dc_date</a></td>
 			<td><a href="#search-string">String</a></td>
 			<td></td>
 			<td>✓</td>
@@ -425,7 +425,7 @@
 			<td>✓</td>
 		</tr>
 		<tr id="sf_wr_svcs_hasservice">
-			<td><a href="intro#edm:WebResource/svcs:hasService" title="svcs:hasService">wr_svcs_hasservice</a></td>
+			<td><a href="intro#edm:WebResource/svcs:has_service" title="svcs:has_service">wr_svcs_hasservice</a></td>
 			<td><a href="#search-string">String</a></td>
 			<td></td>
 			<td>✓</td>
@@ -473,12 +473,6 @@
 			<td></td>
 			<td></td>
 		</tr>
-		<tr id="sf_provider_aggregation_cc_deprecated_on">
-			<td><a href="intro#cc:License/cc:deprecatedOn" title="cc:deprecatedOn">provider_aggregation_cc_deprecated_on</a></td>
-			<td><a href="#search-date">Date</a></td>
-			<td></td>
-			<td></td>
-		</tr>
 	</tbody>
 	<thead>
 		<tr>
@@ -493,7 +487,7 @@
 			<td></td>
 		</tr>
 		<tr id="sf_sv_dcterms_conformsTo">
-			<td><a href="intro#svcs:Service/svcs:conformsTo" title="svcs:conformsTo">sv_dcterms_conformsTo</a></td>
+			<td><a href="intro#svcs:Service/dcterms:comformsTo" title="dcterms:comformsTo">sv_dcterms_conformsTo</a></td>
 			<td><a href="#search-string">String</a></td>
 			<td></td>
 			<td></td>
@@ -653,36 +647,11 @@
 			<td>✓</td>
 		</tr>
 	</tbody>
-	<thead>
-		<tr>
-			<th colspan="4">foaf:Organization</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="sf_foaf_organization">
-			<td>foaf_organization</td>
-			<td><a href="#search-string">String</a></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr id="sf_ts_skos_prefLabel">
-			<td><a href="intro#foaf:Organization/skos:prefLabel" title="skos:prefLabel">ts_skos_prefLabel</a></td>
-			<td><a href="#search-string">String</a></td>
-			<td><a href="#rf_edmTimespanLabel">edmTimespanLabel</a></td>
-			<td>✓</td>
-		</tr>
-		<tr id="sf_ts_skos_altLabel">
-			<td><a href="intro#foaf:Organization/skos:altLabel" title="skos:altLabel">ts_skos_altLabel</a></td>
-			<td><a href="#search-string">String</a></td>
-			<td></td>
-			<td>✓</td>
-		</tr>
-	</tbody>
 </table>
 
 <p><b>Notes:</b></p>
 
-<p id="search-note1"><sup>1</sup> This fields has been deprecated with edmDatasetName. This change followed the change in EDM to rename to edm:collectionName to edm:datasetName. We will keep support for edmCollectionName for a grace period, but on January 2018, we will return only edmDatasetName so please update your API client.<p>
+<p id="search-note1"><sup>1</sup> This field has been deprecated with edmDatasetName. This change followed the change in EDM to rename to edm:collectionName to edm:datasetName. We will keep support for edmCollectionName for a grace period, but on January 2018, we will return only edmDatasetName so please update your API client.<p>
 
 <h3>Aggregated Fields</h3>
 
@@ -743,7 +712,7 @@
 
 <p>The Search API allows not only to search on and retrieve metadata, but also offers powerful features based on technical metadata. Technical metadata is metadata which is extracted from media files such as images and videos which are associated to records, such as the width and height of an image. These features give you the possibility to search for and filter on Europeana records by media information, for instance to only search for records which have extra large images, high-quality audio files, or which images match a particular colour. Besides searching and filtering, faceting is also possible using technical metadata and, in fact, is part of the default facets provided by the facet profile. These features were developed as part of the Content Re-use Framework within the <a href="http://pro.europeana.eu/europeana-creative/">Europeana Creative</a> project.</p>
 
-<p>A Europeana metadata record can contain a reference to zero, one or more media files, this means that when a search is made on a technical metadata property or facet (such as image size), a record is returned if one of the media files present in the record match the search query. The following table list the fields that relate to the metadata extracted from the media resources:</p>
+<p>A Europeana metadata record can contain a reference to zero, one or more media files, this means that when a search is made on a technical metadata property or facet (such as image size), a record is returned if one of the media files present in the record match the search query. The following table lists the fields that relate to the metadata extracted from the media resources:</p>
 
 <table class="listingtable">
 	<thead>

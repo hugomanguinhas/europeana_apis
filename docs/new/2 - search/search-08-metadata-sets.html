@@ -4,7 +4,7 @@
 
 <h3 id="result-fields-outside">Result Fields outside EDM</h4>
 
-<p>In addition to the fields defined in EDM, a handfull of other fields were defined for administrative reasons that are output in the response.</p>
+<p>In addition to the fields defined in EDM, a handful of other fields were defined for administrative reasons that are output in the response.</p>
 
 <table class="listingtable">
 	<thead>
@@ -69,12 +69,12 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td><a href="intro#dc:creator" title="dc:creator">dcCreator</a></td>
+			<td><a href="intro#ore:Proxy/dc:creator" title="dc:creator">dcCreator</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</a></td>
 			<td><a href="#sf_proxy_dc_creator">proxy_dc_creator</a></td>
 		</tr>
 		<tr>
-			<td><a href="intro#dc:creator" title="dc:creator">dcCreatorLangAware</a></td>
+			<td><a href="intro#ore:Proxy/dc:creator" title="dc:creator">dcCreatorLangAware</a></td>
 			<td><a href="#json-langmap">LangMap</a></td>
 			<td><a href="#sf_proxy_dc_creator">proxy_dc_creator.en<br/>proxy_dc_creator.fr<br/>...<br/>proxy_dc_creator.*</a></td>
 		</tr>
@@ -100,17 +100,17 @@
 	</thead>
 	<tbody>
 		<tr id="rf_dataProvider">
-			<td><a href="intro#edm:dataProvider">dataProvider</a></td>
+			<td><a href="intro#ore:Aggregation/edm:dataProvider">dataProvider</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_provider_aggregation_edm_dataProvider">provider_aggregation_edm_dataProvider</a></td>
 		</tr>
 		<tr id="rf_dcCreator">
-			<td><a href="intro#edm:ProvidedCHO/dc:creator">dcCreator</a></td>
+			<td><a href="intro#ore:Proxy/dc:creator">dcCreator</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_proxy_dc_creator">proxy_dc_creator</a></td>
 		</tr>
 		<tr id="rf_dcCreatorLangAware">
-			<td><a href="intro#edm:ProvidedCHO/dc:creator">dcCreatorLangAware</a></td>
+			<td><a href="intro#ore:Proxy/dc:creator">dcCreatorLangAware</a></td>
 			<td><a href="#json-langmap">LangMap</a></td>
 			<td><a href="#sf_proxy_dc_creator">proxy_dc_creator.*</a></td>
 		</tr>
@@ -175,17 +175,17 @@
 			<td><a href="#sf_title">title</a></td>
 		</tr>
 		<tr id="rf_dcTitleLangAware">
-			<td><a href="edm:ProvidedCHO/dc:title">dcTitleLangAware</a></td>
+			<td><a href="intro#edm:ProvidedCHO/dc:title">dcTitleLangAware</a></td>
 			<td><a href="#json-langmap">LangMap</a></td>
 			<td><a href="#sf_proxy_dc_title">proxy_dc_title.*</a></td>
 		</tr>
 		<tr id="rf_type">
-			<td><a href="ore:Proxy/edm:type">type</a></td>
+			<td><a href="intro#ore:Proxy/edm:type">type</a></td>
 			<td><a href="#json-string">String</a></td>
 			<td><a href="#sf_TYPE">TYPE</a></td>
 		</tr>
 		<tr id="rf_year">
-			<td><a href="ore:Proxy/edm:year">year</a></td>
+			<td><a href="intro#ore:Proxy/edm:year">year</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_YEAR">YEAR</a></td>
 		</tr>
@@ -202,37 +202,37 @@
 			<td><a href="#sf_edm_previewNoDistribute">edm_previewNoDistribute</a></td>
 		</tr>
 		<tr id="rf_edmConceptTerm">
-			<td><a href="skos:Concept/@rdf:about">edmConceptTerm</a></td>
+			<td><a href="intro#skos:Concept/@rdf:about">edmConceptTerm</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_skos_concept">skos_concept</a></td>
 		</tr>
 		<tr id="rf_edmConceptPrefLabel">
-			<td><a href="skos:Concept/skos:prefLabel">edmConceptPrefLabel</a></td>
+			<td><a href="intro#skos:Concept/skos:prefLabel">edmConceptPrefLabel</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-langmap">LangMap</a>)</td>
 			<td><a href="#sf_cc_skos_prefLabel">cc_skos_prefLabel</a></td>
 		</tr>
 		<tr id="rf_edmConceptPrefLabelLangAware">
-			<td><a href="skos:Concept/skos:prefLabel">edmConceptPrefLabelLangAware</a></td>
+			<td><a href="intro#skos:Concept/skos:prefLabel">edmConceptPrefLabelLangAware</a></td>
 			<td><a href="#json-langmap">LangMap</a></td>
 			<td><a href="#sf_cc_skos_prefLabel">cc_skos_prefLabel.*</a></td>
 		</tr>
 		<tr id="rf_edmConceptBroaderTerm">
-			<td><a href="skos:Concept/skos:broader">edmConceptBroaderTerm</a></td>
+			<td><a href="intro#skos:Concept/skos:broader">edmConceptBroaderTerm</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_cc_skos_broader">cc_skos_broader</a></td>
 		</tr>
 		<tr id="rf_edmConceptBroaderLabel">
-			<td><a href="skos:Concept/skos:broader">edmConceptBroaderLabel</a></td>
+			<td><a href="intro#skos:Concept/skos:broader">edmConceptBroaderLabel</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-langmap">LangMap</a>)</td>
 			<td><a href="#sf_cc_skos_broader">cc_skos_broader</a></td>
 		</tr>
 		<tr id="rf_edmTimespanLabel">
-			<td><a href="edm:TimeSpan/skos:prefLabel">edmTimespanLabel</a></td>
+			<td><a href="intro#edm:TimeSpan/skos:prefLabel">edmTimespanLabel</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-langmap">LangMap</a>)</td>
 			<td><a href="#sf_ts_skos_prefLabel">ts_skos_prefLabel</a></td>
 		</tr>
 		<tr id="rf_edmTimespanLabelLangAware">
-			<td><a href="edm:TimeSpan/skos:prefLabel">edmTimespanLabelLangAware</a></td>
+			<td><a href="intro#edm:TimeSpan/skos:prefLabel">edmTimespanLabelLangAware</a></td>
 			<td><a href="#json-langmap">LangMap</a></td>
 			<td><a href="#sf_ts_skos_prefLabel">ts_skos_prefLabel.*</a></td>
 		</tr>
@@ -244,7 +244,7 @@
 		</tr>
 -->
 		<tr id="rf_ugc">
-			<td><a href="ore:Aggregation/edm:ugc">ugc</a></td>
+			<td><a href="intro#ore:Aggregation/edm:ugc">ugc</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-boolean">Boolean</a>)</td>
 			<td><a href="#sf_UGC">UGC</a></td>
 		</tr>
@@ -254,37 +254,37 @@
 			<td><a href="#sf_COMPLETENESS">COMPLETENESS</a></td>
 		</tr>
 		<tr id="rf_country">
-			<td><a href="edm:EuropeanaAggregation/edm:country">country</a></td>
+			<td><a href="intro#edm:EuropeanaAggregation/edm:country">country</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_COUNTRY">COUNTRY</a></td>
 		</tr>
 		<tr id="rf_europeanaCollectionName">
-			<td><a href="edm:datasetName" title="edm:datasetName">europeanaCollectionName</a><a href="#result-note1"><sup>1</sup></a></td>
+			<td><a href="intro#edm:datasetName" title="edm:datasetName">europeanaCollectionName</a><a href="#result-note1"><sup>1</sup></a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_europeana_collectionName">europeana_collectionName</a></td>
 		</tr>
 		<tr id="rf_edmDatasetName">
-			<td><a href="edm:datasetName" title="edm:datasetName">edmDatasetName</a></td>
+			<td><a href="intro#edm:datasetName" title="edm:datasetName">edmDatasetName</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_edm_datasetName">edm_datasetName</a></td>
 		</tr>
 		<tr id="rf_edmPlaceAltLabel">
-			<td><a href="edm:Place/skos:altLabel">edmPlaceAltLabel</a></td>
+			<td><a href="intro#edm:Place/skos:altLabel">edmPlaceAltLabel</a></td>
 			<td>???</td>
 			<td><a href="#sf_pl_skos_altLabel">pl_skos_altLabel</a></td>
 		</tr>
 		<tr id="rf_edmPlaceAltLabelLangAware">
-			<td><a href="edm:Place/skos:altLabel">edmPlaceAltLabelLangAware</a></td>
+			<td><a href="intro#edm:Place/skos:altLabel">edmPlaceAltLabelLangAware</a></td>
 			<td><a href="#json-langmap">LangMap</a></td>
 			<td><a href="#sf_pl_skos_altLabel">pl_skos_altLabel.*</a></td>
 		</tr>
 		<tr id="rf_dcLanguage">
-			<td><a href="ore:Proxy/dc:language">dcLanguage</a></td>
+			<td><a href="intro#ore:Proxy/dc:language">dcLanguage</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_proxy_dc_language">proxy_dc_language</a></td>
 		</tr>
 		<tr id="rf_dctermsIsPartOf">
-			<td><a href="edm:Place/dcterms:isPartOf">dctermsIsPartOf</a></td>
+			<td><a href="intro#edm:Place/dcterms:isPartOf">dctermsIsPartOf</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_pl_dcterms_isPartOf">pl_dcterms_isPartOf</a></td>
 		</tr>
@@ -304,7 +304,7 @@
 			<td><a href="#sf_timestamp_update">timestamp_update</a></td>
 		</tr>
 		<tr id="rf_language">
-			<td><a href="edm:EuropeanaAggregation/edm:language">language</a></td>
+			<td><a href="intro#edm:EuropeanaAggregation/edm:language">language</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_LANGUAGE">LANGUAGE</a></td>
 		</tr>
@@ -316,32 +316,32 @@
 	</thead>
 	<tbody>
 		<tr id="rf_dctermsSpatial">
-			<td><a href="edm:ProvidedCHO/dcterms:spatial">dctermsSpatial</a></td>
+			<td><a href="intro#edm:ProvidedCHO/dcterms:spatial">dctermsSpatial</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_proxy_dcterms_spatial">proxy_dcterms_spatial</a></td>
 		</tr>
 		<tr id="rf_edmPlace">
-			<td><a href="edm:Place/@rdf:about">edmPlace</a></td>
+			<td><a href="intro#edm:Place/@rdf:about">edmPlace</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_edm_place">edm_place</a></td>
 		</tr>
 		<tr id="rf_edmTimespan">
-			<td><a href="edm:TimeSpan/@rdf:about">edmTimespan</a></td>
+			<td><a href="intro#edm:TimeSpan/@rdf:about">edmTimespan</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_edm_timespan">edm_timespan</a></td>
 		</tr>
 		<tr id="rf_edmAgent">
-			<td><a href="edm:Agent/@rdf:about">edmAgent</a></td>
+			<td><a href="intro#edm:Agent/@rdf:about">edmAgent</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_edm_agent">edm_agent</a></td>
 		</tr>
 		<tr id="rf_edmAgentLabel">
-			<td><a href="edm:Agent/skos:prefLabel">edmAgentLabel</a></td>
+			<td><a href="intro#edm:Agent/skos:prefLabel">edmAgentLabel</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-langmap">LangMap</a>)</td>
 			<td><a href="#sf_ag_skos_prefLabel">ag_skos_prefLabel</a></td>
 		</tr>
 		<tr id="rf_dcContributor">
-			<td><a href="edm:ProvidedCHO/dc:contributor">dcContributor</a></td>
+			<td><a href="intro#edm:ProvidedCHO/dc:contributor">dcContributor</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_proxy_dc_contributor">proxy_dc_contributor</a></td>
 		</tr>
@@ -353,29 +353,29 @@
 	</thead>
 	<tbody>
 		<tr id="rf_edmIsShownBy">
-			<td><a href="ore:Aggregation/edm:isShownBy">edmIsShownBy</a></td>
+			<td><a href="intro#ore:Aggregation/edm:isShownBy">edmIsShownBy</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_provider_aggregation_edm_isShownBy">provider_aggregation_edm_isShownBy</a></td>
 		</tr>
 		<tr id="rf_dcDescription">
-			<td><a href="edm:ProvidedCHO/dc:description">dcDescription</a></td>
+			<td><a href="intro#edm:ProvidedCHO/dc:description">dcDescription</a></td>
 			<td><a href="#json-array">Array</a> (<a href="#json-string">String</a>)</td>
 			<td><a href="#sf_proxy_dc_description">proxy_dc_description</a></td>
 		</tr>
 		<tr id="rf_dcDescriptionLangAware">
-			<td><a href="edm:ProvidedCHO/dc:description">dcDescriptionLangAware</a></td>
+			<td><a href="intro#edm:ProvidedCHO/dc:description">dcDescriptionLangAware</a></td>
 			<td><a href="#json-langmap">LangMap</a></td>
 			<td><a href="#sf_proxy_dc_description">proxy_dc_description</a></td>
 		</tr>
 		<tr id="rf_edmLandingPage">
-			<td><a href="edm:EuropeanaAggregation/edm:landingPage">edmLandingPage</a></td>
+			<td><a href="intro#edm:EuropeanaAggregation/edm:landingPage">edmLandingPage</a></td>
 			<td></td>
 			<td><a href="#sf_europeana_aggregation_edm_landingPage">europeana_aggregation_edm_landingPage</a></td>
 		</tr>
 	</tbody>
 </table>
 
-<p id="result-note1"><sup>1</sup> This field has been deprecated with edmDatasetName. This change followed the change in EDM to rename to edm:collectionName to edm:datasetName. We will keep support for edmCollectionName for a grace period, but on January 2018, we will return only edmDatasetName so please update your API client.<p>
+<p id="result-note1"><sup>1</sup> This field has been deprecated with edmDatasetName. This change followed the change in EDM to rename to edm:collectionName to edm:datasetName. We will keep support for edmCollectionName for a grace period, but starting from January 2018, we will return only edmDatasetName so please update your API client.<p>
 
 
 <h3>JSON Datatypes</h3>
